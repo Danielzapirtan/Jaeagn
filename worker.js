@@ -63,7 +63,7 @@ function eval1(board6, level) {
 function gendeep(board2, depthFlag, candFlag) {
   const movelist2 = [];
   for (let i = 0; i < 8; i++)
-    for (let j = 0; j < 8; j++) {/
+    for (let j = 0; j < 8; j++) {
       if (board2.board[i][j][0] === "N")
         if (board2.board[i][j][1] === "black") {
           const movelist4 = genKnight(board2, i, j);
