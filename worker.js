@@ -277,8 +277,8 @@ function search(board1, level1, depth1, alpha1, beta1) {
           nps: nps,
           time: parseInt(date1 - date0)
         };
-        const msg2 = JSON.stringify(msg);
-        output.innerHTML += `${msg2}<br>`;
+        display.push(msg);
+        output.innerHTML += JSON.stringify(msg);
       }
       if (best > alpha1) alpha1 = best;
       if (alpha1 >= beta1) return best;
@@ -336,7 +336,7 @@ function analysis(gstart) {
   for (let depth3 = 2; depth3 < 5; depth3++) {
     search(gstart, 0, depth3, -20000, 20000);
   }
-  return gbestmove;
+  return display;
 }
 
 // worker.js
