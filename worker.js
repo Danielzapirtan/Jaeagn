@@ -121,13 +121,13 @@ function gendeep(board2, depthFlag, candFlag) {
             movelist2.push(move13);
           });
         }
-      /*if (board2.board[i][j][0] === "K")
+      if (board2.board[i][j][0] === "K")
         if (board2.board[i][j][1] === "black") {
           const movelist5 = genKing(board2, i, j);
           movelist5.forEach((move13) => {
             movelist2.push(move13);
           });
-        }*/
+        }
     }
   if (candFlag) {
     const valuelist = [];
@@ -285,7 +285,7 @@ self.postMessage({
 });
       }
       if (best > alpha1) alpha1 = best;
-      if (alpha1 >= beta1) return beta;
+      if (alpha1 >= beta1) return best;
     }
   });
   return best;
