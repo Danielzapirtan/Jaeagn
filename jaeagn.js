@@ -1,14 +1,3 @@
-const init = [
-  [4, 2, 3, 5, 6, 3, 2, 4],
-  [1, 1, 1, 1, 1, 1, 1, 1],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [-1, -1, -1, -1, -1, -1, -1, -1],
-  [-4, -2, -3, -5, -6, -3, -2, -4]
-];
-
 const canvas = document.getElementById("chessboard");
 const ctx = canvas.getContext("2d");
 const squareSize = canvas.width / 8;
@@ -68,11 +57,7 @@ function drawChessboard(board13) {
   drawPieces(board13);
 }
 
-let date0;
-
-let nodes;
 let gstart;
-let gbestmove;
 
 function createTable(jsonString) {
   // Parse the JSON string into a JavaScript object
@@ -124,255 +109,7 @@ canvas.addEventListener("click", (event) => {
 
 const output = document.getElementById("output");
 let display = [];
-
-function eval1(board6, level) {
-  let countk = 0;
-  let value = 0;
-  nodes++;
-  for (let i = 0; i < 8; i++)
-    for (let j = 0; j < 8; j++) {
-      const piece1 = board6.board[i][j];
-      if (piece1[0] === "K") countk += 1 - 2 * (piece1[1] !== "white");
-      else if (piece1[0] === "Q")
-        value += 980 * (1 - 2 * (piece1[1] !== "white"));
-      else if (piece1[0] === "R")
-        value += 500 * (1 - 2 * (piece1[1] !== "white"));
-      else if (piece1[0] === "B")
-        value += 325 * (1 - 2 * (piece1[1] !== "white"));
-      else if (piece1[0] === "N")
-        value += 315 * (1 - 2 * (piece1[1] !== "white"));
-      else if (piece1[0] === "P")
-        value += 100 * (1 - 2 * (piece1[1] !== "white"));
-    }
-  return 16000 * countk + value + Math.random() * 19 - 9;
-}
-
-function gendeep(board2, depthFlag, candFlag) {
-  const movelist2 = [];
-  for (let i = 0; i < 8; i++)
-    for (let j = 0; j < 8; j++) {
-      if (board2.board[i][j][0] === "N")
-        if (board2.board[i][j][1] === "black") {
-          const movelist4 = genKnight(board2, i, j);
-          movelist4.forEach((move12) => {
-            movelist2.push(move12);
-          });
-        }
-      if (board2.board[i][j][0] === "P")
-        if (board2.board[i][j][1] === "black") {
-          const move13 = move(i, j, i + 1, j);
-          if (board2.board[i + 1][j][0] === "") {
-            movelist2.push(move13);
-            if (i === 1) {
-              if (board2.board[i + 2][j][0] === "") {
-                const move14 = move(i, j, i + 2, j);
-                movelist2.push(move14);
-              }
-            }
-          }
-          try {
-            if (board2.board[i + 1][j - 1][1] === "white") {
-              const move15 = move(i, j, i + 1, j - 1);
-              movelist2.push(move15);
-            }
-          } catch {}
-          try {
-            if (board2.board[i + 1][j + 1][1] === "white") {
-              const move15 = move(i, j, i + 1, j + 1);
-              movelist2.push(move15);
-            }
-          } catch {}
-        }
-      if (board2.board[i][j][0] === "B")
-        if (board2.board[i][j][1] === "black") {
-          const movelist5 = genBishop(board2, i, j);
-          movelist5.forEach((move13) => {
-            movelist2.push(move13);
-          });
-        }
-      if (board2.board[i][j][0] === "R")
-        if (board2.board[i][j][1] === "black") {
-          const movelist5 = genRook(board2, i, j);
-          movelist5.forEach((move13) => {
-            movelist2.push(move13);
-          });
-        }
-      if (board2.board[i][j][0] === "Q")
-        if (board2.board[i][j][1] === "black") {
-          const movelist5 = genBishop(board2, i, j);
-          const movelist6 = genRook(board2, i, j);
-          movelist5.forEach((move13) => {
-            movelist2.push(move13);
-          });
-          movelist6.forEach((move13) => {
-            movelist2.push(move13);
-          });
-        }
-      /*if (board2.board[i][j][0] === "K")
-        if (board2.board[i][j][1] === "black") {
-          const movelist5 = genKing(board2, i, j);
-          movelist5.forEach((move13) => {
-            movelist2.push(move13);
-          });
-        }*/
-    }
-  if (candFlag) {
-    const valuelist = [];
-    const movelist3 = [];
-    const valuelist3 = [];
-    movelist2.forEach((move19) => {
-      const board12 = makemove(board2, move19);
-      const value = search(board12, 0, 2, -20000, 20000);
-      valuelist.push(value);
-    });
-    for (let ix = 0; ix < movelist2.length; ix++)
-      for (let iy = ix + 1; iy < movelist2.length; iy++) {
-        if (valuelist[iy] < valuelist[ix]) {
-          for (let iz = 0; iz < movelist2.length; iz++) {
-            if (iz === ix) {
-              movelist3.push(movelist2[iy]);
-              valuelist3.push(valuelist[iy]);
-            } else if (iz === iy) {
-              movelist3.push(movelist2[ix]);
-              valuelist3.push(valuelist[ix]);
-            } else {
-              movelist3.push(movelist2[iz]);
-              valuelist3.push(valuelist[iz]);
-            }
-          }
-        }
-      }
-    const movelist4 = [];
-    movelist3.forEach((move20) => {
-      if (movelist4.length < 6) movelist4.push(move20);
-    });
-    return movelist4;
-  } else return movelist2;
-}
-
-function genKnight(board10, i0, j0) {
-  const movelist3 = [];
-  for (let i1 = 0; i1 < 8; i1++)
-    for (let j1 = 0; j1 < 8; j1++)
-      if (board10.board[i1][j1][1] !== "black")
-        if ((i1 - i0) * (i1 - i0) + (j1 - j0) * (j1 - j0) === 5) {
-          const move4 = move(i0, j0, i1, j1);
-          movelist3.push(move4);
-        }
-  return movelist3;
-}
-
-function genBishop(board10, i0, j0) {
-  const movelist3 = [];
-  const arrows = [
-    [-1, -1],
-    [-1, 1],
-    [1, -1],
-    [1, 1]
-  ];
-  arrows.forEach((arrow) => {
-    const movelist4 = slider(board10, i0, j0, arrow[0], arrow[1]);
-    movelist4.forEach((move15) => {
-      movelist3.push(move15);
-    });
-  });
-  return movelist3;
-}
-
-function genRook(board10, i0, j0) {
-  const movelist3 = [];
-  const arrows = [
-    [-1, 0],
-    [0, -1],
-    [0, 1],
-    [1, 0]
-  ];
-  arrows.forEach((arrow) => {
-    const movelist4 = slider(board10, i0, j0, arrow[0], arrow[1]);
-    movelist4.forEach((move15) => {
-      movelist3.push(move15);
-    });
-  });
-  return movelist3;
-}
-
-function genKing(board10, i0, j0) {
-  const movelist4 = [];
-  for (let di = -1; di < 2; di++)
-    for (let dj = -1; dj < 2; dj++)
-      if (di !== 0 || dj !== 0)
-        if (board10.board[i0 + di][j0 + dj][1] !== "black") {
-          const move18 = move(i0, j0, i0 + di, j0 + dj);
-          movelist4.push(move18);
-        }
-  output.value = movelist4.length;
-  return movelist4;
-}
-
-function slider(board10, i0, j0, di, dj) {
-  const movelist5 = [];
-  let i1 = i0;
-  let j1 = j0;
-  while (1) {
-    i1 += di;
-    j1 += dj;
-    try {
-      if (board10.board[i1][j1][1] === "black") break;
-      const move17 = move(i0, j0, i1, j1);
-      movelist5.push(move17);
-      if (board10.board[i1][j1][1] === "white") break;
-    } catch {
-      break;
-    }
-  }
-  return movelist5;
-}
-
 let stm = 0;
-
-function search(board1, level1, depth1, alpha1, beta1) {
-  if (depth1 === 0) {
-    const value2 = eval1(board1, level1);
-    return value2;
-  }
-  if (depth1 < 3) {
-    const value2 = eval1(board1, level1);
-    if (value2 > -50) return value2;
-  }
-  const movelist = gendeep(board1, 0, level1 > 0 && depth1 > 2);
-  let best = -32000;
-  movelist.forEach((move1) => {
-    /*if (level1 === 0 && depth1 > 3) { output.innerHTML += `${move1} `; }*/
-    const board4 = makemove(board1, move1);
-    const value1 = -search(board4, level1 + 1, depth1 - 1, -beta1, -alpha1);
-    if (value1 > best) {
-      best = value1;
-      const bestmove = move1;
-      if (stm) {
-        bestmove[0] ^= 7;
-        bestmove[2] ^= 7;
-      }
-      const strbm = String.fromCharCode(bestmove[1] + 97) + String.fromCharCode(bestmove[0] + 49) + String.fromCharCode(bestmove[3] + 97) + String.fromCharCode(bestmove[2] + 49);
-      gbestmove = bestmove;
-      if (level1 === 0 && depth1 > 3) {
-        const date1 = new Date();
-        const secs = (date1 - date0) / 1000.0;
-        const nps = parseInt(nodes / secs);
-        let msg = {
-          bestmove: strbm,
-          depth: depth1,
-          nps: nps,
-          time: parseInt(date1 - date0)
-        };
-        const msg2 = JSON.stringify(msg);
-        output.innerHTML += `${msg2}<br>`;
-      }
-      if (best > alpha1) alpha1 = best;
-      if (alpha1 >= beta1) return best;
-    }
-  });
-  return best;
-}
 
 function removeFirstChild(element) {
   if (element.firstChild) {
@@ -427,15 +164,6 @@ function move(x0, x1, y0, y1, prom = 0) {
   return [x0, x1, y0, y1];
 }
 
-let gdepth;
-function analysis() {
-  nodes = 0;
-  date0 = new Date();
-  for (let depth3 = 2; depth3 < 13; depth3++) {
-    search(gstart, 0, depth3, -20000, 20000);
-  }
-}
-
 let sqs = 0;
 let i7;
 let j7;
@@ -466,4 +194,16 @@ function handleClick(i3, j3) {
     stm ^= 1;
   }
   sqs ^= 1;
+}
+
+// main.js
+const worker = new Worker('worker.js');
+
+worker.onmessage = (event) => {
+  const msg = event.data.variations;
+  output.innerHTML = `${msg}`;
+};
+
+function jana() {
+  worker.postMessage({ start: JSON.stringify({gstart, stm}) }); // Example input data
 }
