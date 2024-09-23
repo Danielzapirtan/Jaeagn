@@ -471,7 +471,7 @@ function handleClick(i3, j3) {
 
 // worker.js
 self.onmessage = (event) => {
-  const msg = JSON.stringify(event);
+  const msg = JSON.stringify(event.data.start);
   output.innerHTML += `${msg}`;
   const variations = analysis(gstart);
   self.postMessage(variations);
