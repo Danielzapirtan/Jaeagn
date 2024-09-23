@@ -9,6 +9,7 @@ function calculateVariations(data) {
   // ...
   return variations;
 }
+
 const init = [
   [4, 2, 3, 5, 6, 3, 2, 4],
   [1, 1, 1, 1, 1, 1, 1, 1],
