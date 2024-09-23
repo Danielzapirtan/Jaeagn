@@ -45,17 +45,17 @@ function eval1(board6, level) {
   for (let i = 0; i < 8; i++)
     for (let j = 0; j < 8; j++) {
       const piece1 = board6.board[i][j];
-      if (piece1[0] === "K") countk += (1 - 2 * (piece1[1] === "white"));
+      if (piece1[0] === "K") countk += (1 - 2 * (piece1[1] !== "white"));
       else if (piece1[0] === "Q")
-        value += 980 * (1 - 2 * (piece1[1] === "white"));
+        value += 980 * (1 - 2 * (piece1[1] !== "white"));
       else if (piece1[0] === "R")
-        value += 500 * (1 - 2 * (piece1[1] === "white"));
+        value += 500 * (1 - 2 * (piece1[1] !== "white"));
       else if (piece1[0] === "B")
-        value += 325 * (1 - 2 * (piece1[1] === "white"));
+        value += 325 * (1 - 2 * (piece1[1] !== "white"));
       else if (piece1[0] === "N")
-        value += 315 * (1 - 2 * (piece1[1] === "white"));
+        value += 315 * (1 - 2 * (piece1[1] !== "white"));
       else if (piece1[0] === "P")
-        value += 100 * (1 - 2 * (piece1[1] === "white"));
+        value += 100 * (1 - 2 * (piece1[1] !== "white"));
     }
   return 16000 * countk + value + Math.random() * 19 - 9;
 }
