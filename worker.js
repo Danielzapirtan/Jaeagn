@@ -241,7 +241,7 @@ function slider(board10, i0, j0, di, dj) {
   return movelist5;
 }
 
-let stm = 0;
+let stm;
 
 function search(board1, level1, depth1, alpha1, beta1) {
   if (depth1 === 0) {
@@ -344,7 +344,9 @@ function analysis(gstart) {
 
 // worker.js
 self.onmessage = (event) => {
-  const gstart = JSON.parse(event.data.start);
+  const data = JSON.parse(event.data.start);
+  gstart = data.gstart;
+  stm = data.stm;
   const variations = analysis(gstart);
 }
 
