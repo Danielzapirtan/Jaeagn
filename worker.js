@@ -220,7 +220,6 @@ function genKing(board10, i0, j0) {
           movelist4.push(move18);
         }
       } catch { }
-  output.value = movelist4.length;
   return movelist4;
 }
 
