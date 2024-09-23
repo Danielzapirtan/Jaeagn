@@ -478,4 +478,3 @@ worker.onmessage = (event) => {
 function jana() {
   worker.postMessage({ start: gstart }); // Example input data
 }
-
