@@ -357,8 +357,8 @@ function search(board1, level1, depth1, alpha1, beta1) {
           nps: nps,
           time: parseInt(date1 - date0)
         };
-        display.push(msg);
-        updateTable(display);
+        const msg2 = JSON.stringify(msg);
+        output.innerHTML += `${msg2}<br>`;
       }
       if (best > alpha1) alpha1 = best;
       if (alpha1 >= beta1) return best;
