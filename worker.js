@@ -274,7 +274,7 @@ function search(board1, level1, depth1, alpha1, beta1) {
         let msg = {
           bestmove: strbm,
           depth: depth1,
-          score: best,
+          score: best.toFixed(2),
           nps: nps,
           time: parseInt(date1 - date0)
         };
