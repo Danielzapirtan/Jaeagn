@@ -214,10 +214,12 @@ function genKing(board10, i0, j0) {
   for (let di = -1; di < 2; di++)
     for (let dj = -1; dj < 2; dj++)
       if (di !== 0 || dj !== 0)
+      try {
         if (board10.board[i0 + di][j0 + dj][1] !== "black") {
           const move18 = move(i0, j0, i0 + di, j0 + dj);
           movelist4.push(move18);
         }
+      } catch { }
   output.value = movelist4.length;
   return movelist4;
 }
