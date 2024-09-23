@@ -373,9 +373,11 @@ function handleClick(i3, j3) {
 
 // worker.js
 self.onmessage = (event) => {
-  const msg = event.start;
-  output.innerHTML += `${msg}`;
-  gstart = JSON.parse(event.start);
+  const gstart = JSON.parse(event.data.start);
   const variations = analysis(gstart);
-  self.postMessage(JSON.stringify(variations));
+
+  self.postMessage({
+    variations: JSON.stringify(variations),
+    // Optionally include other data to send back to the main thread
+  });
 };
