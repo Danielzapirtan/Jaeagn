@@ -1,7 +1,6 @@
 // worker.js
 self.onmessage = (event) => {
-  alert("start: "+event);
-  const variations = analysis(event.data.start);
+  const variations = analysis(event.start);
   self.postMessage(variations);
 };
 
