@@ -1,6 +1,6 @@
 // worker.js
 self.onmessage = (event) => {
-  const variations = calculateVariations(event.data.data);
+  const variations = analysis(event.data.start);
   self.postMessage(variations);
 };
 
@@ -440,12 +440,13 @@ function move(x0, x1, y0, y1, prom = 0) {
 }
 
 let gdepth;
-function analysis() {
+function analysis(gstart) {
   nodes = 0;
   date0 = new Date();
   for (let depth3 = 2; depth3 < 13; depth3++) {
     search(gstart, 0, depth3, -20000, 20000);
   }
+  return JSON.stringify(gbestmove);
 }
 
 let sqs = 0;
