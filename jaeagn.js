@@ -475,4 +475,7 @@ worker.onmessage = (event) => {
   output.innerHTML += `${event.data.msg2}`;
 };
 
-worker.postMessage({ data: start }); // Example input data
+function jana() {
+  worker.postMessage({ data: start }); // Example input data
+}
+
