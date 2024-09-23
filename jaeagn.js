@@ -467,3 +467,12 @@ function handleClick(i3, j3) {
   }
   sqs ^= 1;
 }
+
+// main.js
+const worker = new Worker('worker.js');
+
+worker.onmessage = (event) => {
+  output.innerHTML += `${event.log}`;
+};
+
+worker.postMessage({ data: start }); // Example input data
