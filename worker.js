@@ -339,38 +339,6 @@ function analysis(gstart) {
   return gbestmove;
 }
 
-let sqs = 0;
-let i7;
-let j7;
-let start = board;
-drawChessboard(start);
-function handleClick(i3, j3) {
-  if (!sqs) {
-    i7 = i3;
-    j7 = j3;
-  } else {
-    let move24;
-    if (stm) {
-      i7 = 7 - i7;
-      i3 = 7 - i3;
-    }
-    move24 = move(i7, j7, i3, j3);
-    if (stm)
-      start = transpose(start);
-    start = makemove(start, move24);
-    if (!stm)
-      start = transpose(start);
-    drawChessboard(start);
-    if (!stm)
-      start = transpose(start);
-    gstart = start;
-    if (!stm)
-      start = transpose(start);
-    stm ^= 1;
-  }
-  sqs ^= 1;
-}
-
 // worker.js
 self.onmessage = (event) => {
   const gstart = JSON.parse(event.data.start);
