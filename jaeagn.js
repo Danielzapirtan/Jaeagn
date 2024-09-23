@@ -375,7 +375,6 @@ function removeFirstChild(element) {
 
 function updateTable(display) {
   const table = createTable(JSON.stringify(display));
-  output.innerHTML = ``;
   output.appendChild(table);
 }
 
