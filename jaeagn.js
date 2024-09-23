@@ -200,7 +200,8 @@ function handleClick(i3, j3) {
 const worker = new Worker('worker.js');
 
 worker.onmessage = (event) => {
-  output.innerHTML += `${event.data}`;
+  const msg = JSON.stringify(event.data);
+  output.innerHTML += `${msg}`;
 };
 
 function jana() {
