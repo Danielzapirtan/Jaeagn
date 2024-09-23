@@ -253,7 +253,7 @@ function search(board1, level1, depth1, alpha1, beta1) {
     const value2 = eval1(board1, level1);
     if (value2 > -50) return value2;
   }
-  const movelist = gendeep(board1, 0, 0);
+  const movelist = gendeep(board1, 0, level1 > 0 && depth1 > 2);
   let best = -32000;
   movelist.forEach((move1) => {
     const board4 = makemove(board1, move1);
