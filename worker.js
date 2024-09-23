@@ -336,7 +336,7 @@ function analysis(gstart) {
   for (let depth3 = 2; depth3 < 5; depth3++) {
     search(gstart, 0, depth3, -20000, 20000);
   }
-  return JSON.stringify(gbestmove);
+  return gbestmove;
 }
 
 let sqs = 0;
