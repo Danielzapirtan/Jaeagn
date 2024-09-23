@@ -336,7 +336,7 @@ let gdepth;
 function analysis(gstart) {
   nodes = 0;
   date0 = new Date();
-  for (let depth3 = 2; depth3 < 5; depth3++) {
+  for (let depth3 = 2; depth3 < 256; depth3++) {
     search(gstart, 0, depth3, -20000, 20000);
   }
   return display;
