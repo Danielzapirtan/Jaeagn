@@ -472,7 +472,6 @@ function handleClick(i3, j3) {
 const worker = new Worker('worker.js');
 
 worker.onmessage = (event) => {
-  alert(event);
   output.innerHTML += `${event.data}`;
 };
 
