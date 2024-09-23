@@ -1,9 +1,3 @@
-// worker.js
-self.onmessage = (event) => {
-  const variations = analysis(event.start);
-  self.postMessage(variations);
-};
-
 const init = [
   [4, 2, 3, 5, 6, 3, 2, 4],
   [1, 1, 1, 1, 1, 1, 1, 1],
@@ -474,3 +468,10 @@ function handleClick(i3, j3) {
   }
   sqs ^= 1;
 }
+
+// worker.js
+self.onmessage = (event) => {
+  output.innerHTML += `${event}`;
+  const variations = analysis(gstart);
+  self.postMessage(variations);
+};
