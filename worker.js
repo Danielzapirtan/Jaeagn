@@ -278,7 +278,10 @@ function search(board1, level1, depth1, alpha1, beta1) {
           time: parseInt(date1 - date0)
         };
         display.push(msg);
-        output.innerHTML += "x";
+self.postMessage({
+    variations: JSON.stringify(display),
+    // Optionally include other data to send back to the main thread
+});
       }
       if (best > alpha1) alpha1 = best;
       if (alpha1 >= beta1) return best;
@@ -343,9 +346,10 @@ function analysis(gstart) {
 self.onmessage = (event) => {
   const gstart = JSON.parse(event.data.start);
   const variations = analysis(gstart);
+}
 
-  self.postMessage({
+self.postMessage({
     variations: JSON.stringify(variations),
     // Optionally include other data to send back to the main thread
-  });
-};
+});
+
