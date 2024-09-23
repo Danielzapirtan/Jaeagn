@@ -201,7 +201,7 @@ const worker = new Worker('worker.js');
 
 worker.onmessage = (event) => {
   const msg = event.data.variations;
-  output.innerHTML += `${msg}`;
+  output.innerHTML = `${msg}`;
 };
 
 function jana() {
