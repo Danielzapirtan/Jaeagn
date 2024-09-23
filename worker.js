@@ -1,79 +1,3 @@
-const init = [
-  [4, 2, 3, 5, 6, 3, 2, 4],
-  [1, 1, 1, 1, 1, 1, 1, 1],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [-1, -1, -1, -1, -1, -1, -1, -1],
-  [-4, -2, -3, -5, -6, -3, -2, -4]
-];
-
-const canvas = document.getElementById("chessboard");
-const ctx = canvas.getContext("2d");
-const squareSize = canvas.width / 8;
-const pieceSize = squareSize * 0.8;
-
-function drawBoard() {
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      ctx.fillStyle = (i + j) % 2 === 0 ? "cyan" : "green";
-      ctx.fillRect(i * squareSize, j * squareSize, squareSize, squareSize);
-    }
-  }
-}
-
-function drawPieces(board14) {
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      const piece = board14.board[i][j];
-      if (piece[0] !== "") {
-        const x = j * squareSize + squareSize / 2 - pieceSize / 2;
-        const y = (7 - i) * squareSize + squareSize / 2 - pieceSize / 2;
-        ctx.font = `${pieceSize}px serif`;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillStyle = piece[1] === "white" ? "#aaaaff" : "#ffaaaa";
-        ctx.fillText(
-          toUnicodePiece(piece[0]),
-          x + pieceSize / 2,
-          y + pieceSize / 2
-        );
-      }
-    }
-  }
-}
-
-function toUnicodePiece(piece1) {
-  switch (piece1) {
-    case "R":
-      return "♜";
-    case "N":
-      return "♞";
-    case "B":
-      return "♝";
-    case "Q":
-      return "♛";
-    case "K":
-      return "♚";
-    case "P":
-      return "♟";
-    default:
-      return "";
-  }
-}
-
-function drawChessboard(board13) {
-  drawBoard();
-  drawPieces(board13);
-}
-
-let date0;
-
-let nodes;
-let gstart;
-let gbestmove;
-
 function createTable(jsonString) {
   // Parse the JSON string into a JavaScript object
   const jsonData = JSON.parse(jsonString);
@@ -111,18 +35,7 @@ const board = transpose(
     '{"board":[[["R", "black"], ["N", "black"], ["B", "black"], ["Q", "black"], ["K", "black"], ["B", "black"], ["N", "black"], ["R", "black"]], [["P", "black"], ["P", "black"], ["P", "black"], ["P", "black"], ["P", "black"], ["P", "black"], ["P", "black"], ["P", "black"]], [["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]], [["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]], [["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]], [["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]], [["P", "white"], ["P", "white"], ["P", "white"], ["P", "white"], ["P", "white"], ["P", "white"], ["P", "white"], ["P", "white"]], [["R", "white"], ["N", "white"], ["B", "white"], ["Q", "white"], ["K", "white"], ["B", "white"], ["N", "white"], ["R", "white"]]]}'
   )
 );
-drawChessboard(board);
-canvas.addEventListener("click", (event) => {
-  const rect = canvas.getBoundingClientRect();
-  const x = event.clientX - rect.left;
-  const y = event.clientY - rect.top;
-  const squareSize = canvas.width / 8;
-  const i3 = 7 - Math.floor(y / squareSize);
-  const j3 = Math.floor(x / squareSize);
-  handleClick(i3, j3);
-});
 
-const output = document.getElementById("output");
 let display = [];
 
 function eval1(board6, level) {
@@ -374,17 +287,6 @@ function search(board1, level1, depth1, alpha1, beta1) {
   return best;
 }
 
-function removeFirstChild(element) {
-  if (element.firstChild) {
-    element.removeChild(element.firstChild);
-  }
-}
-
-function updateTable(display) {
-  const table = createTable(JSON.stringify(display));
-  output.appendChild(table);
-}
-
 function tr2(rank) {
   const result = [];
   rank.forEach((sq) => {
@@ -475,5 +377,5 @@ self.onmessage = (event) => {
   output.innerHTML += `${msg}`;
   gstart = JSON.parse(event.start);
   const variations = analysis(gstart);
-  self.postMessage(variations);
+  self.postMessage(JSON.stringify(variations));
 };
