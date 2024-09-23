@@ -45,17 +45,17 @@ function eval1(board6, level) {
   for (let i = 0; i < 8; i++)
     for (let j = 0; j < 8; j++) {
       const piece1 = board6.board[i][j];
-      if (piece1[0] === "K") countk += (1 - 2 * (piece1[1] !== "white"));
+      if (piece1[0] === "K") countk += (1 - 2 * (piece1[1] === "white"));
       else if (piece1[0] === "Q")
-        value += 980 * (1 - 2 * (piece1[1] !== "white"));
+        value += 980 * (1 - 2 * (piece1[1] === "white"));
       else if (piece1[0] === "R")
-        value += 500 * (1 - 2 * (piece1[1] !== "white"));
+        value += 500 * (1 - 2 * (piece1[1] === "white"));
       else if (piece1[0] === "B")
-        value += 325 * (1 - 2 * (piece1[1] !== "white"));
+        value += 325 * (1 - 2 * (piece1[1] === "white"));
       else if (piece1[0] === "N")
-        value += 315 * (1 - 2 * (piece1[1] !== "white"));
+        value += 315 * (1 - 2 * (piece1[1] === "white"));
       else if (piece1[0] === "P")
-        value += 100 * (1 - 2 * (piece1[1] !== "white"));
+        value += 100 * (1 - 2 * (piece1[1] === "white"));
     }
   return 16000 * countk + value + Math.random() * 19 - 9;
 }
@@ -135,12 +135,12 @@ function gendeep(board2, depthFlag, candFlag) {
     const valuelist3 = [];
     movelist2.forEach((move19) => {
       const board12 = makemove(board2, move19);
-      const value = search(board12, 0, 2, -20000, 20000);
+      const value = -search(board12, 0, 2, -20000, 20000);
       valuelist.push(value);
     });
     for (let ix = 0; ix < movelist2.length; ix++)
       for (let iy = ix + 1; iy < movelist2.length; iy++) {
-        if (valuelist[iy] < valuelist[ix]) {
+        if (valuelist[iy] > valuelist[ix]) {
           for (let iz = 0; iz < movelist2.length; iz++) {
             if (iz === ix) {
               movelist3.push(movelist2[iy]);
