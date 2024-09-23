@@ -45,7 +45,7 @@ function eval1(board6, level) {
   for (let i = 0; i < 8; i++)
     for (let j = 0; j < 8; j++) {
       const piece1 = board6.board[i][j];
-      if (piece1[0] === "K") countk += 1 - 2 * (piece1[1] === "white");
+      if (piece1[0] === "K") countk += (1 - 2 * (piece1[1] === "white"));
       else if (piece1[0] === "Q")
         value += 980 * (1 - 2 * (piece1[1] === "white"));
       else if (piece1[0] === "R")
@@ -274,6 +274,7 @@ function search(board1, level1, depth1, alpha1, beta1) {
         let msg = {
           bestmove: strbm,
           depth: depth1,
+          score: best,
           nps: nps,
           time: parseInt(date1 - date0)
         };
@@ -284,7 +285,7 @@ self.postMessage({
 });
       }
       if (best > alpha1) alpha1 = best;
-      if (alpha1 >= beta1) return best;
+      if (alpha1 >= beta1) return beta;
     }
   });
   return best;
