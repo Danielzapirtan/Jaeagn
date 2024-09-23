@@ -477,6 +477,5 @@ worker.onmessage = (event) => {
 };
 
 function jana() {
-  output.innerHTML += JSON.stringify(gstart);
-  worker.postMessage({ start: gstart }); // Example input data
+  worker.postMessage({ start: JSON.stringify(gstart) }); // Example input data
 }
