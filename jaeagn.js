@@ -328,6 +328,8 @@ function slider(board10, i0, j0, di, dj) {
   return movelist5;
 }
 
+let stm = 0;
+
 function search(board1, level1, depth1, alpha1, beta1) {
   if (depth1 === 0) {
     const value2 = eval1(board1, level1);
@@ -346,13 +348,18 @@ function search(board1, level1, depth1, alpha1, beta1) {
     if (value1 > best) {
       best = value1;
       const bestmove = move1;
+      if (stm) {
+        bestmove[0] ^= 7;
+        bestmove[2] ^= 7;
+      }
+      const strbm = String.fromCharCode(bestmove[1] + 97) + String.fromCharCode(bestmove[0] + 49) + String.fromCharCode(bestmove[3] + 97) + String.fromCharCode(bestmove[2] + 49);
       gbestmove = bestmove;
       if (level1 === 0 && depth1 > 3) {
         const date1 = new Date();
         const secs = (date1 - date0) / 1000.0;
         const nps = parseInt(nodes / secs);
         let msg = {
-          bestmove: bestmove,
+          bestmove: strbm,
           depth: depth1,
           nps: nps,
           time: parseInt(date1 - date0)
@@ -424,7 +431,6 @@ let gdepth;
 function analysis() {
   nodes = 0;
   date0 = new Date();
-  drawChessboard(gstart);
   for (let depth3 = 2; depth3 < 13; depth3++) {
     search(gstart, 0, depth3, -20000, 20000);
   }
@@ -440,11 +446,24 @@ function handleClick(i3, j3) {
     i7 = i3;
     j7 = j3;
   } else {
-    const move24 = move(i7, j7, i3, j3);
-    const start22 = makemove(start, move24);
-    drawChessboard(start22);
-    start = start22;
+    let move24;
+    if (stm) {
+      i7 = 7 - i7;
+      i3 = 7 - i3;
+    }
+    move24 = move(i7, j7, i3, j3);
+    if (stm)
+      start = transpose(start);
+    start = makemove(start, move24);
+    if (!stm)
+      start = transpose(start);
+    drawChessboard(start);
+    if (!stm)
+      start = transpose(start);
     gstart = start;
+    if (!stm)
+      start = transpose(start);
+    stm ^= 1;
   }
   sqs ^= 1;
 }
