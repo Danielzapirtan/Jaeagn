@@ -121,13 +121,13 @@ function gendeep(board2, depthFlag, candFlag) {
             movelist2.push(move13);
           });
         }
-      /*if (board2.board[i][j][0] === "K")
+      if (board2.board[i][j][0] === "K")
         if (board2.board[i][j][1] === "black") {
           const movelist5 = genKing(board2, i, j);
           movelist5.forEach((move13) => {
             movelist2.push(move13);
           });
-        }*/
+        }
     }
   if (candFlag) {
     const valuelist = [];
