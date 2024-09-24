@@ -352,7 +352,7 @@ self.onmessage = (event) => {
   gstart = data.gstart;
   stm = data.stm;
   if (cmd === 4) {
-    const display = analysis(gstart);
+    analysis(gstart);
   }
   /*if (cmd == 3) {
     if (stm)
