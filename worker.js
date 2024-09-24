@@ -346,9 +346,11 @@ function analysis(gstart) {
 // worker.js
 self.onmessage = (event) => {
   const data = JSON.parse(event.data.start);
+  const cmd = data.cmd;
   gstart = data.gstart;
   stm = data.stm;
-  const variations = analysis(gstart);
+  if (cmd === 4)
+    const variations = analysis(gstart);
 }
 
 self.postMessage({
