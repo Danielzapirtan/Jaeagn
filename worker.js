@@ -349,12 +349,11 @@ self.onmessage = (event) => {
   const cmd = data.cmd;
   gstart = data.gstart;
   stm = data.stm;
-  if (cmd === 4)
+  if (cmd === 4) {
     const variations = analysis(gstart);
-}
-
-self.postMessage({
-    variations: JSON.stringify(variations),
+    self.postMessage({
+      variations: JSON.stringify(variations),
     // Optionally include other data to send back to the main thread
-});
-
+    });
+  }
+}
