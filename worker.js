@@ -346,14 +346,22 @@ function analysis(gstart) {
 // worker.js
 self.onmessage = (event) => {
   const data = JSON.parse(event.data.start);
-  const cmd = data.cmd;
+  cmd = data.cmd;
   gstart = data.gstart;
   stm = data.stm;
   if (cmd === 4) {
     const variations = analysis(gstart);
     self.postMessage({
-      variations: JSON.stringify(variations),
+      variations: JSON.stringify({cmd, variations}),
     // Optionally include other data to send back to the main thread
     });
+  }
+  if (cmd == 3) {
+    if (stm)
+      gstart = transpose(gstart)
+    search(gstart, 0, 3, -20000, 20000);
+    gstart = makemove(gstart, gbestmove);
+    self.postMessage({
+      variations: JSON.stringify({cmd, gstart, stm});
   }
 }
