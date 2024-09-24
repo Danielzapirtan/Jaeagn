@@ -211,13 +211,13 @@ worker.onmessage = (event) => {
     const variations = data.display;
     output.innerHTML = `${variations}`;
   }
-  /*if (data.cmd === 3) {
+  if (data.cmd === 3) {
     gstart = data.gstart;
     stm = data.stm;
     if (stm)
       gstart = transpose(gstart);
     drawChessboard(gstart);
-  }*/
+  }
 };
 
 function mode3() {
