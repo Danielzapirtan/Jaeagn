@@ -281,7 +281,6 @@ function search(board1, level1, depth1, alpha1, beta1) {
         display.push(msg);
 self.postMessage({
     variations: JSON.stringify(display),
-    // Optionally include other data to send back to the main thread
 });
       }
       if (best > alpha1) alpha1 = best;
