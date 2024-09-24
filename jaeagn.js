@@ -219,7 +219,7 @@ worker.onmessage = (event) => {
   }
 };
 
-functionn mode3() {
+function mode3() {
   mode(3);
 }
 
