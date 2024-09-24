@@ -31,25 +31,6 @@ function drawPieces(board14) {
       }
     }
   }
-  return;
-  for (let j = 0; j < 8; j++) {
-    ctx.font = "12px serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "top";
-    ctx.fillStyle = "black";
-    ctx.fillText(
-      String.fromCharCode(65 + j),
-      j * squareSize + squareSize / 2,
-      100
-    );
-  }
-  for (let i = 0; i < 8; i++) {
-    ctx.font = "12px serif";
-    ctx.textAlign = "left";
-    ctx.textBaseline = "middle";
-    ctx.fillStyle = "black";
-    ctx.fillText(8 - i, 100, i * squareSize + squareSize / 2);
-  }
 }
 
 function toUnicodePiece(piece1) {
