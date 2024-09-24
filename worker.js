@@ -280,7 +280,7 @@ function search(board1, level1, depth1, alpha1, beta1) {
           time: parseInt(date1 - date0)
         };
         display.push(msg);
-    if (cmd === 4)
+    //if (cmd === 4)
 self.postMessage({
     data: JSON.stringify({cmd, gstart, stm, display})
     // Optionally include other data to send back to the main thread
@@ -354,7 +354,7 @@ self.onmessage = (event) => {
   if (cmd === 4) {
     const display = analysis(gstart);
     self.postMessage({
-      data: JSON.stringify({cmd, gstart, stm, variations}),
+      data: JSON.stringify({cmd, gstart, stm, display}),
     // Optionally include other data to send back to the main thread
     });
   }
