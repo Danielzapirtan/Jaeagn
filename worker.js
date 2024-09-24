@@ -353,5 +353,4 @@ self.onmessage = (event) => {
 
 self.postMessage({
     variations: JSON.stringify(variations),
-    // Optionally include other data to send back to the main thread
 });
