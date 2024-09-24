@@ -15,14 +15,14 @@ function drawBoard() {
                 ctx.textAlign = "center";
                 ctx.textBaseline = "top";
                 ctx.fillStyle = "black";
-                ctx.fillText(String.fromCharCode(65 + j), j * squareSize + squareSize / 2, 110);
+                ctx.fillText(String.fromCharCode(65 + j), j * squareSize + squareSize / 2, 650);
             }
             if (j === 0) {
                 ctx.font = "12px serif";
                 ctx.textAlign = "left";
                 ctx.textBaseline = "middle";
                 ctx.fillStyle = "black";
-                ctx.fillText(8 - i, 10, i * squareSize + squareSize / 2);
+                ctx.fillText(8 - i, 650, i * squareSize + squareSize / 2);
             }
         }
     }
