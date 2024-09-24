@@ -32,14 +32,14 @@ function drawPieces(board14) {
     }
   }
   for (let j = 0; j < 8; j++) {
-  ctx.font = "12px serif";
+    ctx.font = "12px serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
     ctx.fillStyle = "black";
     ctx.fillText(
       String.fromCharCode(65 + j),
       j * squareSize + squareSize / 2,
-      10
+      100
     );
   }
   for (let i = 0; i < 8; i++) {
@@ -47,7 +47,7 @@ function drawPieces(board14) {
     ctx.textAlign = "left";
     ctx.textBaseline = "middle";
     ctx.fillStyle = "black";
-    ctx.fillText(8 - i, 10, i * squareSize + squareSize / 2);
+    ctx.fillText(8 - i, 100, i * squareSize + squareSize / 2);
   }
 }
 
