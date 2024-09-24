@@ -200,9 +200,27 @@ function handleClick(i3, j3) {
 const worker = new Worker('worker.js');
 
 worker.onmessage = (event) => {
-  const msg = event.data.variations;
-  output.innerHTML = `${msg}`;
+  const data = JSON.parse(event.data.data);
+  if (data.mode === 4) {
+    const variations = data.variations;
+    output.innerHTML = `${variations}`;
+  }
+  if (data.mode === 3) {
+    gstart = data.gstart;
+    stm = data.stm;
+    if (stm)
+      gstart = transpose(gstart);
+      drawChessboard(gstart);
+  }
 };
+
+functionn mode3() {
+  mode(3);
+}
+
+function mode(cmd) {
+  worker.postMessage({ start: JSON.stringify({cmd, gstart, stm}) }); // Example input data
+}
 
 function jana() {
   const cmd = 4;
