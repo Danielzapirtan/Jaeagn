@@ -1,4 +1,3 @@
-// jaeagn.js
 const canvas = document.getElementById("chessboard");
 const ctx = canvas.getContext("2d");
 const squareSize = canvas.width / 8;
