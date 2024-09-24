@@ -46,7 +46,7 @@ function eval1(board6, level) {
   for (let i = 0; i < 8; i++)
     for (let j = 0; j < 8; j++) {
       const piece1 = board6.board[i][j];
-      if (piece1[0] === "K") countk += (1 - 2 * (piece1[1] === "white"));
+      if (piece1[0] === "K") countk += 1 - 2 * (piece1[1] === "white");
       else if (piece1[0] === "Q")
         value += 980 * (1 - 2 * (piece1[1] === "white"));
       else if (piece1[0] === "R")
@@ -215,12 +215,12 @@ function genKing(board10, i0, j0) {
   for (let di = -1; di < 2; di++)
     for (let dj = -1; dj < 2; dj++)
       if (di !== 0 || dj !== 0)
-      try {
-        if (board10.board[i0 + di][j0 + dj][1] !== "black") {
-          const move18 = move(i0, j0, i0 + di, j0 + dj);
-          movelist4.push(move18);
-        }
-      } catch { }
+        try {
+          if (board10.board[i0 + di][j0 + dj][1] !== "black") {
+            const move18 = move(i0, j0, i0 + di, j0 + dj);
+            movelist4.push(move18);
+          }
+        } catch {}
   return movelist4;
 }
 
@@ -266,7 +266,11 @@ function search(board1, level1, depth1, alpha1, beta1) {
         bestmove[0] ^= 7;
         bestmove[2] ^= 7;
       }
-      const strbm = String.fromCharCode(bestmove[1] + 97) + String.fromCharCode(bestmove[0] + 49) + String.fromCharCode(bestmove[3] + 97) + String.fromCharCode(bestmove[2] + 49);
+      const strbm =
+        String.fromCharCode(bestmove[1] + 97) +
+        String.fromCharCode(bestmove[0] + 49) +
+        String.fromCharCode(bestmove[3] + 97) +
+        String.fromCharCode(bestmove[2] + 49);
       gbestmove = bestmove;
       if (level1 === 0 && depth1 > 3) {
         const date1 = new Date();
@@ -280,11 +284,11 @@ function search(board1, level1, depth1, alpha1, beta1) {
           time: parseInt(date1 - date0)
         };
         display.push(msg);
-    //if (cmd === 4)
-self.postMessage({
-    data: JSON.stringify({cmd, gstart, stm, display})
-    // Optionally include other data to send back to the main thread
-});
+        //if (cmd === 4)
+        self.postMessage({
+          data: JSON.stringify({ cmd, gstart, stm, display })
+          // Optionally include other data to send back to the main thread
+        });
       }
       if (best > alpha1) alpha1 = best;
       if (alpha1 >= beta1) return best;
@@ -351,17 +355,19 @@ self.onmessage = (event) => {
   cmd = data.cmd;
   gstart = data.gstart;
   stm = data.stm;
-    if (stm)
-      gstart = transpose(gstart)
+  if (stm) gstart = transpose(gstart);
   if (cmd === 4) {
     analysis(gstart);
+    self.postMessage({
+      data: JSON.stringify({ cmd, gstart, stm })
+    });
   }
-  /*if (cmd == 3) {
-    if (stm)
-      gstart = transpose(gstart)
+  if (cmd == 3) {
+    if (stm) gstart = transpose(gstart);
     search(gstart, 0, 3, -20000, 20000);
     gstart = makemove(gstart, gbestmove);
     self.postMessage({
-      data: JSON.stringify({cmd, gstart, stm});
-  }*/
-}
+      data: JSON.stringify({ cmd, gstart, stm })
+    });
+  }
+};
