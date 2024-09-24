@@ -4,12 +4,28 @@ const squareSize = canvas.width / 8;
 const pieceSize = squareSize * 0.8;
 
 function drawBoard() {
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      ctx.fillStyle = (i + j) % 2 === 0 ? "cyan" : "green";
-      ctx.fillRect(i * squareSize, j * squareSize, squareSize, squareSize);
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            ctx.fillStyle = (i + j) % 2 === 0 ? "cyan" : "green";
+            ctx.fillRect(i * squareSize, j * squareSize, squareSize, squareSize);
+
+            // Draw coordinates
+            if (i === 7) {
+                ctx.font = "12px serif";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "top";
+                ctx.fillStyle = "black";
+                ctx.fillText(String.fromCharCode(65 + j), j * squareSize + squareSize / 2, 10);
+            }
+            if (j === 0) {
+                ctx.font = "12px serif";
+                ctx.textAlign = "left";
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = "black";
+                ctx.fillText(8 - i, 10, i * squareSize + squareSize / 2);
+            }
+        }
     }
-  }
 }
 
 function drawPieces(board14) {
@@ -34,22 +50,7 @@ function drawPieces(board14) {
 }
 
 function toUnicodePiece(piece1) {
-  switch (piece1) {
-    case "R":
-      return "♜";
-    case "N":
-      return "♞";
-    case "B":
-      return "♝";
-    case "Q":
-      return "♛";
-    case "K":
-      return "♚";
-    case "P":
-      return "♟";
-    default:
-      return "";
-  }
+	return piece1;
 }
 
 function drawChessboard(board13) {
