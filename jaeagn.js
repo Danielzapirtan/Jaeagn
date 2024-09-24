@@ -180,20 +180,24 @@ function handleClick(i3, j3) {
       i3 = 7 - i3;
     }
     move24 = move(i7, j7, i3, j3);
-    if (stm) start = transpose(start);
+    if (stm)
+      start = transpose(start);
     start = makemove(start, move24);
-    if (!stm) start = transpose(start);
+    if (!stm)
+      start = transpose(start);
     drawChessboard(start);
-    if (!stm) start = transpose(start);
+    if (!stm)
+      start = transpose(start);
     gstart = start;
-    if (!stm) start = transpose(start);
+    if (!stm)
+      start = transpose(start);
     stm ^= 1;
   }
   sqs ^= 1;
 }
 
 // main.js
-const worker = new Worker("worker.js");
+const worker = new Worker('worker.js');
 
 worker.onmessage = (event) => {
   const msg = event.data.variations;
@@ -201,5 +205,5 @@ worker.onmessage = (event) => {
 };
 
 function jana() {
-  worker.postMessage({ start: JSON.stringify({ gstart, stm }) }); // Example input data
+  worker.postMessage({ start: JSON.stringify({gstart, stm}) }); // Example input data
 }
