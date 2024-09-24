@@ -203,6 +203,11 @@ const worker = new Worker('worker.js');
 worker.onmessage = (event) => {
   const data = JSON.parse(event.data.data);
   if (data.cmd === 4) {
+    gstart = data.gstart;
+    stm = data.stm;
+    if (stm)
+      gstart = transpose(gstart);
+    drawChessboard(gstart);
     const variations = data.variations;
     output.innerHTML = `${variations}`;
   }
