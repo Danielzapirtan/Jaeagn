@@ -8,7 +8,8 @@ function drawBoard() {
         for (let j = 0; j < 8; j++) {
             ctx.fillStyle = (i + j) % 2 === 0 ? "cyan" : "green";
             ctx.fillRect(i * squareSize, j * squareSize, squareSize, squareSize);
-
+        }
+    }
 }
 
 function drawPieces(board14) {
@@ -45,8 +46,6 @@ function drawPieces(board14) {
                 ctx.fillStyle = "black";
                 ctx.fillText(8 - i, canvas.width - 10, i * squareSize + squareSize / 2);
             }
-        }
-    }
 }           
 
 function toUnicodePiece(piece1) {
