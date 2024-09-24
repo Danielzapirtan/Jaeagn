@@ -352,7 +352,7 @@ self.onmessage = (event) => {
   if (cmd === 4) {
     const variations = analysis(gstart);
     self.postMessage({
-      variations: JSON.stringify({cmd, variations}),
+      data: JSON.stringify({cmd, variations}),
     // Optionally include other data to send back to the main thread
     });
   }
@@ -362,6 +362,6 @@ self.onmessage = (event) => {
     search(gstart, 0, 3, -20000, 20000);
     gstart = makemove(gstart, gbestmove);
     self.postMessage({
-      variations: JSON.stringify({cmd, gstart, stm});
+      data: JSON.stringify({cmd, gstart, stm});
   }
 }
