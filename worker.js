@@ -351,6 +351,8 @@ self.onmessage = (event) => {
   cmd = data.cmd;
   gstart = data.gstart;
   stm = data.stm;
+    if (stm)
+      gstart = transpose(gstart)
   if (cmd === 4) {
     analysis(gstart);
   }
