@@ -224,10 +224,16 @@ functionn mode3() {
 }
 
 function mode(cmd) {
+    if (stm)
+      gstart = transpose(gstart);
+  drawChessboard(gstart);
   worker.postMessage({ start: JSON.stringify({cmd, gstart, stm}) }); // Example input data
 }
 
 function jana() {
   const cmd = 4;
+    if (stm)
+      gstart = transpose(gstart);
+    drawChessboard(gstart);
   worker.postMessage({ start: JSON.stringify({cmd, gstart, stm}) }); // Example input data
 }
