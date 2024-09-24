@@ -9,23 +9,6 @@ function drawBoard() {
             ctx.fillStyle = (i + j) % 2 === 0 ? "cyan" : "green";
             ctx.fillRect(i * squareSize, j * squareSize, squareSize, squareSize);
 
-            // Draw coordinates
-            if (i === 0) {
-                ctx.font = "12px serif";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "top";
-                ctx.fillStyle = "black";
-                ctx.fillText(String.fromCharCode(65 + j), j * squareSize + squareSize / 2, canvas.width - 10);
-            }
-            if (j === 0) {
-                ctx.font = "12px serif";
-                ctx.textAlign = "left";
-                ctx.textBaseline = "middle";
-                ctx.fillStyle = "black";
-                ctx.fillText(8 - i, canvas.width - 10, i * squareSize + squareSize / 2);
-            }
-        }
-    }
 }
 
 function drawPieces(board14) {
@@ -47,7 +30,24 @@ function drawPieces(board14) {
       }
     }
   }
-}
+        // Draw coordinates
+            if (i === 0) {
+                ctx.font = "12px serif";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "top";
+                ctx.fillStyle = "black";
+                ctx.fillText(String.fromCharCode(65 + j), j * squareSize + squareSize / 2, canvas.width - 10);
+            }
+            if (j === 0) {
+                ctx.font = "12px serif";
+                ctx.textAlign = "left";
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = "black";
+                ctx.fillText(8 - i, canvas.width - 10, i * squareSize + squareSize / 2);
+            }
+        }
+    }
+}           
 
 function toUnicodePiece(piece1) {
   switch (piece1) {
