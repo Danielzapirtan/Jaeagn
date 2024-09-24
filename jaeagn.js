@@ -4,12 +4,12 @@ const squareSize = canvas.width / 8;
 const pieceSize = squareSize * 0.8;
 
 function drawBoard() {
-    for (let i = 0; i < 8; i++) {
-        for (let j = 0; j < 8; j++) {
-            ctx.fillStyle = (i + j) % 2 === 0 ? "cyan" : "green";
-            ctx.fillRect(i * squareSize, j * squareSize, squareSize, squareSize);
-        }
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      ctx.fillStyle = (i + j) % 2 === 0 ? "cyan" : "green";
+      ctx.fillRect(i * squareSize, j * squareSize, squareSize, squareSize);
     }
+  }
 }
 
 function drawPieces(board14) {
@@ -31,22 +31,25 @@ function drawPieces(board14) {
       }
     }
   }
-        // Draw coordinates
-            if (i === 0) {
-                ctx.font = "12px serif";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "top";
-                ctx.fillStyle = "black";
-                ctx.fillText(String.fromCharCode(65 + j), j * squareSize + squareSize / 2, 10);
-            }
-            if (j === 0) {
-                ctx.font = "12px serif";
-                ctx.textAlign = "left";
-                ctx.textBaseline = "middle";
-                ctx.fillStyle = "black";
-                ctx.fillText(8 - i, 10, i * squareSize + squareSize / 2);
-            }
-}           
+  if (i === 0) {
+    ctx.font = "12px serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    ctx.fillStyle = "black";
+    ctx.fillText(
+      String.fromCharCode(65 + j),
+      j * squareSize + squareSize / 2,
+      10
+    );
+  }
+  if (j === 0) {
+    ctx.font = "12px serif";
+    ctx.textAlign = "left";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "black";
+    ctx.fillText(8 - i, 10, i * squareSize + squareSize / 2);
+  }
+}
 
 function toUnicodePiece(piece1) {
   switch (piece1) {
@@ -195,24 +198,20 @@ function handleClick(i3, j3) {
       i3 = 7 - i3;
     }
     move24 = move(i7, j7, i3, j3);
-    if (stm)
-      start = transpose(start);
+    if (stm) start = transpose(start);
     start = makemove(start, move24);
-    if (!stm)
-      start = transpose(start);
+    if (!stm) start = transpose(start);
     drawChessboard(start);
-    if (!stm)
-      start = transpose(start);
+    if (!stm) start = transpose(start);
     gstart = start;
-    if (!stm)
-      start = transpose(start);
+    if (!stm) start = transpose(start);
     stm ^= 1;
   }
   sqs ^= 1;
 }
 
 // main.js
-const worker = new Worker('worker.js');
+const worker = new Worker("worker.js");
 
 worker.onmessage = (event) => {
   const msg = event.data.variations;
@@ -220,5 +219,5 @@ worker.onmessage = (event) => {
 };
 
 function jana() {
-  worker.postMessage({ start: JSON.stringify({gstart, stm}) }); // Example input data
+  worker.postMessage({ start: JSON.stringify({ gstart, stm }) }); // Example input data
 }
