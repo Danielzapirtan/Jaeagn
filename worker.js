@@ -353,10 +353,6 @@ self.onmessage = (event) => {
   stm = data.stm;
   if (cmd === 4) {
     const display = analysis(gstart);
-    self.postMessage({
-      data: JSON.stringify({cmd, gstart, stm, display}),
-    // Optionally include other data to send back to the main thread
-    });
   }
   /*if (cmd == 3) {
     if (stm)
