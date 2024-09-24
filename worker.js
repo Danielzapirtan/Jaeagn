@@ -282,7 +282,7 @@ function search(board1, level1, depth1, alpha1, beta1) {
         display.push(msg);
     if (cmd === 4)
 self.postMessage({
-    data: JSON.stringify({cmd, gstart, stm, variations:display})
+    data: JSON.stringify({cmd, gstart, stm, display})
     // Optionally include other data to send back to the main thread
 });
       }
