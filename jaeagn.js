@@ -8,8 +8,6 @@ function drawBoard() {
         for (let j = 0; j < 8; j++) {
             ctx.fillStyle = (i + j) % 2 === 0 ? "cyan" : "green";
             ctx.fillRect(i * squareSize, j * squareSize, squareSize, squareSize);
-
-            // Draw coordinates
             if (i === 7) {
                 ctx.font = "12px serif";
                 ctx.textAlign = "center";
