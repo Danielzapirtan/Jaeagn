@@ -208,7 +208,7 @@ worker.onmessage = (event) => {
     if (stm)
       gstart = transpose(gstart);
     drawChessboard(gstart);
-    const variations = data.variations;
+    const variations = data.display;
     output.innerHTML = `${variations}`;
   }
   /*if (data.cmd === 3) {
