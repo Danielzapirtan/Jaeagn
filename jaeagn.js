@@ -31,6 +31,7 @@ function drawPieces(board14) {
       }
     }
   }
+  return;
   for (let j = 0; j < 8; j++) {
     ctx.font = "12px serif";
     ctx.textAlign = "center";
