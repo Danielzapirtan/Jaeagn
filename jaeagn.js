@@ -58,7 +58,6 @@ function drawChessboard(board13) {
 }
 
 let gstart;
-drawChessboard(board);
 
 function createTable(jsonString) {
   // Parse the JSON string into a JavaScript object
