@@ -109,7 +109,7 @@ canvas.addEventListener("click", (event) => {
 
 const output = document.getElementById("output");
 let display = [];
-let stm;
+let stm = 0;
 
 function removeFirstChild(element) {
   if (element.firstChild) {
@@ -169,7 +169,6 @@ let i7;
 let j7;
 let start = board;
 drawChessboard(start);
-stm = 0;
 function handleClick(i3, j3) {
   if (!sqs) {
     i7 = i3;
@@ -201,40 +200,10 @@ function handleClick(i3, j3) {
 const worker = new Worker('worker.js');
 
 worker.onmessage = (event) => {
-  const data = JSON.parse(event.data.data);
-  if (data.cmd === 4) {
-    gstart = data.gstart;
-    stm = data.stm;
-    if (stm)
-      gstart = transpose(gstart);
-    drawChessboard(gstart);
-    const variations = data.display;
-    output.innerHTML = `${variations}`;
-  }
-  if (data.cmd === 3) {
-    gstart = data.gstart;
-    stm = data.stm;
-    if (stm)
-      gstart = transpose(gstart);
-    drawChessboard(gstart);
-  }
+  const msg = event.data.variations;
+  output.innerHTML = `${msg}`;
 };
 
-function mode3() {
-  mode(3);
-}
-
-function mode(cmd) {
-    if (stm)
-      gstart = transpose(gstart);
-  drawChessboard(gstart);
-  worker.postMessage({ start: JSON.stringify({cmd, gstart, stm}) }); // Example input data
-}
-
 function jana() {
-  const cmd = 4;
-    if (stm)
-      gstart = transpose(gstart);
-    drawChessboard(gstart);
-  worker.postMessage({ start: JSON.stringify({cmd, gstart, stm}) }); // Example input data
+  worker.postMessage({ start: JSON.stringify({gstart, stm}) }); // Example input data
 }
