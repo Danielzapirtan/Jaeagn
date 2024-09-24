@@ -204,5 +204,5 @@ worker.onmessage = (event) => {
 };
 
 function jana() {
-  worker.postMessage({ start: JSON.stringify({gstart, stm}) }); // Example input data
+  worker.postMessage({ start: JSON.stringify({gstart, stm}) });
 }
