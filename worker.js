@@ -37,6 +37,7 @@ const board = transpose(
 );
 
 let display = [];
+let cmd;
 
 function eval1(board6, level) {
   let countk = 0;
@@ -279,8 +280,9 @@ function search(board1, level1, depth1, alpha1, beta1) {
           time: parseInt(date1 - date0)
         };
         display.push(msg);
+    if (cmd === 4)
 self.postMessage({
-    variations: JSON.stringify(display),
+    data: JSON.stringify({cmd, display}),
     // Optionally include other data to send back to the main thread
 });
       }
