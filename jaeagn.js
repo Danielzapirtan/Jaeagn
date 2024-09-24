@@ -31,8 +31,8 @@ function drawPieces(board14) {
       }
     }
   }
-  if (i === 0) {
-    ctx.font = "12px serif";
+  for (let j = 0; j < 8; j++) {
+  ctx.font = "12px serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "top";
     ctx.fillStyle = "black";
@@ -42,7 +42,7 @@ function drawPieces(board14) {
       10
     );
   }
-  if (j === 0) {
+  for (let i = 0; i < 8; i++) {
     ctx.font = "12px serif";
     ctx.textAlign = "left";
     ctx.textBaseline = "middle";
