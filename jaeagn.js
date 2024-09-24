@@ -109,7 +109,7 @@ canvas.addEventListener("click", (event) => {
 
 const output = document.getElementById("output");
 let display = [];
-let stm = 0;
+let stm;
 
 function removeFirstChild(element) {
   if (element.firstChild) {
@@ -169,6 +169,7 @@ let i7;
 let j7;
 let start = board;
 drawChessboard(start);
+stm = 0;
 function handleClick(i3, j3) {
   if (!sqs) {
     i7 = i3;
@@ -210,13 +211,13 @@ worker.onmessage = (event) => {
     const variations = data.variations;
     output.innerHTML = `${variations}`;
   }
-  if (data.cmd === 3) {
+  /*if (data.cmd === 3) {
     gstart = data.gstart;
     stm = data.stm;
     if (stm)
       gstart = transpose(gstart);
     drawChessboard(gstart);
-  }
+  }*/
 };
 
 function mode3() {
