@@ -1,26 +1,26 @@
 const canvas = document.getElementById("chessboard");
 const ctx = canvas.getContext("2d");
-const squareSize = canvas.width / 8;
+const squareSize = canvas.width / 9;
 const pieceSize = squareSize * 0.8;
 
 function drawBoard() {
     for (let i = 0; i < 8; i++) {
         for (let j = 0; j < 8; j++) {
-            ctx.fillStyle = (i + j) % 2 === 0 ? "cyan" : "green";
+            ctx.fillStyle = (i + j) % 2 === 0 ? "#aaffff":"#aaffaa";
             ctx.fillRect(i * squareSize, j * squareSize, squareSize, squareSize);
             if (i === 7) {
-                ctx.font = "12px serif";
+                ctx.font = "17px serif";
                 ctx.textAlign = "center";
-                ctx.textBaseline = "top";
-                ctx.fillStyle = "black";
-                ctx.fillText(String.fromCharCode(65 + j), j * squareSize + squareSize / 2, 10);
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = "magenta";
+                ctx.fillText(String.fromCharCode(97 + j), j * squareSize + squareSize / 2, canvas.width - squareSize / 2);
             }
             if (j === 0) {
-                ctx.font = "12px serif";
-                ctx.textAlign = "left";
+                ctx.font = "17px serif";
+                ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
-                ctx.fillStyle = "black";
-                ctx.fillText(8 - i, 10, i * squareSize + squareSize / 2);
+                ctx.fillStyle = "magenta";
+                ctx.fillText(8 - i, canvas.width - squareSize / 2, i * squareSize + squareSize / 2);
             }
         }
     }
@@ -100,7 +100,7 @@ canvas.addEventListener("click", (event) => {
   const rect = canvas.getBoundingClientRect();
   const x = event.clientX - rect.left;
   const y = event.clientY - rect.top;
-  const squareSize = canvas.width / 8;
+  const squareSize = canvas.width / 9;
   const i3 = 7 - Math.floor(y / squareSize);
   const j3 = Math.floor(x / squareSize);
   handleClick(i3, j3);
