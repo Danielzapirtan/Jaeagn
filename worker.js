@@ -358,12 +358,12 @@ self.onmessage = (event) => {
     // Optionally include other data to send back to the main thread
     });
   }
-  /*if (cmd == 3) {
+  if (cmd == 3) {
     if (stm)
       gstart = transpose(gstart)
     search(gstart, 0, 3, -20000, 20000);
     gstart = makemove(gstart, gbestmove);
     self.postMessage({
       data: JSON.stringify({cmd, gstart, stm});
-  }*/
+  }
 }
