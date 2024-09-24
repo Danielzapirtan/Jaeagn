@@ -15,7 +15,7 @@ function drawBoard() {
                 ctx.textAlign = "center";
                 ctx.textBaseline = "top";
                 ctx.fillStyle = "black";
-                ctx.fillText(String.fromCharCode(65 + j), j * squareSize + squareSize / 2, 10);
+                ctx.fillText(String.fromCharCode(65 + j), j * squareSize + squareSize / 2, 30);
             }
             if (j === 0) {
                 ctx.font = "12px serif";
