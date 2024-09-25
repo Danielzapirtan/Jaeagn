@@ -3,6 +3,38 @@ const ctx = canvas.getContext("2d");
 const squareSize = canvas.width / 9;
 const pieceSize = squareSize * 0.8;
 
+function createTable(jsonString) {
+  // Parse the JSON string into a JavaScript object
+  const jsonData = JSON.parse(jsonString);
+
+  // Get the table element
+  const table = document.createElement("table");
+
+  // Create the header row
+  const headerRow = table.insertRow();
+
+  // Get the field names from the first object
+  const fields = Object.keys(jsonData[0]);
+
+  // Create header cells
+  fields.forEach((field) => {
+    const th = document.createElement("th");
+    th.textContent = field;
+    headerRow.appendChild(th);
+  });
+
+  // Create table rows and cells
+  jsonData.forEach((row) => {
+    const newRow = table.insertRow();
+    fields.forEach((field) => {
+      const cell = newRow.insertCell();
+      cell.textContent = row[field];
+    });
+  });
+
+  return table;
+}
+
 function drawBoard() {
     for (let i = 0; i < 8; i++) {
         for (let j = 0; j < 8; j++) {
@@ -200,7 +232,8 @@ const worker = new Worker('worker.js');
 
 worker.onmessage = (event) => {
   const msg = event.data.variations;
-  output.innerHTML = `${msg}`;
+  output.innerHTML = "";
+  output.appendChild(createTable(msg));
 };
 
 function jana() {
