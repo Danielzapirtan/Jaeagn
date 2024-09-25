@@ -1,35 +1,3 @@
-function createTable(jsonString) {
-  // Parse the JSON string into a JavaScript object
-  const jsonData = JSON.parse(jsonString);
-
-  // Get the table element
-  const table = document.createElement("table");
-
-  // Create the header row
-  const headerRow = table.insertRow();
-
-  // Get the field names from the first object
-  const fields = Object.keys(jsonData[0]);
-
-  // Create header cells
-  fields.forEach((field) => {
-    const th = document.createElement("th");
-    th.textContent = field;
-    headerRow.appendChild(th);
-  });
-
-  // Create table rows and cells
-  jsonData.forEach((row) => {
-    const newRow = table.insertRow();
-    fields.forEach((field) => {
-      const cell = newRow.insertCell();
-      cell.textContent = row[field];
-    });
-  });
-
-  return table;
-}
-
 const board = transpose(
   JSON.parse(
     '{"board":[[["R", "black"], ["N", "black"], ["B", "black"], ["Q", "black"], ["K", "black"], ["B", "black"], ["N", "black"], ["R", "black"]], [["P", "black"], ["P", "black"], ["P", "black"], ["P", "black"], ["P", "black"], ["P", "black"], ["P", "black"], ["P", "black"]], [["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]], [["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]], [["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]], [["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]], [["P", "white"], ["P", "white"], ["P", "white"], ["P", "white"], ["P", "white"], ["P", "white"], ["P", "white"], ["P", "white"]], [["R", "white"], ["N", "white"], ["B", "white"], ["Q", "white"], ["K", "white"], ["B", "white"], ["N", "white"], ["R", "white"]]]}'
@@ -347,9 +315,9 @@ self.onmessage = (event) => {
   const data = JSON.parse(event.data.start);
   gstart = data.gstart;
   stm = data.stm;
-  const variations = analysis(gstart);
+  variations = analysis(gstart);
 }
 
 self.postMessage({
-    variations: JSON.stringify(variations),
+    variations: JSON.stringify(variations)
 });
