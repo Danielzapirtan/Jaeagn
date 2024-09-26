@@ -239,7 +239,7 @@ function search(board1, level1, depth1, alpha1, beta1) {
         const date1 = new Date();
         const secs = (date1 - date0) / 1000.0;
         const nps = parseInt(nodes / secs);
-		const formattedDate = date1.toISOString().slice(0, 19).replace('T', ' ');
+	const formattedDate = date1.toISOString().slice(0, 19).replace('T', ' ');
         let msg = {
           timestamp: formattedDate,
           details: `Best move ${strbm}`
@@ -255,9 +255,9 @@ function search(board1, level1, depth1, alpha1, beta1) {
           details: `Search Stats Depth: ${depth1} NPS: ${nps} Time: ${parseInt(date1 - date0)}ms`
         };
         display.push(msg);
-self.postMessage({
-    variations: JSON.stringify(display),
-});
+	self.postMessage({
+    		variations: JSON.stringify(display),
+	});
       }
       if (best > alpha1) alpha1 = best;
       if (alpha1 >= beta1) return best;
