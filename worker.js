@@ -239,12 +239,20 @@ function search(board1, level1, depth1, alpha1, beta1) {
         const date1 = new Date();
         const secs = (date1 - date0) / 1000.0;
         const nps = parseInt(nodes / secs);
+		const formattedDate = date1.toISOString().slice(0, 19).replace('T', ' ');
         let msg = {
-          bestmove: strbm,
-          depth: depth1,
-          score: best.toFixed(2),
-          nps: nps,
-          time: parseInt(date1 - date0)
+          timestamp: formattedDate,
+          details: `Best move ${strbm}`
+        };
+        display.push(msg);
+        msg = {
+          timestamp: formattedDate,
+          details: `Score: ${best.toFixed(2)}`
+        };
+        display.push(msg);
+        msg = {
+          timestamp: formattedDate,
+          details: `Search Stats Depth: ${depth1} NPS: ${nps} Time: ${parseInt(date1 - date0)}ms`
         };
         display.push(msg);
 self.postMessage({
