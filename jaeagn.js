@@ -2,6 +2,7 @@ const canvas = document.getElementById("chessboard");
 const ctx = canvas.getContext("2d");
 const squareSize = canvas.width / 9;
 const pieceSize = squareSize * 0.8;
+const worker = new Worker('worker.js');
 
 function createTable(jsonString) {
   // Parse the JSON string into a JavaScript object
@@ -198,9 +199,11 @@ function move(x0, x1, y0, y1, prom = 0) {
 let sqs = 0;
 let i7;
 let j7;
-let start = board;
+start = board;
+gstart = start;
 drawChessboard(start);
-function handleClick(i3, j3) {
+worker.postMessage({ start: JSON.stringify({gstart, stm}) });
+/*function handleClick(i3, j3) {
   if (!sqs) {
     i7 = i3;
     j7 = j3;
@@ -223,19 +226,46 @@ function handleClick(i3, j3) {
     if (!stm)
       start = transpose(start);
     stm ^= 1;
+    worker.postMessage({ start: JSON.stringify({gstart, stm}) });
   }
   sqs ^= 1;
-}
+}*/
 
 // main.js
-const worker = new Worker('worker.js');
 
 worker.onmessage = (event) => {
-  const msg = event.data.variations;
-  output.innerHTML = "";
-  output.appendChild(createTable(msg));
-};
+  const msg73 = event.data.variations;
 
-function jana() {
-  worker.postMessage({ start: JSON.stringify({gstart, stm}) });
-}
+  // Clear the output element before adding the new table
+  output.innerHTML = "";
+
+  // Create the table element and append it to the output
+  output.appendChild(createTable(msg73));
+  const msg74 = JSON.parse(msg73);
+
+  // **Debugging:** Check if "End Analysis" is present and its validity
+  if (msg74.length > 0 && msg74[msg74.length - 1].details === "End Analysis") {
+    // Extract the recommended move (assuming details format is consistent)
+    const x = msg74[msg74.length - 4].details.length - 4;
+    const mymove = msg74[msg74.length - 4].details.slice(x,);
+    // Ensure move format is valid (length of 4)
+    if (mymove.length !== 4) {
+      alert("Invalid move format received from worker:", mymove);
+      return; // Exit the function if format is wrong
+    }
+
+    // Convert move string to coordinates (assuming logic is correct)
+    const fromRow = mymove.charCodeAt(1) - 49;
+    const fromCol = mymove.charCodeAt(0) - 97;
+    const toRow = mymove.charCodeAt(3) - 49;
+    const toCol = mymove.charCodeAt(2) - 97;
+
+    // Make the move on the board (assuming move and makemove functions work)
+    const move32 = move(fromRow, fromCol, toRow, toCol);
+    const start32 = makemove(start, move32);
+
+    // Update the chessboard display (assuming drawChessboard function works)
+    start = start32;
+    drawChessboard(start);
+    worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });  }
+};
