@@ -267,5 +267,20 @@ worker.onmessage = (event) => {
     // Update the chessboard display (assuming drawChessboard function works)
     start = start32;
     drawChessboard(start);
-    worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });  }
+    if (abs(convertLastWordToFloat(msg74[msg74.length - 3].details)) > 7500) { 
+        worker.postMessage({ start: JSON.stringify({gstart: start, stm: 2}) });
+     }
+     else
+       worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });
+  }
 };
+
+function abs(x) {
+	return x < 0 ? -x : x;
+	}
+	
+function convertLastWordToFloat(str) {
+  const words = str.split(" ");
+  const lastWord = words[words.length - 1];
+  return parseFloat(lastWord);
+}
