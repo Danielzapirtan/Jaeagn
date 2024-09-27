@@ -245,10 +245,11 @@ worker.onmessage = (event) => {
   if (!stm)
       start = transpose(start);
      stm ^= 1;
-    if (abs(convertLastWordToFloat(msg74[msg74.length - 3].details)) > 7500) { 
+    if (abs(convertLastWordToFloat(msg74[msg74.length - 3].details)) > 7500) {
+	output.innerHTML = "";	    
         worker.postMessage({ start: JSON.stringify({gstart: start, stm: 2}) });
      }
-     else if (stm)
+     else if (!stm)
        worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });
   if (stm)
       start = transpose(start);
