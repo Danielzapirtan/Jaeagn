@@ -337,6 +337,6 @@ self.onmessage = (event) => {
   const data = JSON.parse(event.data.start);
   gstart = data.gstart;
   stm = data.stm;
+  if (stm < 2)
   variations = analysis();
 };
-
