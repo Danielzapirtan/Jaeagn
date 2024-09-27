@@ -245,9 +245,9 @@ worker.onmessage = (event) => {
   if (!stm)
       start = transpose(start);
      stm ^= 1;
+    output.innerHTML = "";
     if (abs(convertLastWordToFloat(msg74[msg74.length - 3].details)) > 7500) {
         worker.postMessage({ start: JSON.stringify({gstart: start, stm: 2}) });
-	output.innerHTML = "";
      }
      else if (!stm)
        worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });
