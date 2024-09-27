@@ -171,7 +171,7 @@ start = board;
 gstart = start;
 drawChessboard(start);
 worker.postMessage({ start: JSON.stringify({gstart, stm}) });
-/*function handleClick(i3, j3) {
+function handleClick(i3, j3) {
   if (!sqs) {
     i7 = i3;
     j7 = j3;
@@ -197,7 +197,7 @@ worker.postMessage({ start: JSON.stringify({gstart, stm}) });
     worker.postMessage({ start: JSON.stringify({gstart, stm}) });
   }
   sqs ^= 1;
-}*/
+}
 
 // main.js
 stm = 0;
@@ -248,7 +248,7 @@ worker.onmessage = (event) => {
     if (abs(convertLastWordToFloat(msg74[msg74.length - 3].details)) > 7500) { 
         worker.postMessage({ start: JSON.stringify({gstart: start, stm: 2}) });
      }
-     else
+     else if (stm)
        worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });
   if (stm)
       start = transpose(start);
