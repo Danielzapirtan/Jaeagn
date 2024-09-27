@@ -232,7 +232,7 @@ worker.postMessage({ start: JSON.stringify({gstart, stm}) });
 }*/
 
 // main.js
-
+stm = 0;
 worker.onmessage = (event) => {
   const msg73 = event.data.variations;
 
@@ -255,23 +255,35 @@ worker.onmessage = (event) => {
     }
 
     // Convert move string to coordinates (assuming logic is correct)
-    const fromRow = mymove.charCodeAt(1) - 49;
+    let fromRow = mymove.charCodeAt(1) - 49;
     const fromCol = mymove.charCodeAt(0) - 97;
-    const toRow = mymove.charCodeAt(3) - 49;
+    let toRow = mymove.charCodeAt(3) - 49;
     const toCol = mymove.charCodeAt(2) - 97;
+    
+    if (stm) {
+    	fromRow ^= 7;
+    	toRow ^= 7;
+    	}
 
     // Make the move on the board (assuming move and makemove functions work)
     const move32 = move(fromRow, fromCol, toRow, toCol);
-    const start32 = makemove(start, move32);
-
+    if (stm)
+      start = transpose(start);
+    start = makemove(start, move32);
+    if (!stm)
+      start = transpose(start);
     // Update the chessboard display (assuming drawChessboard function works)
-    start = start32;
     drawChessboard(start);
+  if (!stm)
+      start = transpose(start);
+     stm ^= 1;
     if (abs(convertLastWordToFloat(msg74[msg74.length - 3].details)) > 7500) { 
         worker.postMessage({ start: JSON.stringify({gstart: start, stm: 2}) });
      }
      else
        worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });
+  if (stm)
+      start = transpose(start);
   }
 };
 
