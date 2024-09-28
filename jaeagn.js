@@ -50,8 +50,8 @@ function drawPieces(board14) {
 
 function toUnicodePiece(piece1) {
 	switch (piece1) {
-		'K': return String.fromCharCode(0x2654);
-		default: return piece1;
+	case 'K': return String.fromCharCode(0x2654);
+	default: return piece1;
 	}
 }
 
