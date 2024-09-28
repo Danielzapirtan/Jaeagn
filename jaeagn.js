@@ -50,12 +50,12 @@ function drawPieces(board14) {
 
 function toUnicodePiece(piece1) {
 	switch (piece1) {
-		case 'K': return String.fromCharCode(0x2654);
-		case 'Q': return String.fromCharCode(0x2655);
-		case 'R': return String.fromCharCode(0x2656);
-		case 'B': return String.fromCharCode(0x2657);
-		case 'N': return String.fromCharCode(0x2658);
-		case 'P': return String.fromCharCode(0x2659);
+		case 'K': return String.fromCharCode(0x265A);
+		case 'Q': return String.fromCharCode(0x265B);
+		case 'R': return String.fromCharCode(0x265C);
+		case 'B': return String.fromCharCode(0x265D);
+		case 'N': return String.fromCharCode(0x265E);
+		case 'P': return String.fromCharCode(0x265F);
 	default: return " ";
 	}
 }
