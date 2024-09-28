@@ -249,6 +249,7 @@ worker.onmessage = (event) => {
     if (abs(convertLastWordToFloat(msg74[msg74.length - 3].details)) > 7500) {
 	start = board;
         worker.postMessage({ start: JSON.stringify({gstart: start, stm: 0}) });
+	return;
      }
      else if (!stm)
        worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });
