@@ -1,31 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-        <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>
     Jaeagn Chess
   </title>
 </head>
+
 <body>
   <header>
     <h2>Jaeagn Chess</h2>
   </header>
   <main>
-      <style>
-        canvas {
-          border: 1px solid black;
-          }
-  div {
-    width: 640px; /* Adjust the width as needed */
-    height: 200px; /* Adjust the height as needed */
-    overflow: auto; /* Enable scrolling if content exceeds container size */
-    border: solid 2px;
-    }
-      </style>
+    <style>
+      canvas {
+        border: 1px solid black;
+      }
+
+      div {
+        width: 640px;
+        /* Adjust the width as needed */
+        height: 200px;
+        /* Adjust the height as needed */
+        overflow: auto;
+        /* Enable scrolling if content exceeds container size */
+        border: solid 2px;
+      }
+    </style>
     <p>
       <canvas id="chessboard" width="540" height="540">
- 	</canvas>
-      </p><br>
+      </canvas>
+    </p><br>
     <div id="output"></div>
   </main>
   <footer>
@@ -33,4 +39,3 @@
 </body>
 <script src="jaeagn.js"></script>
 <script src="worker.js"></script>
-</html>
