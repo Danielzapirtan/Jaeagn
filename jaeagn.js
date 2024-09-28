@@ -112,7 +112,8 @@ canvas.addEventListener("click", (event) => {
   const squareSize = canvas.width / 9;
   const i3 = 7 - Math.floor(y / squareSize);
   const j3 = Math.floor(x / squareSize);
-  handleClick(i3, j3);
+  if (stm)
+    handleClick(i3, j3);
 });
 
 const output = document.getElementById("output");
