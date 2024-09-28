@@ -315,7 +315,7 @@ function analysis() {
   display = [];
   nodes = 0;
   date0 = new Date();
-  for (let depth3 = 2; depth3 < 5; depth3++) {
+  for (let depth3 = 2; depth3 < 7; depth3++) {
     search(gstart, 0, depth3, -20000, 20000);
   }
 	const formattedDate22 = new Date().toISOString().slice(0, 19).replace('T', ' '); 
