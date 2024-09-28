@@ -170,7 +170,7 @@ let j7;
 start = board;
 gstart = start;
 drawChessboard(start);
-worker.postMessage({ start: JSON.stringify({gstart, stm}) });
+//worker.postMessage({ start: JSON.stringify({gstart, stm}) });
 
 function handleClick(i3, j3) {
   if (!sqs) {
