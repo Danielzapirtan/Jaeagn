@@ -49,7 +49,10 @@ function drawPieces(board14) {
 }
 
 function toUnicodePiece(piece1) {
-	return piece1;
+	switch (piece1) {
+		'K': return String.fromCharCode(9812);
+		default: return piece1;
+	}
 }
 
 function drawChessboard(board13) {
