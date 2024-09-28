@@ -99,7 +99,7 @@ function gendeep(board2, depthFlag, candFlag) {
           });
         }
     }
-  if (candFlag) {
+  if (candFlag && false) {
     const valuelist = [];
     const movelist3 = [];
     const valuelist3 = [];
