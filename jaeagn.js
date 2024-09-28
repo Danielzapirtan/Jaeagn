@@ -241,7 +241,6 @@ worker.onmessage = (event) => {
     	fromRow ^= 7;
     	toRow ^= 7;
     	}
-
     // Make the move on the board (assuming move and makemove functions work)
     const move32 = move(fromRow, fromCol, toRow, toCol);
     if (stm)
