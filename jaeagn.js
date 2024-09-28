@@ -247,7 +247,7 @@ worker.onmessage = (event) => {
      stm ^= 1;
     output.innerHTML = `my move: ${mymove}`;
     if (abs(convertLastWordToFloat(msg74[msg74.length - 3].details)) > 7500) {
-        worker.postMessage({ start: JSON.stringify({gstart: start, stm: 2}) });
+        worker.postMessage({ start: JSON.stringify({gstart: board, stm: 0}) });
      }
      else if (!stm)
        worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });
