@@ -170,7 +170,7 @@ let j7;
 start = board;
 gstart = start;
 drawChessboard(start);
-//worker.postMessage({ start: JSON.stringify({gstart, stm}) });
+worker.postMessage({ start: JSON.stringify({gstart, stm}) });
 
 function handleClick(i3, j3) {
   if (!sqs) {
@@ -249,7 +249,7 @@ worker.onmessage = (event) => {
     output.innerHTML = `my move: ${mymove}`;
     if (abs(convertLastWordToFloat(msg74[msg74.length - 3].details)) > 7500) {
 	start = board;
-        worker.postMessage({ start: JSON.stringify({gstart: start, stm: 0}) });
+        worker.postMessage({ start: JSON.stringify({gstart: start, stm: 1}) });
      }
      else if (!stm)
        worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });
