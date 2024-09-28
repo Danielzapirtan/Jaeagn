@@ -66,6 +66,7 @@ function drawChessboard(board13) {
 }
 
 let gstart;
+let stm = 0;
 
 function createTable(jsonString) {
   // Parse the JSON string into a JavaScript object
@@ -118,7 +119,6 @@ canvas.addEventListener("click", (event) => {
 
 const output = document.getElementById("output");
 let display = [];
-let stm = 0;
 
 function removeFirstChild(element) {
   if (element.firstChild) {
