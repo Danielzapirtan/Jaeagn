@@ -5,14 +5,10 @@ const pieceSize = squareSize * 0.8;
 const worker = new Worker('worker.js');
 const cw = false;
 const cb = true;
-
 const cwel = document.getElementById("cw");
 const cbel = document.getElementById("cb");
-
-function updateMode() {
-  cw = cwel.value;
-  cb = cbel.value;
-}
+let gstart;
+let stm = 0;
 
 function drawBoard() {
     for (let i = 0; i < 8; i++) {
@@ -74,9 +70,6 @@ function drawChessboard(board13) {
   drawBoard();
   drawPieces(board13);
 }
-
-let gstart;
-let stm = 0;
 
 function createTable(jsonString) {
   // Parse the JSON string into a JavaScript object
@@ -189,6 +182,14 @@ let j7;
 start = board;
 gstart = start;
 drawChessboard(start);
+
+function updateMode() {
+  cw = cwel.value;
+  cb = cbel.value;
+  if (!stm && cw || stm && cb)
+    worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });
+}
+
 if (!stm && cw || stm && cb)
   worker.postMessage({ start: JSON.stringify({gstart, stm}) });
 
