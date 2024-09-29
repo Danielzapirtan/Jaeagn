@@ -5,10 +5,6 @@ const pieceSize = squareSize * 0.8;
 const worker = new Worker('worker.js');
 let cw = Math.random() > 0.5;
 let cb = Math.random() > 0.5;
-const cwel = document.getElementById("cw");
-const cbel = document.getElementById("cb");
-cwel.value = cw;
-cbel.value = cb;
 let gstart;
 let stm = 0;
 
