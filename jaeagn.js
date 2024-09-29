@@ -274,7 +274,7 @@ worker.onmessage = (event) => {
 	start = board;
         worker.postMessage({ start: JSON.stringify({gstart: start, stm: 1}) });
      }
-     else if (!stm && cw || stm && cw)
+     else if (!stm && cw || stm && cb)
        worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });
   if (stm)
       start = transpose(start);
