@@ -113,7 +113,7 @@ canvas.addEventListener("click", (event) => {
   const squareSize = canvas.width / 9;
   const i3 = 7 - Math.floor(y / squareSize);
   const j3 = Math.floor(x / squareSize);
-  if (stm)
+  if (!stm)
     handleClick(i3, j3);
 });
 
@@ -259,7 +259,7 @@ worker.onmessage = (event) => {
 	start = board;
         worker.postMessage({ start: JSON.stringify({gstart: start, stm: 1}) });
      }
-     else if (!stm)
+     else if (stm)
        worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });
   if (stm)
       start = transpose(start);
