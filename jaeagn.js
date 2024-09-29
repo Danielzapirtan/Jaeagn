@@ -7,6 +7,8 @@ let cw = false;
 let cb = true;
 const cwel = document.getElementById("cw");
 const cbel = document.getElementById("cb");
+cwel.value = cw;
+cbel.value = cb;
 let gstart;
 let stm = 0;
 
