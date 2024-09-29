@@ -192,7 +192,7 @@ let j7;
 start = board;
 gstart = start;
 drawChessboard(start);
-if (cw)
+if (!stm && cw || stm && cb)
   worker.postMessage({ start: JSON.stringify({gstart, stm}) });
 
 function handleClick(i3, j3) {
