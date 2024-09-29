@@ -3,6 +3,8 @@ const ctx = canvas.getContext("2d");
 const squareSize = canvas.width / 9;
 const pieceSize = squareSize * 0.8;
 const worker = new Worker('worker.js');
+const cw = false;
+const cb = true;
 
 function drawBoard() {
     for (let i = 0; i < 8; i++) {
@@ -113,7 +115,7 @@ canvas.addEventListener("click", (event) => {
   const squareSize = canvas.width / 9;
   const i3 = 7 - Math.floor(y / squareSize);
   const j3 = Math.floor(x / squareSize);
-  if (!stm)
+  if (!stm && !cw || stm && !cb)
     handleClick(i3, j3);
 });
 
@@ -179,7 +181,8 @@ let j7;
 start = board;
 gstart = start;
 drawChessboard(start);
-worker.postMessage({ start: JSON.stringify({gstart, stm}) });
+if (cw)
+  worker.postMessage({ start: JSON.stringify({gstart, stm}) });
 
 function handleClick(i3, j3) {
   if (!sqs) {
@@ -204,7 +207,8 @@ function handleClick(i3, j3) {
     if (!stm)
       start = transpose(start);
     stm ^= 1;
-    worker.postMessage({ start: JSON.stringify({gstart, stm}) });
+    if (!stm && cw || stm && cb)
+      worker.postMessage({ start: JSON.stringify({gstart, stm}) });
   }
   sqs ^= 1;
 }
@@ -259,7 +263,7 @@ worker.onmessage = (event) => {
 	start = board;
         worker.postMessage({ start: JSON.stringify({gstart: start, stm: 1}) });
      }
-     else if (stm)
+     else if (!stm && cw || stm && cw)
        worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });
   if (stm)
       start = transpose(start);
