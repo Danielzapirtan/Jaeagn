@@ -6,6 +6,17 @@ const worker = new Worker('worker.js');
 const cw = false;
 const cb = true;
 
+cwel.value = cw;
+cbel.value = cb;
+
+const cwel = document.getElementById("cw");
+const cbel = document.getElementById("cb");
+
+function updateMode() {
+  cw = cwel.value;
+  cb = cbel.value;
+}
+
 function drawBoard() {
     for (let i = 0; i < 8; i++) {
         for (let j = 0; j < 8; j++) {
