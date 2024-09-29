@@ -188,8 +188,6 @@ drawChessboard(start);
 function updateMode() {
   cw = cwel.value;
   cb = cbel.value;
-  if (!stm && cw || stm && cb)
-    worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });
 }
 
 if (!stm && cw || stm && cb)
