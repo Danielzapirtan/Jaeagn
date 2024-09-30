@@ -105,7 +105,7 @@ function gendeep(board2, depthFlag, candFlag) {
     const valuelist3 = [];
     movelist2.forEach((move19) => {
       const board12 = makemove(board2, move19);
-      const value = -search(board12, 0, 2, -20000, 20000);
+      const value = -search(board12, 0, 4, -20000, 20000);
       valuelist.push(value);
     });
     for (let ix = 0; ix < movelist2.length; ix++)
@@ -266,7 +266,7 @@ function search(board1, level1, depth1, alpha1, beta1) {
     const value2 = eval1(board1, level1);
     if (value2 > -50) return value2;
   }
-  const movelist = gendeep(board1, 0, level1 > 0 && depth1 > 2);
+  const movelist = gendeep(board1, 0, level1 > 0 && depth1 > 4);
   let best = -32000;
   movelist.forEach((move1) => {
     const board4 = makemove(board1, move1);
