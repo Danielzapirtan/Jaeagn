@@ -359,3 +359,41 @@ function parsePGN(pgnString) {
 
   return games;
 }
+
+function sanToUci(san, board) {
+  // Validate input
+  if (!san || !board) {
+    throw new Error("Invalid input: SAN or board cannot be null or undefined.");
+  }
+
+  // Handle special cases
+  if (san === "O-O") {
+    return board.isWhiteToMove() ? "g1h1" : "g8h8";
+  }
+  if (san === "O-O-O") {
+    return board.isWhiteToMove() ? "c1g1" : "c8g8";
+  }
+
+  // Extract move components
+  const [piece, from, to] = san.match(/([RNBQK])?([a-h]\d)([a-h]\d)/).slice(1);
+
+  // Determine piece type
+  const pieceType = piece ? piece.toLowerCase() : board.getPiece(from).type;
+
+  // Handle pawn promotions
+  if (pieceType === "p" && to.charAt(1) === "8" && board.isWhiteToMove() || to.charAt(1) === "1" && !board.isWhiteToMove()) {
+    const promotion = san.match(/([QRNB])\d/);
+    if (promotion) {
+      return from + to + promotion[1].toLowerCase();
+    } else {
+      throw new Error("Invalid promotion notation: missing promotion piece.");
+    }
+  }
+
+  // Handle captures
+  if (board.getPiece(to)) {
+    return from + "x" + to;
+  }
+
+  return from + to;
+}
