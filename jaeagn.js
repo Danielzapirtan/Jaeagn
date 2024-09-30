@@ -397,3 +397,69 @@ function sanToUci(san, board) {
 
   return from + to;
 }
+
+function uciToSan(uci) {
+  const board = new Array(8).fill().map(() => new Array(8).fill(0));
+  const pieceMap = {
+    R: 'R',
+    N: 'N',
+    B: 'B',
+    Q: 'Q',
+    K: 'K',
+    P: 'P',
+    r: 'r',
+    n: 'n',
+    b: 'b',
+    q: 'q',
+    k: 'k',
+  };
+  const rankMap = ['8', '7', '6', '5', '4', '3', '2', '1'];
+  const fileMap = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+
+  // Populate the board with pieces
+  for (let i = 0; i < uci.length; i += 2) {
+    const file = uci.charCodeAt(i) - 97;
+    const rank = 7 - (uci.charCodeAt(i + 1) - 49);
+    board[rank][file] = pieceMap[uci[i]];
+  }
+
+  // Determine the moving piece and its destination
+  const movingPiece = board[7 - (uci.charCodeAt(uci.length - 2) - 49)][uci.charCodeAt(uci.length - 1) - 97];
+  const destinationRank = rankMap[7 - (uci.charCodeAt(uci.length - 2) - 49)];
+  const destinationFile = fileMap[uci.charCodeAt(uci.length - 1) - 97];
+
+  // Check for castling
+  if (movingPiece === 'K' && (uci === 'e1g1' || uci === 'e1c1' || uci === 'e8g8' || uci === 'e8c8')) {
+    if (uci === 'e1g1') {
+      return 'O-O';
+    } else if (uci === 'e1c1') {
+      return 'O-O-O';
+    } else if (uci === 'e8g8') {
+      return 'O-O';
+    } else {
+      return 'O-O-O';
+    }
+  }
+
+  // Handle pawn promotions
+  if (movingPiece === 'P' && (destinationRank === '1' || destinationRank === '8')) {
+    const promotionPiece = uci.charAt(uci.length - 1);
+    return destinationFile + destinationRank + '=' + promotionPiece;
+  }
+
+  // Handle captures
+  if (board[7 - (uci.charCodeAt(uci.length - 4) - 49)][uci.charCodeAt(uci.length - 3) - 97] !== 0) {
+    return fileMap[uci.charCodeAt(uci.length - 3) - 97] + 'x' + destinationFile + destinationRank;
+  }
+
+  // Handle ambiguous moves
+  if (board[7 - (uci.charCodeAt(uci.length - 4) - 49)][uci.charCodeAt(uci.length - 3) - 97] === movingPiece) {
+    const ambiguousFile = fileMap[uci.charCodeAt(uci.length - 3) - 97];
+    const ambiguousRank = rankMap[7 - (uci.charCodeAt(uci.length - 4) - 49)];
+    return ambiguousFile + ambiguousRank + movingPiece + destinationFile + destinationRank;
+  }
+
+  // Return the SAN notation
+  return movingPiece + destinationFile + destinationRank;
+}
+
