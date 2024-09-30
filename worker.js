@@ -280,7 +280,7 @@ function search(board1, level1, depth1, alpha1, beta1) {
       }
       const strbm = String.fromCharCode(bestmove[1] + 97) + String.fromCharCode(bestmove[0] + 49) + String.fromCharCode(bestmove[3] + 97) + String.fromCharCode(bestmove[2] + 49);
       gbestmove = bestmove;
-      if (level1 === 0 && depth1 > 3) {
+      if (level1 === 0 && depth1 > 4) {
         const date1 = new Date();
         const secs = (date1 - date0) / 1000.0;
         const nps = parseInt(nodes / secs);
