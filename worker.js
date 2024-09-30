@@ -181,16 +181,58 @@ function genRook(board10, i0, j0) {
 
 function genKing(board10, i0, j0) {
   const movelist4 = [];
-  for (let di = -1; di < 2; di++)
-    for (let dj = -1; dj < 2; dj++)
-      if (di !== 0 || dj !== 0)
+
+  // Regular king moves
+  for (let di = -1; di < 2; di++) {
+    for (let dj = -1; dj < 2; dj++) {
+      if (di !== 0 || dj !== 0) {
         try {
           if (board10.board[i0 + di][j0 + dj][1] !== "black") {
             const move18 = move(i0, j0, i0 + di, j0 + dj);
             movelist4.push(move18);
           }
-        } catch { }
+        } catch {}
+      }
+    }
+  }
+
+  // Castling
+  if (board10.board[i0][j0][1] === "black") {
+    // Kingside castling
+    if (
+      board10.board[i0][j0 + 1][0] === "" &&
+      board10.board[i0][j0 + 2][0] === "" &&
+      board10.board[i0][j0 + 3][0] === "" &&
+      board10.board[i0][j0 + 3][1] === "black" &&
+      !isKingInCheck(board10, i0, j0) &&
+      !isKingInCheck(board10, i0, j0 + 1) &&
+      !isKingInCheck(board10, i0, j0 + 2)
+    ) {
+      movelist4.push(move(i0, j0, i0, j0 + 2));
+    }
+
+    // Queenside castling
+    if (
+      board10.board[i0][j0 - 1][0] === "" &&
+      board10.board[i0][j0 - 2][0] === "" &&
+      board10.board[i0][j0 - 3][0] === "" &&
+      board10.board[i0][j0 - 4][0] === "R" &&
+      board10.board[i0][j0 - 4][1] === "black" &&
+      !isKingInCheck(board10, i0, j0) &&
+      !isKingInCheck(board10, i0, j0 - 1) &&
+      !isKingInCheck(board10, i0, j0 - 2)
+    ) {
+      movelist4.push(move(i0, j0, i0, j0 - 2));
+    }
+  }
+
   return movelist4;
+}
+
+// Function to check if the king is in check
+function isKingInCheck(board10, i0, j0) {
+  // ... Implement logic to check if the king is in check ...
+  return False;
 }
 
 function slider(board10, i0, j0, di, dj) {
