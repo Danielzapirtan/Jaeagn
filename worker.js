@@ -184,12 +184,12 @@ function genKing(board10, i0, j0) {
   for (let di = -1; di < 2; di++)
     for (let dj = -1; dj < 2; dj++)
       if (di !== 0 || dj !== 0)
-      try {
-        if (board10.board[i0 + di][j0 + dj][1] !== "black") {
-          const move18 = move(i0, j0, i0 + di, j0 + dj);
-          movelist4.push(move18);
-        }
-      } catch { }
+        try {
+          if (board10.board[i0 + di][j0 + dj][1] !== "black") {
+            const move18 = move(i0, j0, i0 + di, j0 + dj);
+            movelist4.push(move18);
+          }
+        } catch { }
   return movelist4;
 }
 
@@ -216,7 +216,7 @@ let stm;
 let msg;
 
 function search(board1, level1, depth1, alpha1, beta1) {
-   if (depth1 === 0) {
+  if (depth1 === 0) {
     const value2 = eval1(board1, level1);
     return value2;
   }
@@ -242,7 +242,7 @@ function search(board1, level1, depth1, alpha1, beta1) {
         const date1 = new Date();
         const secs = (date1 - date0) / 1000.0;
         const nps = parseInt(nodes / secs);
-		const formattedDate = date1.toISOString().slice(0, 19).replace('T', ' ');
+        const formattedDate = date1.toISOString().slice(0, 19).replace('T', ' ');
         msg = {
           timestamp: formattedDate,
           details: `Best move ${strbm}`
@@ -258,9 +258,9 @@ function search(board1, level1, depth1, alpha1, beta1) {
           details: `Search Stats Depth: ${depth1} NPS: ${nps} Time: ${parseInt(date1 - date0)}ms`
         };
         display.push(msg);
-self.postMessage({
-    variations: JSON.stringify(display),
-});
+        self.postMessage({
+          variations: JSON.stringify(display),
+        });
       }
       if (best > alpha1) alpha1 = best;
       if (alpha1 >= beta1) return best;
@@ -318,15 +318,15 @@ function analysis() {
   for (let depth3 = 2; depth3 < 6; depth3++) {
     search(gstart, 0, depth3, -20000, 20000);
   }
-	const formattedDate22 = new Date().toISOString().slice(0, 19).replace('T', ' '); 
-const msg22 = {
-          timestamp: formattedDate22,
-          details: "End Analysis"
-        };
-        display.push(msg22);
-self.postMessage({
+  const formattedDate22 = new Date().toISOString().slice(0, 19).replace('T', ' '); 
+  const msg22 = {
+    timestamp: formattedDate22,
+    details: "End Analysis"
+  };
+  display.push(msg22);
+  self.postMessage({
     variations: JSON.stringify(display),
-});
+  });
   return display;
 }
 
@@ -338,5 +338,5 @@ self.onmessage = (event) => {
   gstart = data.gstart;
   stm = data.stm;
   if (stm < 2)
-  variations = analysis();
+    variations = analysis();
 };

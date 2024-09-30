@@ -12,26 +12,26 @@ let gstart;
 let stm = 0;
 
 function drawBoard() {
-    for (let i = 0; i < 8; i++) {
-        for (let j = 0; j < 8; j++) {
-            ctx.fillStyle = (i + j) % 2 === 0 ? "#aaffff":"#aaffaa";
-            ctx.fillRect(i * squareSize, j * squareSize, squareSize, squareSize);
-            if (i === 7) {
-                ctx.font = "17px serif";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.fillStyle = "magenta";
-                ctx.fillText(String.fromCharCode(97 + j), j * squareSize + squareSize / 2, canvas.width - squareSize / 2);
-            }
-            if (j === 0) {
-                ctx.font = "17px serif";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.fillStyle = "magenta";
-                ctx.fillText(8 - i, canvas.width - squareSize / 2, i * squareSize + squareSize / 2);
-            }
-        }
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      ctx.fillStyle = (i + j) % 2 === 0 ? "#aaffff":"#aaffaa";
+      ctx.fillRect(i * squareSize, j * squareSize, squareSize, squareSize);
+      if (i === 7) {
+        ctx.font = "17px serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "magenta";
+        ctx.fillText(String.fromCharCode(97 + j), j * squareSize + squareSize / 2, canvas.width - squareSize / 2);
+      }
+      if (j === 0) {
+        ctx.font = "17px serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "magenta";
+        ctx.fillText(8 - i, canvas.width - squareSize / 2, i * squareSize + squareSize / 2);
+      }
     }
+  }
 }
 
 function drawPieces(board14) {
@@ -56,15 +56,15 @@ function drawPieces(board14) {
 }
 
 function toUnicodePiece(piece1) {
-	switch (piece1) {
-		case 'K': return String.fromCharCode(0x265A);
-		case 'Q': return String.fromCharCode(0x265B);
-		case 'R': return String.fromCharCode(0x265C);
-		case 'B': return String.fromCharCode(0x265D);
-		case 'N': return String.fromCharCode(0x265E);
-		case 'P': return String.fromCharCode(0x265F);
-	default: return " ";
-	}
+  switch (piece1) {
+    case 'K': return String.fromCharCode(0x265A);
+    case 'Q': return String.fromCharCode(0x265B);
+    case 'R': return String.fromCharCode(0x265C);
+    case 'B': return String.fromCharCode(0x265D);
+    case 'N': return String.fromCharCode(0x265E);
+    case 'P': return String.fromCharCode(0x265F);
+    default: return " ";
+  }
 }
 
 function drawChessboard(board13) {
@@ -249,11 +249,11 @@ worker.onmessage = (event) => {
     const fromCol = mymove.charCodeAt(0) - 97;
     let toRow = mymove.charCodeAt(3) - 49;
     const toCol = mymove.charCodeAt(2) - 97;
-    
+
     if (stm) {
-    	fromRow ^= 7;
-    	toRow ^= 7;
-    	}
+      fromRow ^= 7;
+      toRow ^= 7;
+    }
     // Make the move on the board (assuming move and makemove functions work)
     const move32 = move(fromRow, fromCol, toRow, toCol);
     if (stm)
@@ -263,25 +263,25 @@ worker.onmessage = (event) => {
       start = transpose(start);
     // Update the chessboard display (assuming drawChessboard function works)
     drawChessboard(start);
-  if (!stm)
+    if (!stm)
       start = transpose(start);
-     stm ^= 1;
+    stm ^= 1;
     output.innerHTML = `my move: ${mymove}`;
     if (abs(convertLastWordToFloat(msg74[msg74.length - 3].details)) > 7500) {
-	start = board;
-        worker.postMessage({ start: JSON.stringify({gstart: start, stm: 1}) });
-     }
-     else if (!stm && cw || stm && cb)
-       worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });
-  if (stm)
+      start = board;
+      worker.postMessage({ start: JSON.stringify({gstart: start, stm: 1}) });
+    }
+    else if (!stm && cw || stm && cb)
+      worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });
+    if (stm)
       start = transpose(start);
   }
 };
 
 function abs(x) {
-	return x < 0 ? -x : x;
-	}
-	
+  return x < 0 ? -x : x;
+}
+
 function convertLastWordToFloat(str) {
   const words = str.split(" ");
   const lastWord = words[words.length - 1];

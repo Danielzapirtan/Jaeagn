@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>
-    Jaeagn Chess
-  </title>
-</head>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+      Jaeagn Chess
+    </title>
+  </head>
 
-<body>
-  <header>
-    <h2>Jaeagn Chess</h2>
-  </header>
-  <main>
-    <style>
-      canvas {
-        border: 1px solid black;
-      }
+  <body>
+    <header>
+      <h2>Jaeagn Chess</h2>
+    </header>
+    <main>
+      <style>
+canvas {
+  border: 1px solid black;
+}
 
       #output {
         width: 640px;
@@ -27,22 +27,18 @@
         /* Enable scrolling if content exceeds container size */
         border: solid 2px;
       }
-    </style>
-    <p>
+      </style>
+      <p>
       <canvas id="chessboard" width="540" height="540">
       </canvas>
-    </p><br>
-<!--
-<label for="cw">Computer White</label>
-<input type="checkbox" id="cw" onclick="updateMode()">
-<label for="cb">Computer Black</label>
-<input type="checkbox" id="cb" onclick="updateMode()">
--->
-    <div id="players"></div>
-    <div id="output"></div>
-  </main>
-  <footer>
-  </footer>
-</body>
-<script src="jaeagn.js"></script>
-<script src="worker.js"></script>
+      </p><br>
+      <div id="players"></div>
+      <div id="output"></div>
+    </main>
+    <footer>
+    </footer>
+  </body>
+  <script src="jaeagn.js"></script>
+  <script src="worker.js"></script>
+</html>
+
