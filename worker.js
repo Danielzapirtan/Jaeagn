@@ -7,6 +7,7 @@ const board = transpose(
 let display = [];
 let gdepth;
 let gstart;
+const sdepth = 4;
 
 function eval1(board6, level) {
   let countk = 0;
@@ -105,7 +106,7 @@ function gendeep(board2, depthFlag, candFlag) {
     const valuelist3 = [];
     movelist2.forEach((move19) => {
       const board12 = makemove(board2, move19);
-      const value = -search(board12, 0, 4, -20000, 20000);
+      const value = -search(board12, 0, sdepth - 1, -20000, 20000);
       valuelist.push(value);
     });
     for (let ix = 0; ix < movelist2.length; ix++)
@@ -266,7 +267,7 @@ function search(board1, level1, depth1, alpha1, beta1) {
     const value2 = eval1(board1, level1);
     if (value2 > -50) return value2;
   }
-  const movelist = gendeep(board1, 0, level1 > 0 && depth1 > 4);
+  const movelist = gendeep(board1, 0, level1 > 0 && depth1 > sdepth);
   let best = -32000;
   movelist.forEach((move1) => {
     const board4 = makemove(board1, move1);
@@ -280,7 +281,7 @@ function search(board1, level1, depth1, alpha1, beta1) {
       }
       const strbm = String.fromCharCode(bestmove[1] + 97) + String.fromCharCode(bestmove[0] + 49) + String.fromCharCode(bestmove[3] + 97) + String.fromCharCode(bestmove[2] + 49);
       gbestmove = bestmove;
-      if (level1 === 0 && depth1 > 4) {
+      if (level1 === 0 && depth1 > sdepth) {
         const date1 = new Date();
         const secs = (date1 - date0) / 1000.0;
         const nps = parseInt(nodes / secs);
@@ -357,7 +358,7 @@ function analysis() {
   display = [];
   nodes = 0;
   date0 = new Date();
-  for (let depth3 = 2; depth3 < 256; depth3++) {
+  for (let depth3 = 2; depth3 < 7; depth3++) {
     search(gstart, 0, depth3, -20000, 20000);
   }
   const formattedDate22 = new Date().toISOString().slice(0, 19).replace('T', ' '); 
