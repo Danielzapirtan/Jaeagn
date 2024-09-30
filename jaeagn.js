@@ -287,3 +287,75 @@ function convertLastWordToFloat(str) {
   const lastWord = words[words.length - 1];
   return parseFloat(lastWord);
 }
+
+function parsePGN(pgnString) {
+  const pgn = pgnString.replace(/\r\n|\r|\n/g, '\n'); // Normalize line endings
+
+  const games = [];
+  let currentGame = {};
+  let currentMove = 1;
+  let inComment = false;
+  let inVariation = false;
+
+  for (let i = 0; i < pgn.length; i++) {
+    const char = pgn.charAt(i);
+
+    if (char === '[') {
+      // Start of a tag
+      const tagEnd = pgn.indexOf(']', i);
+      const tagString = pgn.substring(i + 1, tagEnd);
+      const [tagName, tagValue] = tagString.split('=');
+      currentGame[tagName] = tagValue.trim();
+      i = tagEnd;
+    } else if (char === '{') {
+      // Start of a comment
+      inComment = true;
+    } else if (char === '}') {
+      // End of a comment
+      inComment = false;
+    } else if (char === '(') {
+      // Start of a variation
+      inVariation = true;
+      currentMove--; // Decrement move number for variation
+    } else if (char === ')') {
+      // End of a variation
+      inVariation = false;
+    } else if (!inComment && !inVariation && char.match(/\d+\./)) {
+      // Start of a new move
+      currentGame.moves = currentGame.moves || [];
+      currentGame.moves.push({
+        moveNumber: currentMove,
+        white: '',
+        black: '',
+      });
+      currentMove++;
+    } else if (!inComment && !inVariation && char !== ' ' && char !== '\n') {
+      // Part of a move
+      const moveRegex = /([NBRQK]?[a-h]\d{1,2}|O-O|O-O-O)([^#]*)/;
+      const match = moveRegex.exec(pgn.substring(i));
+      if (match) {
+        const move = match[1];
+        const result = match[2];
+        if (currentGame.moves[currentGame.moves.length - 1].white === '') {
+          currentGame.moves[currentGame.moves.length - 1].white = move;
+        } else {
+          currentGame.moves[currentGame.moves.length - 1].black = move;
+        }
+        i += match[0].length - 1; // Adjust index for captured characters
+      }
+    } else if (char === '\n') {
+      // End of line
+      if (!inComment && !inVariation && currentGame.moves) {
+        games.push(currentGame);
+        currentGame = {};
+        currentMove = 1;
+      }
+    }
+  }
+
+  if (currentGame.moves) {
+    games.push(currentGame);
+  }
+
+  return games;
+}
