@@ -16,7 +16,7 @@ const newGameDialog = document.getElementById("newGameDialog");
 const startButton = document.getElementById("startButton");
 const cancelButton = document.getElementById("cancelButton");
 
-function newGame() }
+function newGame() {
   newGameDialog.classList.remove("hidden");
 }
 
