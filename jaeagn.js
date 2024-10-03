@@ -14,6 +14,7 @@ let searchDepth = 5;
 const newGameButton = document.getElementById("newGameButton");
 const newGameDialog = document.getElementById("newGameDialog");
 const startButton = document.getElementById("startButton");
+let engineon = false;
 
 function newGame() {
 	newGameDialog.classList.remove("hidden");
@@ -23,6 +24,7 @@ function analyzeMode() {
 	drawChessboard(start);
 	start = gstart;
 	searchDepth = 256;
+	engineon = true;
 	worker.postMessage({ start: JSON.stringify({gstart: start, stm, searchDepth}) });
 }
 
@@ -41,8 +43,12 @@ function startGame() {
 	stm = 0;
 	drawChessboard(start);
 	output.innerHTML = `new Game`;
-	if (cw && !stm || cb && stm)
+	if (cw && !stm || cb && stm) {
 		worker.postMessage({ start: JSON.stringify({gstart: start, stm, searchDepth}) });
+	} else {
+		engineon = false;
+		worker.postMessage({ start: JSON.stringify({gstart, stm: 2, searchDepth}) });
+	}
 	newGameDialog.classList.add("hidden");
 }
 
@@ -224,8 +230,12 @@ function updateMode() {
 	cb = cbel.value;
 }
 
-if (!stm && cw || stm && cb)
+if (!stm && cw || stm && cb) {
+	engineon = true;
 	worker.postMessage({ start: JSON.stringify({gstart, stm, searchDepth}) });
+} else {
+	worker.postMessage({ start: JSON.stringify({gstart, stm: 2, searchDepth}) });
+}
 
 function handleClick(i3, j3) {
 	if (!sqs) {
@@ -250,8 +260,13 @@ function handleClick(i3, j3) {
 		if (!stm)
 			start = transpose(start);
 		stm ^= 1;
-		if (!stm && cw || stm && cb)
+		if (!stm && cw || stm && cb) {
+			engineon = true;
 			worker.postMessage({ start: JSON.stringify({gstart, stm, searchDepth}) });
+		} else {
+			engineon = false;
+			worker.postMessage({ start: JSON.stringify({gstart, stm: 2, searchDepth}) });
+		}
 	}
 	sqs ^= 1;
 }
@@ -304,10 +319,13 @@ worker.onmessage = (event) => {
 		output.innerHTML = `my move: ${mymove}`;
 		if (abs(convertLastWordToFloat(msg74[msg74.length - 3].details)) > 7500) {
 			start = board;
+			engineon = false;
 			worker.postMessage({ start: JSON.stringify({gstart: start, stm: 1, searchDepth}) });
 		}
-		else if (!stm && cw || stm && cb)
+		else if (!stm && cw || stm && cb) {
+			engineon = true;
 			worker.postMessage({ start: JSON.stringify({gstart: start, stm, searchDepth}) });
+		}
 		if (stm)
 			start = transpose(start);
 	}
