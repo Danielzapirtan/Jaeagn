@@ -21,7 +21,6 @@ function newGame() {
 }
 
 function start() {
-	newGameDialog.classList.remove("hidden");
 	const whitePlayer = document.getElementById("whitePlayer").value;
 	const blackPlayer = document.getElementById("blackPlayer").value;
 	const difficulty = document.getElementById("difficulty").value;
@@ -141,7 +140,7 @@ const board = transpose(
 	)
 );
 drawChessboard(board);
-start();
+newGame();
 canvas.addEventListener("click", (event) => {
 	const rect = canvas.getBoundingClientRect();
 	const x = event.clientX - rect.left;
