@@ -10,6 +10,7 @@ let bp = cb ? "computer" : "human";
 document.getElementById("players").innerHTML = `${wp} - ${bp}`;
 let gstart;
 let stm = 0;
+let searchDepth = 4;
 const newGameButton = document.getElementById("newGameButton");
 const newGameDialog = document.getElementById("newGameDialog");
 const startButton = document.getElementById("startButton");
@@ -27,7 +28,11 @@ startButton.addEventListener("click", () => {
 
   // Start the game with the selected settings
   // ... (your game logic here
-  
+  wp = whitePlayer;
+  bp = blackPlayer;
+  cw = wp === 'computer';
+  cb = bp === 'computer';
+  searchDepth = difficulty === 'easy' ? 4 : (difficulty === 'medium' ? 5 : 6);
 
   // Close the dialog
   newGameDialog.classList.add("hidden");
@@ -216,7 +221,7 @@ function updateMode() {
 }
 
 if (!stm && cw || stm && cb)
-  worker.postMessage({ start: JSON.stringify({gstart, stm}) });
+  worker.postMessage({ start: JSON.stringify({gstart, stm, searchDepth}) });
 
 function handleClick(i3, j3) {
   if (!sqs) {
@@ -242,7 +247,7 @@ function handleClick(i3, j3) {
       start = transpose(start);
     stm ^= 1;
     if (!stm && cw || stm && cb)
-      worker.postMessage({ start: JSON.stringify({gstart, stm}) });
+      worker.postMessage({ start: JSON.stringify({gstart, stm, searchDepth}) });
   }
   sqs ^= 1;
 }
@@ -295,10 +300,10 @@ worker.onmessage = (event) => {
     output.innerHTML = `my move: ${mymove}`;
     if (abs(convertLastWordToFloat(msg74[msg74.length - 3].details)) > 7500) {
       start = board;
-      worker.postMessage({ start: JSON.stringify({gstart: start, stm: 1}) });
+      worker.postMessage({ start: JSON.stringify({gstart: start, stm: 1, searchDepth}) });
     }
     else if (!stm && cw || stm && cb)
-      worker.postMessage({ start: JSON.stringify({gstart: start, stm}) });
+      worker.postMessage({ start: JSON.stringify({gstart: start, stm, searchDepth}) });
     if (stm)
       start = transpose(start);
   }
