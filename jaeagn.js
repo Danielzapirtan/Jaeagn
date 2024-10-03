@@ -32,6 +32,7 @@ function start() {
 	newGameDialog.classList.add("hidden");
 	document.getElementById("players").innerHTML = `${wp} - ${bp}`;
 	gstart = board;
+	start = gstart;
 	stm = 0;
 	if (cw && !stm || cb && stm)
 		worker.postMessage({ start: JSON.stringify({gstart: start, stm, searchDepth}) });
