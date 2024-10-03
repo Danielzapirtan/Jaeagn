@@ -140,7 +140,6 @@ const board = transpose(
 	)
 );
 drawChessboard(board);
-newGame();
 canvas.addEventListener("click", (event) => {
 	const rect = canvas.getBoundingClientRect();
 	const x = event.clientX - rect.left;
