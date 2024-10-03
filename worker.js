@@ -388,8 +388,9 @@ self.onmessage = (event) => {
 	gstart = data.gstart;
 	stm = data.stm;
 	searchDepth = data.searchDepth;
-	if (stm < 2) {
+	if (stm < 2)
 		variations = analysis();
-	};
 	else
 		stopAnalysis = true;
+}
+
