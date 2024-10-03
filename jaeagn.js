@@ -10,6 +10,32 @@ let bp = cb ? "computer" : "human";
 document.getElementById("players").innerHTML = `${wp} - ${bp}`;
 let gstart;
 let stm = 0;
+const newGameButton = document.getElementById("newGameButton");
+const newGameDialog = document.getElementById("newGameDialog");
+const startButton = document.getElementById("startButton");
+const cancelButton = document.getElementById("cancelButton");
+
+newGameButton.addEventListener("click", () => {
+  newGameDialog.classList.remove("hidden");
+});
+
+startButton.addEventListener("click", () => {
+  // Get selected values
+  const whitePlayer = document.getElementById("whitePlayer").value;
+  const blackPlayer = document.getElementById("blackPlayer").value;
+  const difficulty = document.getElementById("difficulty").value;
+
+  // Start the game with the selected settings
+  // ... (your game logic here
+  
+
+  // Close the dialog
+  newGameDialog.classList.add("hidden");
+});
+
+cancelButton.addEventListener("click", () => {
+  newGameDialog.classList.add("hidden");
+});
 
 function drawBoard() {
   for (let i = 0; i < 8; i++) {
