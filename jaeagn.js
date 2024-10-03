@@ -28,6 +28,11 @@ function analyzeMode() {
 	worker.postMessage({ start: JSON.stringify({gstart: start, stm, searchDepth}) });
 }
 
+function stopEngine() {
+	engineon = false;
+	worker.postMessage({ start: JSON.stringify({gstart: start, stm: 2, searchDepth}) });
+}
+
 function startGame() {
 	const whitePlayer = document.getElementById("whitePlayer").value;
 	const blackPlayer = document.getElementById("blackPlayer").value;
@@ -45,9 +50,6 @@ function startGame() {
 	output.innerHTML = `new Game`;
 	if (cw && !stm || cb && stm) {
 		worker.postMessage({ start: JSON.stringify({gstart: start, stm, searchDepth}) });
-	} else {
-		engineon = false;
-		worker.postMessage({ start: JSON.stringify({gstart, stm: 2, searchDepth}) });
 	}
 	newGameDialog.classList.add("hidden");
 }
@@ -234,7 +236,6 @@ if (!stm && cw || stm && cb) {
 	engineon = true;
 	worker.postMessage({ start: JSON.stringify({gstart, stm, searchDepth}) });
 } else {
-	worker.postMessage({ start: JSON.stringify({gstart, stm: 2, searchDepth}) });
 }
 
 function handleClick(i3, j3) {
@@ -265,7 +266,6 @@ function handleClick(i3, j3) {
 			worker.postMessage({ start: JSON.stringify({gstart, stm, searchDepth}) });
 		} else {
 			engineon = false;
-			worker.postMessage({ start: JSON.stringify({gstart, stm: 2, searchDepth}) });
 		}
 	}
 	sqs ^= 1;
