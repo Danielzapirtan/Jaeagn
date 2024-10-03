@@ -32,6 +32,8 @@ function startGame() {
 	gstart = board;
 	start = gstart;
 	stm = 0;
+	drawChessboard(start);
+	output.innerHTML = `new Game`;
 	if (cw && !stm || cb && stm)
 		worker.postMessage({ start: JSON.stringify({gstart: start, stm, searchDepth}) });
 	newGameDialog.classList.add("hidden");
