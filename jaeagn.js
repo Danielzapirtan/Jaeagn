@@ -10,7 +10,7 @@ let bp = cb ? "computer" : "human";
 document.getElementById("players").innerHTML = `${wp} - ${bp}`;
 let gstart;
 let stm = 0;
-let searchDepth = 4;
+let searchDepth = 5;
 const newGameButton = document.getElementById("newGameButton");
 const newGameDialog = document.getElementById("newGameDialog");
 const startButton = document.getElementById("startButton");
