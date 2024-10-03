@@ -8,7 +8,7 @@ let display = [];
 let gdepth;
 let gstart;
 const sdepth = 4;
-let stopAnalysis;
+let stopAnalysis = false;
 function eval1(board6, level) {
 	let countk = 0;
 	let value = 0;
@@ -283,7 +283,7 @@ function search(board1, level1, depth1, alpha1, beta1) {
 			gbestmove = bestmove;
 			if (level1 === 0 && depth1 > sdepth) {
 				if (stopAnalysis)
-					break;
+					return -20000;
 				const date1 = new Date();
 				const secs = (date1 - date0) / 1000.0;
 				const nps = parseInt(nodes / secs);
