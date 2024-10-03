@@ -26,9 +26,9 @@ function start() {
 	const difficulty = document.getElementById("difficulty").value;
 	wp = whitePlayer;
 	bp = blackPlayer;
-	cw = wp === 'computer';
-	cb = bp === 'computer';
-	searchDepth = difficulty === 'easy' ? 5 : (difficulty === 'medium' ? 6 : 7);
+	cw = wp === "computer";
+	cb = bp === "computer";
+	searchDepth = difficulty === "easy" ? 5 : (difficulty === "medium" ? 6 : 7);
 	newGameDialog.classList.add("hidden");
 	document.getElementById("players").innerHTML = `${wp} - ${bp}`;
 	gstart = board;
