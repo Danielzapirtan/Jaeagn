@@ -225,6 +225,7 @@ drawChessboard(start);
 function stopEngine() {
 	engineon = false;
 	worker.postMessage({ start: JSON.stringify({start, stm: 2, searchDepth}) });
+	output.innerHTML = `Engine stopped by user`;
 }
 
 function updateMode() {
