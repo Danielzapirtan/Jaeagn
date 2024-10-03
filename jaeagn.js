@@ -28,11 +28,6 @@ function analyzeMode() {
 	worker.postMessage({ start: JSON.stringify({gstart: start, stm, searchDepth}) });
 }
 
-function stopEngine() {
-	engineon = false;
-	worker.postMessage({ start: JSON.stringify({gstart, stm: 2, searchDepth}) });
-}
-
 function startGame() {
 	const whitePlayer = document.getElementById("whitePlayer").value;
 	const blackPlayer = document.getElementById("blackPlayer").value;
@@ -226,6 +221,11 @@ let j7;
 start = board;
 gstart = start;
 drawChessboard(start);
+
+function stopEngine() {
+	engineon = false;
+	worker.postMessage({ start: JSON.stringify({start, stm: 2, searchDepth}) });
+}
 
 function updateMode() {
 	cw = cwel.value;
