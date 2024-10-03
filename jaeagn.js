@@ -21,6 +21,7 @@ function newGame() {
 }
 
 function start() {
+	newGameDialog.classList.remove("hidden");
 	const whitePlayer = document.getElementById("whitePlayer").value;
 	const blackPlayer = document.getElementById("blackPlayer").value;
 	const difficulty = document.getElementById("difficulty").value;
@@ -32,6 +33,7 @@ function start() {
 	newGameDialog.classList.add("hidden");
 	document.getElementById("players").innerHTML = `${wp} - ${bp}`;
 	gstart = board;
+	stm = 0;
 	if (cw && !stm || cb && stm)
 		worker.postMessage({ start: JSON.stringify({gstart: start, stm, searchDepth}) });
 };
