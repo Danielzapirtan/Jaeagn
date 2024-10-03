@@ -30,7 +30,7 @@ function analyzeMode() {
 
 function stopEngine() {
 	engineon = false;
-	worker.postMessage({ start: JSON.stringify({gstart: start, stm: 2, searchDepth}) });
+	worker.postMessage({ start: JSON.stringify({gstart, stm: 2, searchDepth}) });
 }
 
 function startGame() {
