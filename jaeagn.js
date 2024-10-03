@@ -11,6 +11,7 @@ document.getElementById("players").innerHTML = `${wp} - ${bp}`;
 let gstart;
 let stm = 0;
 let searchDepth = 5;
+start();
 const newGameButton = document.getElementById("newGameButton");
 const newGameDialog = document.getElementById("newGameDialog");
 const startButton = document.getElementById("startButton");
@@ -20,7 +21,7 @@ function newGame() }
   newGameDialog.classList.remove("hidden");
 }
 
-startButton.addEventListener("click", () => {
+function start() {
   // Get selected values
   const whitePlayer = document.getElementById("whitePlayer").value;
   const blackPlayer = document.getElementById("blackPlayer").value;
@@ -36,7 +37,7 @@ startButton.addEventListener("click", () => {
 
   // Close the dialog
   newGameDialog.classList.add("hidden");
-});
+};
 
 cancelButton.addEventListener("click", () => {
   newGameDialog.classList.add("hidden");
