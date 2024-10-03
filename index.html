@@ -1,52 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-      Jaeagn Chess
-    </title>
-    <link rel="stylesheet" href="styles.css">
-  </head>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>
+			Jaeagn Chess
+		</title>
+		<link rel="stylesheet" href="styles.css">
+	</head>
 
-  <body>
-    <header>
-      <h2>Jaeagn Chess</h2>
-    </header>
-    <main>
-      <p>
-      <canvas id="chessboard" width="540" height="540">
-      </canvas>
-      </p><br>
-<button id="newGameButton">New Game</button>
-<div id="newGameDialog" class="hidden">
-  <h2>New Game Settings</h2>
-  <label for="whitePlayer">White Player:</label>
-  <select id="whitePlayer">
-    <option value="human">Human</option>
-    <option value="computer">Computer</option>
-  </select>
-  <label for="blackPlayer">Black Player:</label>
-  <select id="blackPlayer">
-    <option value="human">Human</option>
-    <option value="computer">Computer</option>
-  </select>
-  <label for="difficulty">Difficulty:</label>
-  <select id="difficulty">
-    <option value="easy">Easy</option>
-    <option value="medium">Medium</option>
-    <option value="hard">Hard</option>
-  </select>
-  <button id="startButton">Start</button>
-  <button id="cancelButton">Cancel</button>
-</div>
-      <div id="players"></div>
-      <div id="output"></div>
-    </main>
-    <footer>
-    </footer>
-  </body>
-  <script src="jaeagn.js"></script>
-  <script src="worker.js"></script>
+	<body>
+		<header>
+			<h2>Jaeagn Chess</h2>
+		</header>
+		<main>
+			<p>
+			<canvas id="chessboard" width="540" height="540">
+			</canvas>
+			</p><br>
+			<button onclick="newGame()">New Game</button>
+			<div id="newGameDialog" class="hidden">			
+				<h2>New Game Settings</h2>
+				<label for="whitePlayer">White Player:</label>
+				<select id="whitePlayer">
+					<option value="human">Human</option>
+					<option value="computer">Computer</option>
+				</select>
+				<label for="blackPlayer">Black Player:</label>
+				<select id="blackPlayer">
+					<option value="human">Human</option>
+					<option value="computer">Computer</option>
+				</select>
+				<label for="difficulty">Difficulty:</label>
+				<select id="difficulty">
+					<option value="easy">Easy</option>
+					<option value="medium">Medium</option>
+					<option value="hard">Hard</option>
+				</select>
+				<button id="startButton">Start</button>
+				<button id="cancelButton">Cancel</button>
+			</div>
+			<div id="players"></div>
+			<div id="output"></div>
+		</main>
+		<footer>
+		</footer>
+	</body>
+	<script src="jaeagn.js"></script>
+	<script src="worker.js"></script>
 </html>
 

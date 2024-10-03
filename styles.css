@@ -1,28 +1,32 @@
 canvas {
-  border: 1px solid black;
+	border: 1px solid black;
+}
+
+#newGameButton {
+	font-size: 17px;
+	background-color: #99ff55;
+	color: #ffffff;
+	padding: 4px;
 }
 
 #newGameDialog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  padding: 20px;
-  z-index: 9999;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	padding: 20px;
+	z-index: 9999;
 }
 
 .hidden {
-  display: none;
+	display: none;
 }
 
 #output {
-        width: 640px;
-        /* Adjust the width as needed */
-        height: 200px;
-        /* Adjust the height as needed */
-        overflow: auto;
-        /* Enable scrolling if content exceeds container size */
-        border: solid 2px;
-      }
+	width: 640px;
+	height: 200px;
+	overflow: auto;
+	border: solid 2px;
+}
 

@@ -16,9 +16,9 @@ const newGameDialog = document.getElementById("newGameDialog");
 const startButton = document.getElementById("startButton");
 const cancelButton = document.getElementById("cancelButton");
 
-newGameButton.addEventListener("click", () => {
+function newGame() }
   newGameDialog.classList.remove("hidden");
-});
+}
 
 startButton.addEventListener("click", () => {
   // Get selected values
