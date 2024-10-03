@@ -19,6 +19,13 @@ function newGame() {
 	newGameDialog.classList.remove("hidden");
 }
 
+function analyzeMode() {
+	drawChessboard(start);
+	start = gstart;
+	searchDepth = 256;
+	worker.postMessage({ start: JSON.stringify({gstart: start, stm, searchDepth}) });
+}
+
 function startGame() {
 	const whitePlayer = document.getElementById("whitePlayer").value;
 	const blackPlayer = document.getElementById("blackPlayer").value;
