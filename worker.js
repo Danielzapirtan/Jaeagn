@@ -354,11 +354,13 @@ function move(x0, x1, y0, y1, prom = 0) {
   return [x0, x1, y0, y1];
 }
 
+let searchDepth;
+
 function analysis() {
   display = [];
   nodes = 0;
   date0 = new Date();
-  for (let depth3 = 2; depth3 < 6; depth3++) {
+  for (let depth3 = 2; depth3 <= searchDepth; depth3++) {
     search(gstart, 0, depth3, -20000, 20000);
   }
   const formattedDate22 = new Date().toISOString().slice(0, 19).replace('T', ' '); 
@@ -380,6 +382,7 @@ self.onmessage = (event) => {
   const data = JSON.parse(event.data.start);
   gstart = data.gstart;
   stm = data.stm;
+  searchDepth = data.searchDepth;
   if (stm < 2)
     variations = analysis();
 };
