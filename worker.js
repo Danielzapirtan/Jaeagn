@@ -283,7 +283,7 @@ function search(board1, level1, depth1, alpha1, beta1) {
 			gbestmove = bestmove;
 			if (level1 === 0 && depth1 > sdepth) {
 				if (stopAnalysis)
-					return 20000;
+					return -20000;
 				const date1 = new Date();
 				const secs = (date1 - date0) / 1000.0;
 				const nps = parseInt(nodes / secs);
@@ -366,6 +366,7 @@ function analysis() {
 	for (let depth3 = 2; depth3 <= searchDepth; depth3++) {
 		search(gstart, 0, depth3, -20000, 20000);
 		if (stopAnalysis)
+			variations: 'Quit Analysis';
 			break;
 	}
 	const formattedDate22 = new Date().toISOString().slice(0, 19).replace('T', ' '); 
