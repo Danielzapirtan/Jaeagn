@@ -11,7 +11,6 @@ document.getElementById("players").innerHTML = `${wp} - ${bp}`;
 let gstart;
 let stm = 0;
 let searchDepth = 5;
-start();
 const newGameButton = document.getElementById("newGameButton");
 const newGameDialog = document.getElementById("newGameDialog");
 const startButton = document.getElementById("startButton");
@@ -142,6 +141,7 @@ const board = transpose(
   )
 );
 drawChessboard(board);
+start();
 canvas.addEventListener("click", (event) => {
   const rect = canvas.getBoundingClientRect();
   const x = event.clientX - rect.left;
