@@ -14,18 +14,9 @@ let searchDepth = 5;
 const newGameButton = document.getElementById("newGameButton");
 const newGameDialog = document.getElementById("newGameDialog");
 const startButton = document.getElementById("startButton");
-let engineon = false;
 
 function newGame() {
 	newGameDialog.classList.remove("hidden");
-}
-
-function analyzeMode() {
-	drawChessboard(start);
-	start = gstart;
-	searchDepth = 256;
-	engineon = true;
-	worker.postMessage({ start: JSON.stringify({gstart: start, stm, searchDepth}) });
 }
 
 function startGame() {
@@ -222,19 +213,19 @@ start = board;
 gstart = start;
 drawChessboard(start);
 
+function analyzeMode() {
+	drawChessboard(start);
+	start = gstart;
+	searchDepth = 256;
+	worker.postMessage({ start: JSON.stringify({gstart: start, stm, searchDepth}) });
+}
+
 function stopEngine() {
-	engineon = false;
-	worker.postMessage({ start: JSON.stringify({start, stm: 2, searchDepth}) });
+	worker.terminate();
 	output.innerHTML = `Engine stopped by user`;
 }
 
-function updateMode() {
-	cw = cwel.value;
-	cb = cbel.value;
-}
-
 if (!stm && cw || stm && cb) {
-	engineon = true;
 	worker.postMessage({ start: JSON.stringify({gstart, stm, searchDepth}) });
 } else {
 }
@@ -263,10 +254,8 @@ function handleClick(i3, j3) {
 			start = transpose(start);
 		stm ^= 1;
 		if (!stm && cw || stm && cb) {
-			engineon = true;
 			worker.postMessage({ start: JSON.stringify({gstart, stm, searchDepth}) });
 		} else {
-			engineon = false;
 		}
 	}
 	sqs ^= 1;
@@ -320,11 +309,9 @@ worker.onmessage = (event) => {
 		output.innerHTML = `my move: ${mymove}`;
 		if (abs(convertLastWordToFloat(msg74[msg74.length - 3].details)) > 7500) {
 			start = board;
-			engineon = false;
-			worker.postMessage({ start: JSON.stringify({gstart: start, stm: 1, searchDepth}) });
+			worker.postMessage({ start: JSON.stringify({gstart: start, stm, searchDepth}) });
 		}
 		else if (!stm && cw || stm && cb) {
-			engineon = true;
 			worker.postMessage({ start: JSON.stringify({gstart: start, stm, searchDepth}) });
 		}
 		if (stm)
