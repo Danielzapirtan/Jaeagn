@@ -282,6 +282,8 @@ function search(board1, level1, depth1, alpha1, beta1) {
 			const strbm = String.fromCharCode(bestmove[1] + 97) + String.fromCharCode(bestmove[0] + 49) + String.fromCharCode(bestmove[3] + 97) + String.fromCharCode(bestmove[2] + 49);
 			gbestmove = bestmove;
 			if (level1 === 0 && depth1 > sdepth) {
+				if (stopAnalysis)
+					return 20000;
 				const date1 = new Date();
 				const secs = (date1 - date0) / 1000.0;
 				const nps = parseInt(nodes / secs);
@@ -308,9 +310,6 @@ function search(board1, level1, depth1, alpha1, beta1) {
 			if (best > alpha1) alpha1 = best;
 			if (alpha1 >= beta1) return best;
 		}
-		if (level1 === 0)
-		if (stopAnalysis)
-			break;
 	});
 	return best;
 }
