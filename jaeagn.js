@@ -19,7 +19,7 @@ function newGame() {
 	newGameDialog.classList.remove("hidden");
 }
 
-function start() {
+function startGame() {
 	const whitePlayer = document.getElementById("whitePlayer").value;
 	const blackPlayer = document.getElementById("blackPlayer").value;
 	const difficulty = document.getElementById("difficulty").value;
