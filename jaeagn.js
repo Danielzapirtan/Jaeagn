@@ -32,7 +32,7 @@ startButton.addEventListener("click", () => {
   bp = blackPlayer;
   cw = wp === 'computer';
   cb = bp === 'computer';
-  searchDepth = difficulty === 'easy' ? 4 : (difficulty === 'medium' ? 5 : 6);
+  searchDepth = difficulty === 'easy' ? 5 : (difficulty === 'medium' ? 6 : 7);
 
   // Close the dialog
   newGameDialog.classList.add("hidden");
