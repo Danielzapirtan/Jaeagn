@@ -8,7 +8,7 @@ let display = [];
 let gdepth;
 let gstart;
 const sdepth = 4;
-
+let stopAnalysis;
 function eval1(board6, level) {
   let countk = 0;
   let value = 0;
@@ -282,6 +282,8 @@ function search(board1, level1, depth1, alpha1, beta1) {
       const strbm = String.fromCharCode(bestmove[1] + 97) + String.fromCharCode(bestmove[0] + 49) + String.fromCharCode(bestmove[3] + 97) + String.fromCharCode(bestmove[2] + 49);
       gbestmove = bestmove;
       if (level1 === 0 && depth1 > sdepth) {
+	  if (stopAnalysis)
+		  break;
         const date1 = new Date();
         const secs = (date1 - date0) / 1000.0;
         const nps = parseInt(nodes / secs);
@@ -360,8 +362,11 @@ function analysis() {
   display = [];
   nodes = 0;
   date0 = new Date();
+	stopAnalysis = false;
   for (let depth3 = 2; depth3 <= searchDepth; depth3++) {
     search(gstart, 0, depth3, -20000, 20000);
+	  if (stopAnalysis)
+		  break;
   }
   const formattedDate22 = new Date().toISOString().slice(0, 19).replace('T', ' '); 
   const msg22 = {
@@ -385,4 +390,6 @@ self.onmessage = (event) => {
   searchDepth = data.searchDepth;
   if (stm < 2)
     variations = analysis();
+	else
+		stopAnalysis = true;
 };
