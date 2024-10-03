@@ -14,7 +14,6 @@ let searchDepth = 5;
 const newGameButton = document.getElementById("newGameButton");
 const newGameDialog = document.getElementById("newGameDialog");
 const startButton = document.getElementById("startButton");
-const cancelButton = document.getElementById("cancelButton");
 
 function newGame() {
 	newGameDialog.classList.remove("hidden");
@@ -37,10 +36,6 @@ function start() {
 		worker.postMessage({ start: JSON.stringify({gstart: start, stm, searchDepth}) });
 	newGameDialog.classList.add("hidden");
 }
-
-cancelButton.addEventListener("click", () => {
-	newGameDialog.classList.add("hidden");
-});
 
 function drawBoard() {
 	for (let i = 0; i < 8; i++) {
