@@ -366,8 +366,10 @@ function analysis() {
 	for (let depth3 = 2; depth3 <= searchDepth; depth3++) {
 		search(gstart, 0, depth3, -20000, 20000);
 		if (stopAnalysis)
+	self.postMessage({
 			variations: 'Quit Analysis';
-			break;
+});
+			return display;
 	}
 	const formattedDate22 = new Date().toISOString().slice(0, 19).replace('T', ' '); 
 	const msg22 = {
