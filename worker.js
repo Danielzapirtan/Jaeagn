@@ -365,11 +365,12 @@ function analysis() {
 	stopAnalysis = false;
 	for (let depth3 = 2; depth3 <= searchDepth; depth3++) {
 		search(gstart, 0, depth3, -20000, 20000);
-		if (stopAnalysis)
+		if (stopAnalysis) {
 	self.postMessage({
-			variations: 'Quit Analysis';
+			variations: 'Quit Analysis'
 });
 			return display;
+		}
 	}
 	const formattedDate22 = new Date().toISOString().slice(0, 19).replace('T', ' '); 
 	const msg22 = {
