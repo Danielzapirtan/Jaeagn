@@ -308,6 +308,7 @@ function search(board1, level1, depth1, alpha1, beta1) {
 			if (best > alpha1) alpha1 = best;
 			if (alpha1 >= beta1) return best;
 		}
+		if (level1 === 0)
 		if (stopAnalysis)
 			break;
 	});
