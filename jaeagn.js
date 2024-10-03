@@ -151,7 +151,6 @@ canvas.addEventListener("click", (event) => {
 });
 
 const output = document.getElementById("output");
-let display = [];
 
 function removeFirstChild(element) {
 	if (element.firstChild) {
