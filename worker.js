@@ -13,6 +13,8 @@ function eval1(board6, level) {
 	let countk = 0;
 	let value = 0;
 	nodes++;
+	if ((nodes % 200) == 0)
+		setTimeout(100);
 	for (let i = 0; i < 8; i++)
 		for (let j = 0; j < 8; j++) {
 			const piece1 = board6.board[i][j];
