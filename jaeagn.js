@@ -27,7 +27,7 @@ function startGame() {
 	bp = blackPlayer;
 	cw = wp === "computer";
 	cb = bp === "computer";
-	searchDepth = difficulty === "easy" ? 5 : (difficulty === "medium" ? 6 : 7);
+	searchDepth = difficulty === "easy" ? 4 : (difficulty === "medium" ? 5 : 6);
 	document.getElementById("players").innerHTML = `${wp} - ${bp}`;
 	gstart = board;
 	start = gstart;
