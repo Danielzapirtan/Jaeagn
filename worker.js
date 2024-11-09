@@ -7,7 +7,7 @@ const board = transpose(
 let display = [];
 let gdepth;
 let gstart;
-const sdepth = 3;
+const sdepth = 2;
 
 function eval1(board6, level) {
 	let countk = 0;
