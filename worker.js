@@ -11,31 +11,22 @@ const sdepth = 2;
 
 // Fixed version:
 function convertBoard(oldboard) {
-  const board = [];
-  let rankArray = [];
-
-  oldboard.forEach((sq, index) => {
-    // Convert piece to proper format
-    let piece = null;
-    if (sq[1] === "") {
-      piece = null;
-    } else if (sq[1] === "black") {
-      piece = sq[0].toUpperCase();
-    } else {
-      piece = sq[0].toLowerCase(); // Fixed: using toLowerCase() instead of toLower
-    }
-
-    // Add piece to current rank
-    rankArray.push(piece);
-
-    // When we complete a rank (8 squares), add it to board and start new rank
-    if ((index + 1) % 8 === 0) {
-      board.push(rankArray);
-      rankArray = [];
-    }
-  });
-
-  return board;
+  return oldboard.map(rank => 
+    rank.map(sq => {
+      // If square is empty
+      if (sq[1] === "") {
+        return null;
+      }
+      // If piece is black
+      else if (sq[1] === "black") {
+        return sq[0].toUpperCase();
+      }
+      // If piece is white
+      else {
+        return sq[0].toLowerCase();
+      }
+    })
+  );
 }
 
 // Example usage:
