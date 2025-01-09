@@ -9,6 +9,10 @@ let gdepth;
 let gstart;
 const sdepth = 2;
 
+function eval(board, level) {
+
+}
+
 function eval1(board6, level) {
 	let countk = 0;
 	let value = 0;
