@@ -34,8 +34,8 @@ function convertBoard(oldboard) {
 //     // ... rest of the board
 // ];
 // const newBoard = convertBoard(oldboard;
-async function eval2(oldboard) {
-  const board446 = convertBoard(oldboard);
+async function eval2(oldboard1) {
+  const board446 = convertBoard(oldboard1);
 	try {
     const response = await fetch("http://localhost:5000/evaluate", {
       method: "POST",
