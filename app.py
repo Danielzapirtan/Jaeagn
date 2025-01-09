@@ -69,7 +69,7 @@ def evaluate_position():
 
         return jsonify({
             'status': 'success',
-            'evaluation': evaluation
+            'evaluation': 0
             })
 
     except subprocess.CalledProcessError as e:
