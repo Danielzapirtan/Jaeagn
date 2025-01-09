@@ -4,8 +4,6 @@ const board = transpose(
 	)
 );
 
-drawChessboard(board);
-
 const canvas = document.getElementById("chessboard");
 const ctx = canvas.getContext("2d");
 const squareSize = canvas.width / 9;
@@ -108,6 +106,8 @@ function drawChessboard(board13) {
 	drawBoard();
 	drawPieces(board13);
 }
+
+drawChessboard(board);
 
 function createTable(jsonString) {
 	// Parse the JSON string into a JavaScript object
