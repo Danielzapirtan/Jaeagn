@@ -18,9 +18,9 @@ function convertBoard(oldboard) {
 			if (sq[1] === "")
 				newrank.push(null);
 			else if (sq[1] === "black")
-				newrank.push(sq[0].toLowerCase();
+				newrank.push(sq[0].toLowerCase());
 			else
-				newrank.push(sq[0].toUpperCase();
+				newrank.push(sq[0].toUpperCase());
 		});
 		board.push(newrank);
 	});
