@@ -19,7 +19,7 @@ function convertBoard(oldboard) {
 		let piece = null;
 		if (sq[1] === "") {
 			piece = null;
-		} else if (sq[1] === "white") {
+		} else if (sq[1] === "black") {
 			piece = sq[0].toUpperCase();
 		} else {
 			piece = sq[0].toLowerCase();  // Fixed: using toLowerCase() instead of toLower
