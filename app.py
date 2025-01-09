@@ -38,7 +38,7 @@ def board_to_fen(board_json):
 
     # For simplicity, assuming it's white's turn, all castling rights available,
     # no en passant, and starting move counts
-    return f"{position} w KQkq - 0 1"
+    return f"{position}"
 
 @app.route('/evaluate', methods=['POST'])
 def evaluate_position():
