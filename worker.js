@@ -78,7 +78,7 @@ async function eval2(oldboard1) {
 
 function eval1(board6, level) {
 const valres = parseFloat(eval2(board6));
-//if (Math.abs(valres) < 15000.0)
+if (Math.abs(valres) < 15000.0)
 	return valres;
 let countk = 0;
 	let value = 0;
