@@ -53,19 +53,16 @@ def evaluate_position():
         baeagn_path = "./baeagn"
         if not os.access(baeagn_path, os.X_OK):
             os.chmod(baeagn_path, 0o755)
-        result1 = subprocess.run(
-                ["echo", fen, ">", "jaeagn.fen"]
-                )        
         # Execute baeagn with the FEN
         result = subprocess.run(
-                [baeagn_path],
+                [baeagn_path fen],
                 capture_output=True,
                 text=True,
                 check=True
                 )
 
         # Get evaluation from stdout
-        evaluation = float(result.stdout.strip()) / 100.0;
+        evaluation = float(result.stdout.strip());
 
         return jsonify({
             'status': 'success',
