@@ -86,15 +86,12 @@ async function eval2(oldboard) {
 //     .then(evaluation => console.log('Position evaluation:', evaluation))
 //     .catch(error => console.error('Error:', error));
 
-let done = 0;
 function eval1(board6, level) {
 const valres = parseFloat(eval2(board6));
-if (!done) {
-	done = 1;
-	alert(valres);
-}
 if (Math.abs(valres) < 15000.0)
-	return valres; 
+	return valres;
+else
+	return valres * 0.01;
 let countk = 0;
 	let value = 0;
 	nodes++;
