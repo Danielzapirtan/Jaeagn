@@ -45,11 +45,11 @@ function convertBoard(oldboard) {
 //     // ... rest of the board
 // ];
 // const newBoard = convertBoard(oldboard;
-function eval2(oldboard) {
+async function eval2(oldboard) {
   const board = convertBoard(oldboard);
   alert(JSON.stringify({ board }));
   try {
-    const response = fetch("http://localhost:5000/evaluate", {
+    const response = await fetch("http://localhost:5000/evaluate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -58,11 +58,11 @@ function eval2(oldboard) {
     });
 
     if (!response.ok) {
-      const errorData = response.json();
+      const errorData = await response.json();
       throw new Error(errorData.message || "Evaluation failed");
     }
 
-    const data = response.json();
+    const data = await response.json();
     return data.evaluation;
   } catch (error) {
     console.error("Evaluation error:", error);
