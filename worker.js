@@ -13,7 +13,7 @@ const sdepth = 2;
 function convertBoard(oldboard) {
 	const board = [];
 	oldboard.forEach((rank) => {
-		newrank = [];
+		const newrank = [];
 		rank.forEach((sq) => {
 			if (sq[1] === "")
 				newrank.push(null);
