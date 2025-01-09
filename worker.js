@@ -44,10 +44,10 @@ function convertBoard(oldboard) {
 //     ['K', 'white'], ['B', 'white'], ['N', 'white'], ['R', 'white'],
 //     // ... rest of the board
 // ];
-// const newBoard = convertBoard(oldboard);    try {
+// const newBoard = convertBoard(oldboard;
 async function eval(oldboard) {
 	board = convertBoard(oldboard);
-	alert(JSON.stringify({board});
+	alert(JSON.stringify({board}));
 	try {
 		const response = await fetch('http://localhost:5000/evaluate', {
 			method: 'POST',
