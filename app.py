@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import subprocess
 import os
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 def board_to_fen(board_json):
     """
@@ -36,49 +38,54 @@ def board_to_fen(board_json):
     # Join ranks with '/'
     position = '/'.join(fen_parts)
 
-    # For simplicity, assuming it's white's turn, all castling rights available,
-    # no en passant, and starting move counts
-    return f"{position}"
+    # Add default values for other FEN components
+    return f"{position} w KQkq - 0 1"  # Added complete FEN string format
 
-@app.route('/evaluate', methods=['POST'])
-def evaluate_position():
+@app.route('/analyze', methods=['POST'])
+def analyze_position():
     try:
-        # Get board JSON from request
-        board_data = request.json
+        data = request.json
+        if not data or 'fen' not in data:
+            return jsonify({
+                'status': 'error',
+                'message': 'FEN string not provided'
+            }), 400
 
-        # Convert board to FEN
-        fen = board_to_fen(board_data['board'])
+        fen = data['fen']
 
         # Ensure baeagn is executable
         baeagn_path = "./baeagn"
         if not os.access(baeagn_path, os.X_OK):
             os.chmod(baeagn_path, 0o755)
+
         # Execute baeagn with the FEN
         result = subprocess.run(
-                [baeagn_path fen],
-                capture_output=True,
-                text=True,
-                check=True
-                )
+            [baeagn_path, fen],  # Fixed list format for command and arguments
+            capture_output=True,
+            text=True,
+            check=True
+        )
 
         # Get evaluation from stdout
-        evaluation = float(result.stdout.strip());
+        evaluation = float(result.stdout.strip())
 
         return jsonify({
             'status': 'success',
-            'evaluation': 0
-            })
+            'evaluation': evaluation,
+            'fen': fen
+        })
 
     except subprocess.CalledProcessError as e:
         return jsonify({
             'status': 'error',
-            'message': f'Engine error: {str(e)}'
-            }), 500
+            'message': f'Engine error: {str(e)}',
+            'stderr': e.stderr
+        }), 500
     except Exception as e:
         return jsonify({
             'status': 'error',
             'message': f'Server error: {str(e)}'
-            }), 500
+        }), 500
 
 if __name__ == '__main__':
-    app.run(host='localhost', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
