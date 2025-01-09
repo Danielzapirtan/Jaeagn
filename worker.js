@@ -54,6 +54,7 @@ async function eval2(oldboard) {
     return parseFloat(data.evaluation);
   } catch (error) {
     console.error("Evaluation error:", error);
+		return (0.0);
     throw error;
   }
 	return 0.0;
