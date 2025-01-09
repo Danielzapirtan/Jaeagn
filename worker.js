@@ -9,6 +9,81 @@ let gdepth;
 let gstart;
 const sdepth = 2;
 
+// Fixed version:
+function convertBoard(oldboard) {
+    const board = [];
+    let rankArray = [];
+    
+    oldboard.forEach((sq, index) => {
+        // Convert piece to proper format
+        let piece = null;
+        if (sq[1] === "") {
+            piece = null;
+        } else if (sq[1] === "white") {
+            piece = sq[0].toUpperCase();
+        } else {
+            piece = sq[0].toLowerCase();  // Fixed: using toLowerCase() instead of toLower
+        }
+        
+        // Add piece to current rank
+        rankArray.push(piece);
+        
+        // When we complete a rank (8 squares), add it to board and start new rank
+        if ((index + 1) % 8 === 0) {
+            board.push(rankArray);
+            rankArray = [];
+        }
+    });
+    
+    return board;
+}
+
+// Example usage:
+// const oldboard = [
+//     ['R', 'white'], ['N', 'white'], ['B', 'white'], ['Q', 'white'],
+//     ['K', 'white'], ['B', 'white'], ['N', 'white'], ['R', 'white'],
+//     // ... rest of the board
+// ];
+// const newBoard = convertBoard(oldboard);    try {
+async function eval(oldboard) {
+		board = convertBoard(oldboard);
+		try {
+        const response = await fetch('http://localhost:5000/evaluate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ board }),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Evaluation failed');
+        }
+
+        const data = await response.json();
+        return data.evaluation;
+    } catch (error) {
+        console.error('Evaluation error:', error);
+        throw error;
+    }
+}
+
+// Example usage:
+// const board = [
+//     ["r", "n", "b", "q", "k", "b", "n", "r"],
+//     ["p", "p", "p", "p", "p", "p", "p", "p"],
+//     [null, null, null, null, null, null, null, null],
+//     [null, null, null, null, null, null, null, null],
+//     [null, null, null, null, null, null, null, null],
+//     [null, null, null, null, null, null, null, null],
+//     ["P", "P", "P", "P", "P", "P", "P", "P"],
+//     ["R", "N", "B", "Q", "K", "B", "N", "R"]
+// ];
+// 
+// eval(board)
+//     .then(evaluation => console.log('Position evaluation:', evaluation))
+//     .catch(error => console.error('Error:', error));
 function eval(board, level) {
 
 }
