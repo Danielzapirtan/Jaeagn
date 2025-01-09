@@ -91,7 +91,7 @@ const valres = parseFloat(eval2(board6));
 if (Math.abs(valres) < 15000.0)
 	return valres;
 else
-	return valres * 0.01;
+	return 0;
 let countk = 0;
 	let value = 0;
 	nodes++;
