@@ -11,22 +11,20 @@ const sdepth = 2;
 
 // Fixed version:
 function convertBoard(oldboard) {
-  return oldboard.map(rank => 
-    rank.map(sq => {
-      // If square is empty
-      if (sq[1] === "") {
-        return null;
-      }
-      // If piece is black
-      else if (sq[1] === "black") {
-        return sq[0].toUpperCase();
-      }
-      // If piece is white
-      else {
-        return sq[0].toLowerCase();
-      }
-    })
-  );
+	const board = [];
+	oldboard.forEach((rank) => {
+		newrank = [];
+		rank.forEach((sq) => {
+			if (sq[1] === "")
+				newrank.push(null);
+			else if (sq[1] === "black")
+				newrank.push(sq[0].toLowerCase();
+			else
+				newrank.push(sq[0].toUpperCase();
+		});
+		board.push(newrank);
+	});
+	return board;
 }
 
 // Example usage:
@@ -38,8 +36,7 @@ function convertBoard(oldboard) {
 // const newBoard = convertBoard(oldboard;
 async function eval2(oldboard) {
   const board = convertBoard(oldboard);
-  alert(JSON.stringify({ board }));
-  try {
+	try {
     const response = await fetch("http://localhost:5000/evaluate", {
       method: "POST",
       headers: {
