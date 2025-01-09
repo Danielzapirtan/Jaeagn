@@ -11,31 +11,31 @@ const sdepth = 2;
 
 // Fixed version:
 function convertBoard(oldboard) {
-    const board = [];
-    let rankArray = [];
-    
-    oldboard.forEach((sq, index) => {
-        // Convert piece to proper format
-        let piece = null;
-        if (sq[1] === "") {
-            piece = null;
-        } else if (sq[1] === "white") {
-            piece = sq[0].toUpperCase();
-        } else {
-            piece = sq[0].toLowerCase();  // Fixed: using toLowerCase() instead of toLower
-        }
-        
-        // Add piece to current rank
-        rankArray.push(piece);
-        
-        // When we complete a rank (8 squares), add it to board and start new rank
-        if ((index + 1) % 8 === 0) {
-            board.push(rankArray);
-            rankArray = [];
-        }
-    });
-    
-    return board;
+	const board = [];
+	let rankArray = [];
+
+	oldboard.forEach((sq, index) => {
+		// Convert piece to proper format
+		let piece = null;
+		if (sq[1] === "") {
+			piece = null;
+		} else if (sq[1] === "white") {
+			piece = sq[0].toUpperCase();
+		} else {
+			piece = sq[0].toLowerCase();  // Fixed: using toLowerCase() instead of toLower
+		}
+
+		// Add piece to current rank
+		rankArray.push(piece);
+
+		// When we complete a rank (8 squares), add it to board and start new rank
+		if ((index + 1) % 8 === 0) {
+			board.push(rankArray);
+			rankArray = [];
+		}
+	});
+
+	return board;
 }
 
 // Example usage:
@@ -46,27 +46,27 @@ function convertBoard(oldboard) {
 // ];
 // const newBoard = convertBoard(oldboard);    try {
 async function eval(oldboard) {
-		board = convertBoard(oldboard);
-		try {
-        const response = await fetch('http://localhost:5000/evaluate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ board }),
-        });
+	board = convertBoard(oldboard);
+	try {
+		const response = await fetch('http://localhost:5000/evaluate', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ board }),
+		});
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Evaluation failed');
-        }
+		if (!response.ok) {
+			const errorData = await response.json();
+			throw new Error(errorData.message || 'Evaluation failed');
+		}
 
-        const data = await response.json();
-        return data.evaluation;
-    } catch (error) {
-        console.error('Evaluation error:', error);
-        throw error;
-    }
+		const data = await response.json();
+		return data.evaluation;
+	} catch (error) {
+		console.error('Evaluation error:', error);
+		throw error;
+	}
 }
 
 // Example usage:
@@ -91,7 +91,7 @@ function eval(board, level) {
 function eval1(board6, level) {
 	return eval(board6);
 }
-	/*let countk = 0;
+/*let countk = 0;
 	let value = 0;
 	nodes++;
 	for (let i = 0; i < 8; i++)
