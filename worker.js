@@ -84,9 +84,6 @@ async function eval(oldboard) {
 // eval(board)
 //     .then(evaluation => console.log('Position evaluation:', evaluation))
 //     .catch(error => console.error('Error:', error));
-function eval(board, level) {
-
-}
 
 function eval1(board6, level) {
 	return eval(board6);
