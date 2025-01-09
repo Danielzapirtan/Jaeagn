@@ -78,8 +78,8 @@ function eval1(board6, level) {
 const valres = parseFloat(eval2(board6));
 if (Math.abs(valres) < 15000.0)
 	return valres;
-else if (typeof valres === 'number')
-	return 0;
+if (typeof valres === 'number')
+	return 0.0;
 let countk = 0;
 	let value = 0;
 	nodes++;
