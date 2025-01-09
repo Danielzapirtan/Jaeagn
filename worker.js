@@ -87,9 +87,10 @@ async function eval2(oldboard) {
 //     .catch(error => console.error('Error:', error));
 
 function eval1(board6, level) {
-  return eval2(board6);
-}
-/*let countk = 0;
+//	return 0;
+//  return eval2(board6);
+//}
+let countk = 0;
 	let value = 0;
 	nodes++;
 	for (let i = 0; i < 8; i++)
@@ -108,7 +109,7 @@ function eval1(board6, level) {
 				value += 100 * (1 - 2 * (piece1[1] === "white"));
 		}
 	return 16000 * countk + value + Math.random() * 19 - 9;
-}*/
+}
 
 function gendeep(board2, depthFlag, candFlag) {
   const movelist2 = [];
