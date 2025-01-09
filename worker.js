@@ -63,7 +63,7 @@ async function eval2(oldboard) {
     }
 
     const data = await response.json();
-    return data.evaluation;
+    return parseFloat(data.evaluation);
   } catch (error) {
     console.error("Evaluation error:", error);
     throw error;
@@ -87,9 +87,9 @@ async function eval2(oldboard) {
 //     .catch(error => console.error('Error:', error));
 
 function eval1(board6, level) {
-//	return 0;
-//  return eval2(board6);
-//}
+const valres = parseFloat(eval2(board6));
+if (Math.abs(valres) < 15000.0)
+	return valres; 
 let countk = 0;
 	let value = 0;
 	nodes++;
