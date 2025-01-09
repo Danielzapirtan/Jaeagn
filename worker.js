@@ -11,7 +11,7 @@ const sdepth = 2;
 
 // Fixed version:
 function convertBoard(oldboard) {
-	const board = [];
+	const board445 = [];
 	oldboard.forEach((rank) => {
 		const newrank = [];
 		rank.forEach((sq) => {
@@ -24,7 +24,7 @@ function convertBoard(oldboard) {
 		});
 		board.push(newrank);
 	});
-	return board;
+	return board445;
 }
 
 // Example usage:
@@ -35,14 +35,14 @@ function convertBoard(oldboard) {
 // ];
 // const newBoard = convertBoard(oldboard;
 async function eval2(oldboard) {
-  const board = convertBoard(oldboard);
+  const board446 = convertBoard(oldboard);
 	try {
     const response = await fetch("http://localhost:5000/evaluate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ board })
+      body: JSON.stringify({ board446 })
     });
 
     if (!response.ok) {
