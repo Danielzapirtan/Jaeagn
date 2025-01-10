@@ -20,20 +20,13 @@ def monitor_file(filename, interval=15):
       print(f"{filename} has been modified.")
       # Option 1: Print the entire file
       with open(filename, 'r') as f:
-        print(f.read())
-def read_file_content(filename):
-  """
-  Reads the entire content of a file.
-
-  Args:
-    filename: The path to the file to read.
-
-  Returns:
-    The content of the file as a string.
-  """
-
-  with open(filename, 'r') as file:
-    return file.read()
+        evaluation = f.read()
+        return jsonify({
+            'status': 'success',
+            'evaluation': evaluation,
+            'fen': fen,
+            'depth': depth
+        })
 
 
 def analyze_position():
@@ -74,16 +67,6 @@ def analyze_position():
             text=True,
             check=True
         )
-
-        # Get evaluation from stdout
-        evaluation = read_file_content(filename)
-
-        return jsonify({
-            'status': 'success',
-            'evaluation': evaluation,
-            'fen': fen,
-            'depth': depth
-        })
 
     except subprocess.CalledProcessError as e:
         return jsonify({
