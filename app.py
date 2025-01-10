@@ -17,7 +17,7 @@ def monitor_file(filename, interval=15):
     current_modified = os.path.getmtime(filename)
 
     if current_modified > last_modified:
-      print(f"{filename} has been modified.")
+      #print(f"{filename} has been modified.")
       # Option 1: Print the entire file
       with open(filename, 'r') as f:
         evaluation = f.read()
@@ -67,6 +67,7 @@ def analyze_position():
             text=True,
             check=True
         )
+        monitor_file("jaeagn.anl")
 
     except subprocess.CalledProcessError as e:
         return jsonify({
