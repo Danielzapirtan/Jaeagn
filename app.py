@@ -6,41 +6,6 @@ import os
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-def board_to_fen(board_json):
-    """
-    Convert JSON board representation to FEN string.
-    board_json should be a 2D array with pieces represented as strings:
-    'K' for white king, 'k' for black king, etc.
-    Empty squares are represented as None or ''
-    """
-    fen_parts = []
-    empty_count = 0
-
-    # Process each rank from 8 to 1 (top to bottom)
-    for rank in board_json:
-        rank_fen = ''
-        empty_count = 0
-
-        for square in rank:
-            if not square:  # Empty square
-                empty_count += 1
-            else:
-                if empty_count > 0:
-                    rank_fen += str(empty_count)
-                    empty_count = 0
-                rank_fen += square
-
-        if empty_count > 0:
-            rank_fen += str(empty_count)
-
-        fen_parts.append(rank_fen)
-
-    # Join ranks with '/'
-    position = '/'.join(fen_parts)
-
-    # Add default values for other FEN components
-    return f"{position} w KQkq - 0 1"  # Added complete FEN string format
-
 @app.route('/analyze', methods=['POST'])
 def analyze_position():
     try:
@@ -52,15 +17,30 @@ def analyze_position():
             }), 400
 
         fen = data['fen']
+        depth = data.get('depth', 10)  # Default depth of 20 if not specified
+        
+        # Validate depth
+        try:
+            depth = int(depth)
+            if depth < 1 or depth > 30:
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Depth must be between 1 and 30'
+                }), 400
+        except ValueError:
+            return jsonify({
+                'status': 'error',
+                'message': 'Invalid depth value'
+            }), 400
 
         # Ensure baeagn is executable
         baeagn_path = "./baeagn"
         if not os.access(baeagn_path, os.X_OK):
             os.chmod(baeagn_path, 0o755)
 
-        # Execute baeagn with the FEN
+        # Execute baeagn with the FEN and depth
         result = subprocess.run(
-            [baeagn_path, fen],  # Fixed list format for command and arguments
+            [baeagn_path, fen, str(depth)],  # Added depth parameter
             capture_output=True,
             text=True,
             check=True
@@ -72,7 +52,8 @@ def analyze_position():
         return jsonify({
             'status': 'success',
             'evaluation': evaluation,
-            'fen': fen
+            'fen': fen,
+            'depth': depth
         })
 
     except subprocess.CalledProcessError as e:

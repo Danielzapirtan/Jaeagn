@@ -1,53 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Position Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            min-height: 60px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: none;
+        }
+        .error {
+            color: red;
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chess Position Analyzer</h1>
+        <div class="input-group">
+            <label for="fen">Enter FEN string:</label>
+            <textarea id="fen" placeholder="Enter FEN string here (e.g., rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1)"></textarea>
+            <div id="error" class="error">Please enter a valid FEN string.</div>
+        </div>
+        <button id="analyzeBtn" onclick="analyzeFen()">Analyze Position</button>
+        <div id="result"></div>
+    </div>
 
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>
-			Jaeagn Chess
-		</title>
-		<link rel="stylesheet" type="text/css" href="styles.css">
-	</head>
+    <script>
+        async function analyzeFen() {
+            const fenInput = document.getElementById('fen').value.trim();
+            const resultDiv = document.getElementById('result');
+            const errorDiv = document.getElementById('error');
+            const analyzeBtn = document.getElementById('analyzeBtn');
 
-	<body>
-		<header>
-			<h2>Jaeagn Chess</h2>
-		</header>
-		<main>
-			<p>
-			<canvas id="chessboard" width="540" height="540">
-			</canvas>
-			</p><br>
-			<button onclick="newGame()">New Game</button>
-			<div id="newGameDialog" class="hidden">			
-				<h2>New Game Settings</h2>
-				<label for="whitePlayer">White Player:</label>
-				<select id="whitePlayer">
-					<option value="human" selected>Human</option>
-					<option value="computer">Computer</option>
-				</select>
-				<label for="blackPlayer">Black Player:</label>
-				<select id="blackPlayer">
-					<option value="human" selected>Human</option>
-					<option value="computer">Computer</option>
-				</select>
-				<label for="difficulty">Difficulty:</label>
-				<select id="difficulty">
-					<option value="easy" selected>Easy</option>
-					<option value="medium">Medium</option>
-					<option value="hard">Hard</option>
-				</select>
-				<button onclick="startGame()">Start</button>
-			</div>
-			<button onclick="analyzeMode()">Analyze</button>
-			<button onclick="stopEngine()">Stop Engine</button>
-			<div id="players"></div>
-			<div id="output"></div>
-		</main>
-		<footer>
-		</footer>
-	<script src="jaeagn.js"></script>
-	<script src="worker.js"></script>
-	</body>
+            if (!fenInput) {
+                errorDiv.style.display = 'block';
+                resultDiv.style.display = 'none';
+                return;
+            }
+
+            errorDiv.style.display = 'none';
+            resultDiv.innerHTML = 'Analyzing position...';
+            resultDiv.style.display = 'block';
+            analyzeBtn.disabled = true;
+
+            try {
+                const response = await fetch('http://localhost:5000/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ fen: fenInput })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || `HTTP error! status: ${response.status}`);
+                }
+
+                resultDiv.innerHTML = `
+                    <h3>Analysis Result:</h3>
+                    <p>Evaluation: ${data.evaluation}</p>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message || 'Could not connect to the analysis server. Make sure the backend is running on port 5000.'}`;
+                console.error('Error:', error);
+            } finally {
+                analyzeBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
 </html>
-
