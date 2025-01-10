@@ -67,7 +67,7 @@ def analyze_position():
         )
 
         # Get evaluation from stdout
-        evaluation = float(result.stdout.strip())
+        evaluation = result.stdout.strip()
 
         return jsonify({
             'status': 'success',
