@@ -7,6 +7,35 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 @app.route('/analyze', methods=['POST'])
+
+def monitor_file(filename, interval=15):
+  import os
+  last_modified = os.path.getmtime(filename)
+
+  while True:
+    time.sleep(interval)
+    current_modified = os.path.getmtime(filename)
+
+    if current_modified > last_modified:
+      print(f"{filename} has been modified.")
+      # Option 1: Print the entire file
+      with open(filename, 'r') as f:
+        print(f.read())
+def read_file_content(filename):
+  """
+  Reads the entire content of a file.
+
+  Args:
+    filename: The path to the file to read.
+
+  Returns:
+    The content of the file as a string.
+  """
+
+  with open(filename, 'r') as file:
+    return file.read()
+
+
 def analyze_position():
     try:
         data = request.json
@@ -40,14 +69,14 @@ def analyze_position():
 
         # Execute baeagn with the FEN and depth
         result = subprocess.run(
-            [baeagn_path, fen, str(depth)],  # Added depth parameter
+            [baeagn_path, fen, str(depth), "|", "tee", "jaeagn.anl" ],  # Added depth parameter
             capture_output=True,
             text=True,
             check=True
         )
 
         # Get evaluation from stdout
-        evaluation = float(result.stdout.strip())
+        evaluation = read_file_content(filename)
 
         return jsonify({
             'status': 'success',
