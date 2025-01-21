@@ -47,8 +47,8 @@ def analyze_position():
         )
 
         # Get evaluation from stdout
-        evaluation = result.stdout.strip()
-
+        #evaluation = result.stdout.strip()
+        evaluation = result.stdout.strip().replace('\n', '<br>')
         return jsonify({
             'status': 'success',
             'evaluation': evaluation,
