@@ -239,7 +239,6 @@ void analysis(void)
     }
     free(treea);
     free(treeb);
-    printf("%d\n", best);
     fflush(stdout);
     exit(0);
 }
@@ -317,7 +316,7 @@ VALUE search(TREE *tree_, LEVEL level, LEVEL depth)
                 update(&elapsed);
                 double delapsed = dclock(&elapsed);
                 copy_board(treea->curr_board, aux);
-                /*fprintf(stdout, "Depth: %u*\n", treea->depth - _OVERDEPTH);
+                fprintf(stdout, "Depth: %u*\n", treea->depth - _OVERDEPTH);
                 fprintf(stdout, "Evaluation: %.2lf\n", \
                     ((double) treea->best / (double) _PAWNUNIT));
                 fprintf(stdout, "Branching factor: %.2lf\n", pow((double) nodes, (double) 1 / (treea->depth - _OVERDEPTH)));
@@ -334,7 +333,7 @@ VALUE search(TREE *tree_, LEVEL level, LEVEL depth)
                 fprintf(stdout, "Elapsed: %.2lf\n", delapsed);
 		fprintf(stdout, "NPS: %u\n", (unsigned int) ((double) nodes / delapsed));
                 fprintf(stdout, "\n");
-                fflush(stdout);*/
+                fflush(stdout);
             }
             if (tree->best > tree->alpha)
                 tree->alpha = tree->best;
