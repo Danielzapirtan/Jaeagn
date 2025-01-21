@@ -17,7 +17,7 @@ def analyze_position():
             }), 400
 
         fen = data['fen']
-        depth = data.get('depth', 20)  # Default depth of 20 if not specified
+        depth = data.get('depth', 11)  # Default depth of 11 if not specified
         
         # Validate depth
         try:
