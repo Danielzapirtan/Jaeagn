@@ -997,7 +997,7 @@ void show_board(BOARD board, FILE *f)
     }
         fprintf(f, "\n");
     }
-    fprintf(f, "  a  b  c  d  e  f  g  h\n");
+    fprintf(f, "@ a  b  c  d  e  f  g  h\n");
     fprintf(f, "\n");
     fflush(f);
 }
