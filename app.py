@@ -1,10 +1,14 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import subprocess
 import os
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/analyze', methods=['POST'])
 def analyze_position():
@@ -47,7 +51,6 @@ def analyze_position():
         )
 
         # Get evaluation from stdout
-        #evaluation = result.stdout.strip()
         evaluation = result.stdout.strip().replace('\n', '<br>')
         return jsonify({
             'status': 'success',
