@@ -4,311 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chess Position Analyzer</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f0f0f0;
+            line-height: 1.6;
         }
-        .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .flex-container {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .board-container {
-            flex: 1;
-            min-width: 400px;
-        }
-        .controls-container {
-            flex: 1;
-            min-width: 300px;
-        }
-        .chessboard {
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            width: 400px;
-            height: 400px;
-            border: 2px solid #333;
-        }
-        .square {
-            width: 50px;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 40px;
-            cursor: pointer;
-        }
-        .white {
-            background-color: #f0d9b5;
-        }
-        .black {
-            background-color: #b58863;
-        }
-        .input-group {
-            margin-bottom: 20px;
-        }
-        textarea {
+        #fenInput {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            resize: vertical;
-            min-height: 60px;
+            margin-bottom: 10px;
         }
-        button {
+        #depthInput {
+            width: 100px;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        #analyzeButton {
+            padding: 10px 15px;
             background-color: #4CAF50;
             color: white;
-            padding: 10px 20px;
             border: none;
-            border-radius: 4px;
             cursor: pointer;
-            font-size: 16px;
-            margin-right: 10px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
         }
         #result {
             margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            display: none;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            white-space: pre-wrap;
         }
-        .error {
+        #error {
             color: red;
-            display: none;
             margin-top: 10px;
-        }
-        .depth-control {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .depth-control input {
-            width: 60px;
-            padding: 5px;
-        }
-        .rank-label {
-            position: absolute;
-            left: -20px;
-            font-size: 14px;
-            color: #666;
-        }
-        .file-label {
-            position: absolute;
-            bottom: -20px;
-            font-size: 14px;
-            color: #666;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Chess Position Analyzer</h1>
-        <div class="flex-container">
-            <div class="board-container">
-                <div class="chessboard" id="board"></div>
-                <div style="margin-top: 10px">
-                    <button onclick="flipBoard()">Flip Board</button>
-                    <button onclick="resetBoard()">Reset Position</button>
-                </div>
-            </div>
-            <div class="controls-container">
-                <div class="input-group">
-                    <label for="fen">FEN string:</label>
-                    <textarea id="fen" placeholder="Enter FEN string here"></textarea>
-                    <div id="error" class="error">Please enter a valid FEN string.</div>
-                </div>
-                <div class="depth-control">
-                    <label for="depth">Analysis Depth:</label>
-                    <input type="number" id="depth" min="1" max="30" value="10">
-                </div>
-                <button id="analyzeBtn" onclick="analyzeFen()">Analyze Position</button>
-                <div id="result"></div>
-            </div>
-        </div>
-    </div>
+    <h1>Chess Position Analyzer</h1>
+    
+    <label for="fenInput">FEN String:</label>
+    <input type="text" id="fenInput" placeholder="Enter FEN string (e.g., rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1)">
+    
+    <label for="depthInput">Analysis Depth (1-30):</label>
+    <input type="number" id="depthInput" min="1" max="30" value="11">
+    
+    <button id="analyzeButton">Analyze Position</button>
+    
+    <div id="error"></div>
+    <div id="result"></div>
 
     <script>
-        let chess = new Chess();
-        let boardFlipped = false;
-
-        function createBoard() {
-            const board = document.getElementById('board');
-            board.innerHTML = '';
-            
-            for (let row = 0; row < 8; row++) {
-                for (let col = 0; col < 8; col++) {
-                    const square = document.createElement('div');
-                    const isWhite = (row + col) % 2 === 0;
-                    square.className = `square ${isWhite ? 'white' : 'black'}`;
-                    
-                    // Calculate position based on board orientation
-                    const position = boardFlipped ? 
-                        String.fromCharCode(104 - col) + (row + 1) :
-                        String.fromCharCode(97 + col) + (8 - row);
-                    
-                    square.dataset.position = position;
-                    board.appendChild(square);
-                }
-            }
-            updateBoard();
-        }
-
-        function updateBoard() {
-            const squares = document.querySelectorAll('.square');
-            const position = chess.fen().split(' ')[0];  // Get just the position part
-            const ranks = position.split('/');
-            
-            squares.forEach((square, index) => {
-                const row = Math.floor(index / 8);
-                const col = index % 8;
-                const piece = getPieceAtPosition(ranks, boardFlipped ? 7 - row : row, boardFlipped ? 7 - col : col);
-                square.innerHTML = piece ? getPieceSymbol(piece) : '';
-            });
-            
-            document.getElementById('fen').value = chess.fen();
-        }
-
-        function getPieceAtPosition(ranks, row, col) {
-            let rank = ranks[row];
-            let currentCol = 0;
-            
-            for (let i = 0; i < rank.length; i++) {
-                if (isNaN(rank[i])) {
-                    if (currentCol === col) {
-                        return {
-                            type: rank[i].toLowerCase(),
-                            color: rank[i] === rank[i].toUpperCase() ? 'w' : 'b'
-                        };
-                    }
-                    currentCol++;
-                } else {
-                    currentCol += parseInt(rank[i]);
-                    if (currentCol > col) {
-                        return null;
-                    }
-                }
-            }
-            return null;
-        }
-
-        function getPieceSymbol(piece) {
-            const symbols = {
-                'k': '♔', 'q': '♕', 'r': '♖', 'b': '♗', 'n': '♘', 'p': '♙',
-                'K': '♚', 'Q': '♛', 'R': '♜', 'B': '♝', 'N': '♞', 'P': '♟'
-            };
-            return symbols[piece.color === 'w' ? piece.type.toUpperCase() : piece.type];
-        }
-
-        function flipBoard() {
-            boardFlipped = !boardFlipped;
-            createBoard();
-        }
-
-        function resetBoard() {
-            chess.reset();
-            updateBoard();
-        }
-
-        async function analyzeFen() {
-            const fenInput = document.getElementById('fen').value.trim();
-            const depthInput = document.getElementById('depth').value;
+        document.getElementById('analyzeButton').addEventListener('click', async () => {
+            const fenInput = document.getElementById('fenInput');
+            const depthInput = document.getElementById('depthInput');
             const resultDiv = document.getElementById('result');
             const errorDiv = document.getElementById('error');
-            const analyzeBtn = document.getElementById('analyzeBtn');
 
-            if (!fenInput) {
-                errorDiv.style.display = 'block';
-                resultDiv.style.display = 'none';
+            // Reset previous results
+            resultDiv.innerHTML = '';
+            errorDiv.innerHTML = '';
+
+            // Validate inputs
+            if (!fenInput.value.trim()) {
+                errorDiv.textContent = 'Please enter a valid FEN string';
                 return;
             }
 
             try {
-                chess.load(fenInput);
-            } catch (e) {
-                errorDiv.textContent = 'Invalid FEN string';
-                errorDiv.style.display = 'block';
-                resultDiv.style.display = 'none';
-                return;
-            }
-
-            errorDiv.style.display = 'none';
-		const date = new Date();
-		const datestr = `${date.getHours()}:${date.getMinutes()}`;
-		resultDiv.innerHTML = `Analyzing position... (start time: ${datestr})`;
-            resultDiv.style.display = 'block';
-            analyzeBtn.disabled = true;
-
-            try {
-                const response = await fetch('http://localhost:5000/analyze', {
+                const response = await fetch('/analyze', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ 
-                        fen: fenInput,
-                        depth: parseInt(depthInput)
+                    body: JSON.stringify({
+                        fen: fenInput.value.trim(),
+                        depth: depthInput.value
                     })
                 });
 
                 const data = await response.json();
 
-                if (!response.ok) {
-                    throw new Error(data.message || `HTTP error! status: ${response.status}`);
+                if (data.status === 'success') {
+                    resultDiv.innerHTML = data.evaluation;
+                } else {
+                    errorDiv.textContent = data.message || 'An error occurred';
                 }
-
-                resultDiv.innerHTML = `
-                    <h3>Analysis Result:</h3>
-                    <p>Evaluation: ${data.evaluation}</p>
-                    <p>Depth: ${data.depth}</p>
-                    <pre>${JSON.stringify(data, null, 2)}</pre>
-                `;
-                updateBoard();
             } catch (error) {
-                resultDiv.innerHTML = `Error: ${error.message || 'Could not connect to the analysis server. Make sure the backend is running on port 5000.'}`;
-                console.error('Error:', error);
-            } finally {
-                analyzeBtn.disabled = false;
-            }
-        }
-
-        // Initialize the board
-        createBoard();
-
-        // Load starting position
-        document.getElementById('fen').value = chess.fen();
-
-        // Handle FEN input changes
-        document.getElementById('fen').addEventListener('change', function() {
-            try {
-                const fenInput = this.value.trim();
-                if (fenInput) {
-                    chess.load(fenInput);
-                    updateBoard();
-                }
-            } catch (e) {
-                document.getElementById('error').textContent = 'Invalid FEN string';
-                document.getElementById('error').style.display = 'block';
+                errorDiv.textContent = 'Network error: ' + error.message;
             }
         });
+
+        // Optional: Pre-fill with a starting position
+        document.getElementById('fenInput').value = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
     </script>
 </body>
 </html>
