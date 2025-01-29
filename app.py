@@ -6,6 +6,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 import chess.pgn
 import chess
+from io import StringIO
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -28,7 +29,9 @@ def pgn_to_fen(pgn_text):
     Converts PGN text to FEN string.
     """
     try:
-        game = chess.pgn.read_game(pgn_text)
+        # Create a StringIO object from the PGN text
+        pgn_io = StringIO(pgn_text)
+        game = chess.pgn.read_game(pgn_io)
         if not game:
             return None, "Invalid PGN format"
         
