@@ -4,6 +4,8 @@ import subprocess
 import os
 import logging
 from logging.handlers import RotatingFileHandler
+import chess.pgn
+import chess
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -21,6 +23,23 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
+def pgn_to_fen(pgn_text):
+    """
+    Converts PGN text to FEN string.
+    """
+    try:
+        game = chess.pgn.read_game(pgn_text)
+        if not game:
+            return None, "Invalid PGN format"
+        
+        board = game.board()
+        for move in game.mainline_moves():
+            board.push(move)
+        
+        return board.fen(), None
+    except Exception as e:
+        return None, str(e)
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -29,14 +48,24 @@ def index():
 def analyze_position():
     try:
         data = request.json
-        if not data or 'fen' not in data:
+        if not data or ('fen' not in data and 'pgn' not in data):
             return jsonify({
                 'status': 'error',
-                'message': 'FEN string not provided'
+                'message': 'FEN string or PGN text not provided'
             }), 400
 
-        fen = data['fen']
+        fen = data.get('fen')
+        pgn = data.get('pgn')
         depth = data.get('depth', DEFAULT_DEPTH)
+
+        # If PGN is provided, convert it to FEN
+        if pgn:
+            fen, error = pgn_to_fen(pgn)
+            if error:
+                return jsonify({
+                    'status': 'error',
+                    'message': f'Invalid PGN: {error}'
+                }), 400
 
         # Validate depth
         try:
