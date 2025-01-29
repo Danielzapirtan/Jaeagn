@@ -2,9 +2,24 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import subprocess
 import os
+import logging
+from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
+
+# Constants
+DEFAULT_DEPTH = 11
+MIN_DEPTH = 1
+MAX_DEPTH = 30
+BAEAGN_PATH = os.getenv("BAEAGN_PATH", "./baeagn")
+
+# Logging configuration
+logging.basicConfig(
+    level=logging.INFO,
+    handlers=[RotatingFileHandler("app.log", maxBytes=10000, backupCount=3)],
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 @app.route('/')
 def index():
@@ -21,15 +36,15 @@ def analyze_position():
             }), 400
 
         fen = data['fen']
-        depth = data.get('depth', 11)  # Default depth of 11 if not specified
-        
+        depth = data.get('depth', DEFAULT_DEPTH)
+
         # Validate depth
         try:
             depth = int(depth)
-            if depth < 1 or depth > 30:
+            if depth < MIN_DEPTH or depth > MAX_DEPTH:
                 return jsonify({
                     'status': 'error',
-                    'message': 'Depth must be between 1 and 30'
+                    'message': f'Depth must be between {MIN_DEPTH} and {MAX_DEPTH}'
                 }), 400
         except ValueError:
             return jsonify({
@@ -38,13 +53,12 @@ def analyze_position():
             }), 400
 
         # Ensure baeagn is executable
-        baeagn_path = "./baeagn"
-        if not os.access(baeagn_path, os.X_OK):
-            os.chmod(baeagn_path, 0o755)
+        if not os.access(BAEAGN_PATH, os.X_OK):
+            os.chmod(BAEAGN_PATH, 0o755)
 
         # Execute baeagn with the FEN and depth
         result = subprocess.run(
-            [baeagn_path, fen, str(depth)],  # Added depth parameter
+            [BAEAGN_PATH, fen, str(depth)],
             capture_output=True,
             text=True,
             check=True
@@ -60,16 +74,17 @@ def analyze_position():
         })
 
     except subprocess.CalledProcessError as e:
+        logging.error(f"Engine error: {str(e)} - {e.stderr}")
         return jsonify({
             'status': 'error',
-            'message': f'Engine error: {str(e)}',
-            'stderr': e.stderr
+            'message': 'Engine error occurred'
         }), 500
     except Exception as e:
+        logging.error(f"Server error: {str(e)}")
         return jsonify({
             'status': 'error',
-            'message': f'Server error: {str(e)}'
+            'message': 'Internal server error'
         }), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5080, debug=True)
+    app.run(host='0.0.0.0', port=5080, debug=os.getenv("FLASK_DEBUG", "False").lower() == "true")
