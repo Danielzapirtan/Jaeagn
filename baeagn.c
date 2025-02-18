@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <math.h>
+#include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -278,6 +279,7 @@ VALUE search(TREE *tree_, LEVEL level, LEVEL depth)
     if (newpv)
 	tree->bl_len = 1;
     tree->best = -_MAXVALUE;
+#pragma omp parallel for
     for (tree->curr_index = 0; tree->curr_index < tree->max_index; (tree->curr_index)++) {
         ntree = &tree_[level + 1];
         copy_move(tree->legal_moves[tree->curr_index], tree->curr_move);
