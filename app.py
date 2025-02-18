@@ -1,28 +1,15 @@
-from flask import Flask, request, jsonify, render_template
-from flask_cors import CORS
+import gradio as gr
 import subprocess
 import os
-import logging
-from logging.handlers import RotatingFileHandler
 import chess.pgn
 import chess
 from io import StringIO
-
-app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
 
 # Constants
 DEFAULT_DEPTH = 11
 MIN_DEPTH = 1
 MAX_DEPTH = 30
 BAEAGN_PATH = os.getenv("BAEAGN_PATH", "./baeagn")
-
-# Logging configuration
-logging.basicConfig(
-    level=logging.INFO,
-    handlers=[RotatingFileHandler("app.log", maxBytes=10000, backupCount=3)],
-    format="%(asctime)s - %(levelname)s - %(message)s",
-)
 
 def pgn_to_fen(pgn_text):
     """
@@ -43,46 +30,24 @@ def pgn_to_fen(pgn_text):
     except Exception as e:
         return None, str(e)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/analyze', methods=['POST'])
-def analyze_position():
+def analyze_position(fen=None, pgn=None, depth=DEFAULT_DEPTH):
     try:
-        data = request.json
-        if not data or ('fen' not in data and 'pgn' not in data):
-            return jsonify({
-                'status': 'error',
-                'message': 'FEN string or PGN text not provided'
-            }), 400
-
-        fen = data.get('fen')
-        pgn = data.get('pgn')
-        depth = data.get('depth', DEFAULT_DEPTH)
+        if not fen and not pgn:
+            return "FEN string or PGN text not provided"
 
         # If PGN is provided, convert it to FEN
         if pgn:
             fen, error = pgn_to_fen(pgn)
             if error:
-                return jsonify({
-                    'status': 'error',
-                    'message': f'Invalid PGN: {error}'
-                }), 400
+                return f"Invalid PGN: {error}"
 
         # Validate depth
         try:
             depth = int(depth)
             if depth < MIN_DEPTH or depth > MAX_DEPTH:
-                return jsonify({
-                    'status': 'error',
-                    'message': f'Depth must be between {MIN_DEPTH} and {MAX_DEPTH}'
-                }), 400
+                return f"Depth must be between {MIN_DEPTH} and {MAX_DEPTH}"
         except ValueError:
-            return jsonify({
-                'status': 'error',
-                'message': 'Invalid depth value'
-            }), 400
+            return "Invalid depth value"
 
         # Ensure baeagn is executable
         if not os.access(BAEAGN_PATH, os.X_OK):
@@ -98,25 +63,25 @@ def analyze_position():
 
         # Get evaluation from stdout
         evaluation = result.stdout.strip().replace('\n', '<br>')
-        return jsonify({
-            'status': 'success',
-            'evaluation': evaluation,
-            'fen': fen,
-            'depth': depth
-        })
+        return evaluation
 
     except subprocess.CalledProcessError as e:
-        logging.error(f"Engine error: {str(e)} - {e.stderr}")
-        return jsonify({
-            'status': 'error',
-            'message': 'Engine error occurred'
-        }), 500
+        return f"Engine error: {str(e)} - {e.stderr}"
     except Exception as e:
-        logging.error(f"Server error: {str(e)}")
-        return jsonify({
-            'status': 'error',
-            'message': 'Internal server error'
-        }), 500
+        return f"Server error: {str(e)}"
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5080, debug=os.getenv("FLASK_DEBUG", "False").lower() == "true")
+# Gradio Interface
+iface = gr.Interface(
+    fn=analyze_position,
+    inputs=[
+        gr.Textbox(label="FEN String (optional)", placeholder="Enter FEN string here..."),
+        gr.Textbox(label="PGN Text (optional)", placeholder="Enter PGN text here..."),
+        gr.Slider(minimum=MIN_DEPTH, maximum=MAX_DEPTH, value=DEFAULT_DEPTH, label="Depth")
+    ],
+    outputs=gr.HTML(label="Evaluation"),
+    title="Chess Position Analyzer",
+    description="Analyze a chess position using the baeagn engine. Provide either a FEN string or PGN text."
+)
+
+if __name__ == "__main__":
+    iface.launch(server_port=5080)
