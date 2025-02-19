@@ -18,7 +18,7 @@
 #endif
 #define _MAXLEVEL (253)
 #define _FRAMESPERSEC (32)
-#define _NPS (3 << 18)
+#define _NPS (3 << 20)
 #define _SKIPFRAMES (_NPS / _FRAMESPERSEC)
 #define _BRDFILE "start.brd"
 #define _FENFILE "start.fen"
@@ -358,7 +358,7 @@ VALUE eval(BOARD board, LEVEL level)
     VALUE pvalue = 0;
     VALUE value;
     nodes++;
-    if (nodes > 1.0e12)
+    if (nodes > 360e6)
 	    exit(0);
     if ((nodes % _SKIPFRAMES) == 0) {
         update(&elapsed);
