@@ -191,7 +191,9 @@
             const analyzeButton = document.getElementById('analyzeButton');
 
             // Reset previous results
-            resultDiv.innerHTML = '';
+            //resultDiv.innerHTML = '';
+	    for (let depth = 7; depth < 253; depth+=2) {
+            depthInput.value = depth;
             errorDiv.style.display = 'none';
             errorDiv.innerHTML = '';
 
@@ -241,6 +243,7 @@
                 // Hide loading state
                 loadingDiv.style.display = 'none';
                 analyzeButton.disabled = false;
+            }
             }
         });
 
