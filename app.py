@@ -6,7 +6,7 @@ import chess
 from io import StringIO
 
 # Constants
-DEFAULT_DEPTH = 11
+DEFAULT_DEPTH = 10
 MIN_DEPTH = 1
 MAX_DEPTH = 30
 BAEAGN_PATH = os.getenv("BAEAGN_PATH", "./baeagn")
