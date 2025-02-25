@@ -358,7 +358,7 @@ VALUE eval(BOARD board, LEVEL level)
     VALUE pvalue = 0;
     VALUE value;
     nodes++;
-    if (nodes > 540e6)
+    if (nodes > 540e7)
 	    exit(0);
     if ((nodes % _SKIPFRAMES) == 0) {
         update(&elapsed);
