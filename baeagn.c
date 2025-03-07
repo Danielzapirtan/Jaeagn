@@ -360,7 +360,7 @@ VALUE eval(BOARD board, LEVEL level)
     nodes++;
     if ((nodes % _SKIPFRAMES) == 0) {
         update(&elapsed);
-	if (dclock(&elapsed) > 180.0)
+	if (dclock(&elapsed) > 720.0)
 	    exit(0);
     }
     for (y = 0; y < 8; y++)
