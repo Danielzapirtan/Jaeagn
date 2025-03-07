@@ -6,9 +6,9 @@ import chess
 from io import StringIO
 
 # Constants
-DEFAULT_DEPTH = 10
+DEFAULT_DEPTH = 64
 MIN_DEPTH = 1
-MAX_DEPTH = 30
+MAX_DEPTH = 253
 BAEAGN_PATH = os.getenv("BAEAGN_PATH", "./baeagn")
 
 def pgn_to_fen(pgn_text):
