@@ -1,5 +1,8 @@
 import streamlit as st
 import subprocess
+from io import StringIO  # Import StringIO from the io module
+import chess.pgn  # For PGN parsing
+import chess  # For board manipulation
 
 # Title of the app
 st.title("Chess Position Analyzer")
@@ -20,15 +23,13 @@ if st.button("Analyze Position"):
         if input_type == "FEN":
             command = ["./baeagn", user_input, "11"]
         else:
-            # Convert PGN to FEN (using python-chess)
-            import chess.pgn
-            import chess
-
-            pgn = chess.pgn.read_game(chess.pgn.StringIO(user_input))
-            board = pgn.board()
-            for move in pgn.mainline_moves():
+            # Convert PGN to FEN
+            pgn_io = StringIO(user_input)  # Use StringIO to read the PGN text
+            game = chess.pgn.read_game(pgn_io)  # Parse the PGN
+            board = game.board()  # Get the board from the PGN
+            for move in game.mainline_moves():  # Apply all moves to the board
                 board.push(move)
-            fen = board.fen()
+            fen = board.fen()  # Get the FEN string of the final position
             command = ["./baeagn", fen, "11"]
 
         # Start the baeagn engine process
