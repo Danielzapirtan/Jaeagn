@@ -31,7 +31,7 @@ if st.button("Analyze Position"):
             for move in pgn.mainline_moves():
                 board.push(move)
             fen = board.fen()
-            command = ["./baeagn", fen, "depth"]
+            command = ["./baeagn", fen, 64]
 
         # Create a queue to capture the engine's stdout
         output_queue = queue.Queue()
