@@ -1,7 +1,5 @@
 import streamlit as st
 import subprocess
-import threading
-import queue
 
 # Title of the app
 st.title("Chess Position Analyzer")
@@ -20,9 +18,9 @@ if st.button("Analyze Position"):
     if user_input:
         # Prepare the command for the baeagn engine
         if input_type == "FEN":
-            command = ["./baeagn", user_input, "depth"]
+            command = ["./baeagn", user_input, "11"]
         else:
-            # Convert PGN to FEN (you may need a library like python-chess for this)
+            # Convert PGN to FEN (using python-chess)
             import chess.pgn
             import chess
 
@@ -31,33 +29,21 @@ if st.button("Analyze Position"):
             for move in pgn.mainline_moves():
                 board.push(move)
             fen = board.fen()
-            command = ["./baeagn", fen, 64]
-
-        # Create a queue to capture the engine's stdout
-        output_queue = queue.Queue()
-
-        # Function to read the engine's stdout in real-time
-        def capture_output(process, queue):
-            for line in iter(process.stdout.readline, b''):
-                queue.put(line.decode("utf-8").strip())
-            process.stdout.close()
+            command = ["./baeagn", fen, "11"]
 
         # Start the baeagn engine process
-        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1, universal_newlines=True)
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
-        # Start a thread to capture the engine's output
-        output_thread = threading.Thread(target=capture_output, args=(process, output_queue))
-        output_thread.daemon = True
-        output_thread.start()
+        # Wait for the process to finish and capture the output
+        stdout, stderr = process.communicate()
 
-        # Display the engine's output in real-time
+        # Display the engine's output
         st.write("Engine Output:")
-        output_placeholder = st.empty()
-        while process.poll() is None or not output_queue.empty():
-            try:
-                line = output_queue.get_nowait()
-                output_placeholder.text(line)
-            except queue.Empty:
-                pass
+        st.code(stdout)
+
+        # Display errors (if any)
+        if stderr:
+            st.write("Errors:")
+            st.code(stderr)
     else:
         st.write("Please enter a valid FEN string or PGN text.")
