@@ -30,7 +30,7 @@ if st.button("Analyze Position"):
             for move in game.mainline_moves():  # Apply all moves to the board
                 board.push(move)
             fen = board.fen()  # Get the FEN string of the final position
-            command = ["./baeagn", fen, "11"]
+            command = ["./baeagn", fen, "9"]
 
         # Start the baeagn engine process
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
