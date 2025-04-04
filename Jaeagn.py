@@ -21,7 +21,7 @@ if st.button("Analyze Position"):
     if user_input:
         # Prepare the command for the baeagn engine
         if input_type == "FEN":
-            command = ["./baeagn", user_input, "11"]
+            command = ["./baeagn", user_input, "9"]
         else:
             # Convert PGN to FEN
             pgn_io = StringIO(user_input)  # Use StringIO to read the PGN text
