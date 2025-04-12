@@ -31,8 +31,8 @@ jobs:
       run: |
         LOG=$HOME/bench_results/bench.log
         mkdir -p $HOME/bench_results
-        baeagn "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3" 253 > $LOG & pid=$!
-        while ! grep -q "^Best variation: a7a6" $LOG; do true; done
+        baeagn "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3" 253 > $LOG & pid=$!
+        while ! grep -q "^Best variation: Bf1b5" $LOG; do true; done
         pkill -term baeagn
         cat $LOG
 
