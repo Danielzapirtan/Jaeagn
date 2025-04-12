@@ -29,10 +29,6 @@ jobs:
       
     - name: Run benchmark
       run: |
-        LOG=$HOME/bench_results/bench.log
-        mkdir -p $HOME/bench_results
-        baeagn "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3" 253 > $LOG & pid=$!
-        while ! grep -q "^Best variation: a7a6" $LOG; do true; done
-        pkill -term baeagn
-        cat $LOG
+        test -f bench.sh || (echo "Script not found" && exit 1)
+        ./bench.sh
 
