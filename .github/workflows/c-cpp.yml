@@ -8,10 +8,26 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-    - name: build
-      run: sh build.sh
+    
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y build-essential
+
+    - name: Build
+      run: |
+        chmod +x build.sh
+        ./build.sh
+        
+    - name: Verify binary exists
+      run: test -f baeagn || (echo "Binary not found" && exit 1)
+      
+    - name: Install binary
+      run: sudo install -m 0755 baeagn /usr/local/bin
+      
+    - name: Run benchmark
+      run: |
+        mkdir -p $HOME/bench_results
+        baeagn "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3" 9 > $HOME/bench_results/bench.log
