@@ -346,6 +346,8 @@ VALUE search(TREE *tree_, LEVEL level, LEVEL depth)
     return (tree->best);
 }
 
+#define PCSQ pcsq_custom
+
 const int pcsq_custom[6][8][8] = {
     // PAWN (optimized for blocked center and wing play)
     {
@@ -555,9 +557,9 @@ VALUE eval(BOARD board, LEVEL level)
     for (y = 0; y < 8; y++)
     for (x = 0; x < 8; x++) {
 	if (board[y][x] > 0)
-	    ivalue += pcsq_custom[board[y][x] - 1][7 - y][x];
+	    ivalue += PCSQ[board[y][x] - 1][7 - y][x];
 	else if (board[y][x] < 0)
-	    ivalue -= pcsq_custom[-board[y][x] - 1][y][x];
+	    ivalue -= PCSQ[-board[y][x] - 1][y][x];
     }
     if (kings) {
     if (kings > 0)
