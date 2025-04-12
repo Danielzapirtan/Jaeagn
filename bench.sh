@@ -1,6 +1,6 @@
 #! /bin/bash
 
 baeagn "$(cat jaeagn.fen)" 253 & pid=$!
-sleep 259200
+sleep 21600
 pkill -term baeagn
 
