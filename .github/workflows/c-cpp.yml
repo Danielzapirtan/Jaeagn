@@ -17,9 +17,8 @@ jobs:
       run: sudo apt-get update && sudo apt-get install -y build-essential
 
     - name: Build
-      run: |
-        chmod +x build.sh
-        ./build.sh
+      run:
+        chmod +x build.sh && ./build.sh
         
     - name: Verify binary exists
       run: test -f baeagn || (echo "Binary not found" && exit 1)
