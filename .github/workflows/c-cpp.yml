@@ -15,3 +15,8 @@ jobs:
     - uses: actions/checkout@v4
     - name: build
       run: sh build.sh
+    - name: install
+      run: sudo install -m 0755 baeagn /usr/local/ bin
+    - name: bench
+      run: baeagn "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3" 9 >$HOME/bench.log
+ 
