@@ -485,14 +485,10 @@ VALUE eval(BOARD board, LEVEL level)
     }
     for (y = 0; y < 8; y++)
     for (x = 0; x < 8; x++) {
-        u5 x1 = x;
-        u5 y1 = y;
-        if (x1 > 3) x1 = 7 - x1;
-        if (y1 > 3) y1 = 7 - y1;
-        if (board[y][x] < 0)
-            pvalue -= (1 + min(x1, y1));
-        else if (board[y][x] > 0)
-            pvalue += (1 + min(x1, y1));
+	if (board[y][x] > 0)
+	    ivalue += pcsq[board[y][x] - 1][7 - y][x];
+	else if (board[y][x] < 0)
+	    ivalue -= pcsq[-board[y][x] - 1][y][x];
     }
     if (kings) {
     if (kings > 0)
