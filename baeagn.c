@@ -456,6 +456,68 @@ VALUE eval(BOARD board, LEVEL level)
     return (value);
 }
 
+void best5_static_lookahead(BOARD board,MOVELIST best5) {
+    MOVELIST moves1, moves2, moves3, moves4;
+    int count1 = (board, moves1, 0);
+    MOVELIST candidates_moves;
+    VALUE candidates_values; 
+    int ccount = 0;
+    for (int i = 0; i < count1; i++) {
+        BOARD b1;
+        copy_board(board, b1);
+        makemove(b1, moves1[i]);
+        int count2 = gen(b1, moves2, 0);
+        double total_score = 0;
+        int score_count = 0;
+        for (int j = 0; j < count2; j++) {
+            BOARD b2;
+            copy_board(b1, b2);
+            makemove(b2, moves2[j]);
+            int count3 = gen(b2, moves3, 0);
+            for (int k = 0; k < count3; k++) {
+                BOARD b3;
+                copy_board(b2, b3);
+                makemove(b3, moves3[k]);
+
+                int count4 = generate_moves(b3, moves4, 0);
+                for (int l = 0; l < count4; l++) {
+                    BOARD b4;
+                    copy_board(b3, b4);
+                    makemove(b4, moves4[l]);
+
+                    VALUE eval = eval(b4, 3);
+                    total_score += eval;
+                    score_count++;
+                }
+            }
+        }
+
+        if (score_count == 0) continue;
+        VALUE avg_score = total_score / score_count;
+
+        candidates_moves[ccount] = moves1[i];
+        candidates_values[ccount] = avg_score;
+        ccount++;
+    }
+
+    // sortare descrescătoare după scor
+    for (int i = 0; i < ccount - 1; i++) {
+        for (int j = i + 1; j < ccount; j++) {
+            if (candidates_scores[j] > candidates_scores[i]) {
+                MOVE temp = candidates_[i];
+                candidates_moves[i] = candidates_moves[j];
+                candidates_moves[j] = temp;
+                VALUE vtemp      
+            }
+        }
+    }
+
+    // copiem primele 5
+    for (int i = 0; i < 5 && i < ccount; i++) {
+        best5[i] = candidates[i];
+    }
+}
+
 MOVEINDEX gen(BOARD board, MOVELIST movelist, LEVEL depth)
 // depth means 1 if sortable, 0 otherwise
 // FIXME
