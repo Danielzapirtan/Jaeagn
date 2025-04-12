@@ -346,6 +346,7 @@ VALUE search(TREE *tree_, LEVEL level, LEVEL depth)
     return (tree->best);
 }
 
+#ifndef PCSQ
 #define PCSQ pcsq_custom
 
 const int pcsq_custom[6][8][8] = {
