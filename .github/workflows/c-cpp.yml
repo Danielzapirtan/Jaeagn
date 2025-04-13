@@ -13,7 +13,9 @@ jobs:
     
     strategy:
       matrix:
-        depths: [12, 14, 16]
+        depths: [16]
+      # Ensure all matrix jobs are reported, even if one fails
+      fail-fast: false
     
     steps:
     - name: Checkout code
@@ -39,7 +41,16 @@ jobs:
       run: test -f bench.sh || (echo "Benchmark script not found" && exit 1)
 
     - name: Run benchmarks
-      run: if false; then ./bench.sh $BOARD ${{ matrix.depths }}; fi
+      run: if true; then ./bench.sh $BOARD ${{ matrix.depths }}; fi
       env:
         BOARD: "tomb"
         DEPTH: ${{ matrix.depths }}
+
+    # Add a final step to explicitly report job status (for clarity in logs)
+    - name: Report Job Status
+      run: |
+        if [ "${{ job.status }}" == "success" ]; then
+          echo "✅ Job for depth=${{ matrix.depths }} succeeded!"
+        else
+          echo "❌ Job for depth=${{ matrix.depths }} failed!"
+        fi
