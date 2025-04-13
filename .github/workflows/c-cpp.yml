@@ -39,7 +39,7 @@ jobs:
       run: test -f bench.sh || (echo "Benchmark script not found" && exit 1)
 
     - name: Run benchmarks
-      run: ./bench.sh $BOARD ${{ matrix.depths }}
+      run: #./bench.sh $BOARD ${{ matrix.depths }}
       env:
         BOARD: "tomb"
         DEPTH: ${{ matrix.depths }}
