@@ -45,12 +45,3 @@ jobs:
       env:
         BOARD: "tomb"
         DEPTH: ${{ matrix.depths }}
-
-    # Add a final step to explicitly report job status (for clarity in logs)
-    - name: Report Job Status
-      run: |
-        if [ "${{ job.status }}" == "success" ]; then
-          echo "✅ Job for depth=${{ matrix.depths }} succeeded!"
-        else
-          echo "❌ Job for depth=${{ matrix.depths }} failed!"
-        fi
