@@ -350,7 +350,7 @@ VALUE search(TREE *tree_, LEVEL level, LEVEL depth)
 #define PCSQ pcsq
 #endif
 
-const int pcsq_custom[6][8][8] = {
+const int pcsq_quiw[6][8][8] = {
     // PAWN (optimized for blocked center and wing play)
     {
         {  0,   0,   0,   0,   0,   0,   0,   0},
