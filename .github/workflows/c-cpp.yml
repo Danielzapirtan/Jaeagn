@@ -28,7 +28,11 @@ jobs:
       run: sudo install -m 0755 baeagn /usr/local/bin
       
     - name: Run benchmark
-      run: |
-        test -f bench.sh || (echo "Script not found" && exit 1)
-        BOARD=quiw DEPTH=17 ./bench.sh
+      run: test -f bench.sh || (echo "Script not found" && exit 1)
+
+    - name: Depth 20
+      run: ./bench quiw 20
+
+    - name: Depth 24
+      run: ./bench quiw 24   
 
