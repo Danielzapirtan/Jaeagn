@@ -7,16 +7,24 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-and-test:
+    name: Build and Benchmark
     runs-on: ubuntu-latest
-
+    
+    strategy:
+      matrix:
+        depths: [12, 16]
+    
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
     
     - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y build-essential
-
-    - name: Build
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential
+        
+    - name: Build project
       run: |
         chmod +x build.sh
         ./build.sh
@@ -27,8 +35,11 @@ jobs:
     - name: Install binary
       run: sudo install -m 0755 baeagn /usr/local/bin
       
-    - name: Run benchmark
-      run: |
-        test -f bench.sh || (echo "Script not found" && exit 1)
-        ./bench.sh
+    - name: Check for benchmark script
+      run: test -f bench.sh || (echo "Benchmark script not found" && exit 1)
 
+    - name: Run benchmarks
+      run: ./bench.sh $BOARD ${{ matrix.depths }}
+      env:
+        BOARD: "quiw"
+        DEPTH: ${{ matrix.depths }}
