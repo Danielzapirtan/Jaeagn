@@ -1,4 +1,4 @@
 #! /bin/bash
 
-baeagn "$(cat jaeagn.fen)" 13
+baeagn "$(cat jaeagn.fen)" 14
 
