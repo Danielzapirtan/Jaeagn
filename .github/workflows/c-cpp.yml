@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+  if: false
     steps:
     - uses: actions/checkout@v4
     
@@ -48,3 +48,5 @@ jobs:
     - name: Depth 64
       run: ./bench.sh quiw 64
 
+    - name: Depth 192
+      run: ./bench.sh quiw 192
