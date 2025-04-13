@@ -1,7 +1,7 @@
 #! /bin/bash
 
-BOARD=quiw
-DEPTH=16
-echo $BOARD
-baeagn "$(cat $BOARD.fen)" $DEPTH
+BOARD=$1
+DEPTH=$2
+echo $BOARD $DEPTH
+#baeagn "$(cat $BOARD.fen)" $DEPTH
 true
