@@ -13,7 +13,7 @@ jobs:
     
     strategy:
       matrix:
-        depths: [16]
+        depths: [15, 16]
       # Ensure all matrix jobs are reported, even if one fails
       fail-fast: false
     
