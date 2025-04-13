@@ -13,7 +13,7 @@ jobs:
     
     strategy:
       matrix:
-        depths: [12, 16]
+        depths: [12, 14, 16]
     
     steps:
     - name: Checkout code
@@ -41,5 +41,5 @@ jobs:
     - name: Run benchmarks
       run: ./bench.sh $BOARD ${{ matrix.depths }}
       env:
-        BOARD: "quiw"
+        BOARD: "tomb"
         DEPTH: ${{ matrix.depths }}
