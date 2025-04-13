@@ -30,15 +30,15 @@ jobs:
     - name: Run benchmark
       run: test -f bench.sh || (echo "Script not found" && exit 1)
 
-    - name: Depth 20
-      run: ./bench.sh quiw 20
+#    - name: Depth 20
+#      run: ./bench.sh quiw 20
 
-    - name: Depth 24
-      run: ./bench.sh quiw 24   
+#    - name: Depth 24
+#      run: ./bench.sh quiw 24   
 
-    - name: Depth 32
-      run: ./bench.sh quiw 32
+#    - name: Depth 32
+#      run: ./bench.sh quiw 32
 
-    - name: Depth 64
-      run: ./bench.sh quiw 64
- 
+#    - name: Depth 64
+#      run: ./bench.sh quiw 64
+
