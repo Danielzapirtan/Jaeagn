@@ -1,4 +1,5 @@
 #! /bin/bash
 
-baeagn "$(cat jaeagn.fen)" 15
-
+echo quiw
+#baeagn "$(cat jaeagn.fen)" 16
+true
