@@ -1,6 +1,6 @@
 #! /bin/bash
 
-BOARD=quiv
+BOARD=quiw
 DEPTH=16
 echo $BOARD
 baeagn "$(cat $BOARD.fen)" $DEPTH
