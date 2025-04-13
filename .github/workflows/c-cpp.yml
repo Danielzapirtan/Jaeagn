@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    board: quiw
     steps:
     - uses: actions/checkout@v4
     
@@ -30,7 +31,7 @@ jobs:
       run: test -f bench.sh || (echo "Script not found" && exit 1)
 
     - name: depth 12
-      run: ./bench.sh quiw 12
+      run: ./bench.sh ${{ board }} 12
 
     - name: depth 16
       run: ./bench.sh quiw 16
