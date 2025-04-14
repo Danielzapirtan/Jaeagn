@@ -347,7 +347,7 @@ VALUE search(TREE *tree_, LEVEL level, LEVEL depth)
 }
 
 #ifndef PCSQ
-#define PCSQ pcsq_tomb
+#define PCSQ pcsq_bolw
 #endif
 
 const int pcsq_bolw[6][8][8] = {
