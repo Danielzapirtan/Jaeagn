@@ -13,8 +13,8 @@ jobs:
     
     strategy:
       matrix:
-        depths: [10, 12, 14]
-        boards: ["tomb"]
+        depths: [10, 12, 14, 16]
+        boards: ["bolw"]
       # Ensure all matrix jobs are reported, even if one fails
       fail-fast: false
     
