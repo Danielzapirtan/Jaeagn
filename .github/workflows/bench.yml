@@ -13,8 +13,8 @@ jobs:
     
     strategy:
       matrix:
-        depths: [10, 12, 13]
-        boards: ["artw"]
+        depths: [10, 12, 16, 20, 24, 32, 64, 128]
+        boards: ["rocw"]
       # Ensure all matrix jobs are reported, even if one fails
       fail-fast: false
     
