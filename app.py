@@ -84,4 +84,4 @@ iface = gr.Interface(
 )
 
 if __name__ == "__main__":
-    iface.launch(server_port=5080)
+    iface.launch(server_port=5080, share=True)
