@@ -8,5 +8,5 @@ tasks:
   -name: Analyze
   -run: |
     sh build.sh
-    ./bench.sh "$(cat $GAME)" 14
+    ./bench.sh "$(cat $GAME)" 14 > gitpod_prebuild_$GAME.log
 
