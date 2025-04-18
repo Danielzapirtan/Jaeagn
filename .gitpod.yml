@@ -5,6 +5,8 @@
 # Learn more from ready-to-use templates: https://www.gitpod.io/docs/introduction/getting-started/quickstart
 
 tasks:
-  - command: python app.py
-
+  -name: Analyze
+  -run: |
+    sh build.sh
+    ./bench.sh "$(cat $GAME)" 14
 
