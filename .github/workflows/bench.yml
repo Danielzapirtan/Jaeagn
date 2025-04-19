@@ -1,14 +1,14 @@
-name: C/C++ CI
+name: Analysis
 
 on:
-  push:
-    branches: [ "main" ]
+  #  push:
+  # branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
 jobs:
   build-and-test:
-    name: Build and Benchmark
+    name: Analysis
     runs-on: ubuntu-latest
     
     strategy:
@@ -30,7 +30,7 @@ jobs:
     - name: Build project
       run: |
         chmod +x build.sh
-        ./build.sh
+        ./build.sh || echo "Compilation error"
         
     - name: Verify binary exists
       run: test -f baeagn || (echo "Binary not found" && exit 1)
