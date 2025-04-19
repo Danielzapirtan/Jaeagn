@@ -1,4 +1,0 @@
-    init: |
-      sh build.sh || echo "Build failed"
-      ./bench.sh "$(cat $GAME.fen)" 14 > gitpod_prebuild_$GAME.log || echo "Benchmark failed"
-    
