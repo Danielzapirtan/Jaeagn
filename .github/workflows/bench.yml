@@ -46,3 +46,8 @@ jobs:
       env:
         BOARD: ${{ matrix.boards }}
         DEPTH: ${{ matrix.depths }}
+    - name: Upload analysis files
+      uses: actions/upload-artifact@v4
+      with:
+        name: game-analysis-files
+        path: ${{ env.GAME }}.d*.anl  # Will match all files with this pattern
