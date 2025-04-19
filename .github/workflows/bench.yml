@@ -42,12 +42,13 @@ jobs:
       run: test -f bench.sh || (echo "Benchmark script not found" && exit 1)
 
     - name: Run benchmarks
-      run: if true; then ./bench.sh $BOARD ${{ matrix.depths }}; fi
+      run: ./bench.sh "$BOARD" "$DEPTH"
       env:
         BOARD: ${{ matrix.boards }}
         DEPTH: ${{ matrix.depths }}
+        
     - name: Upload analysis files
       uses: actions/upload-artifact@v4
       with:
-        name: game-analysis-files
-        path: ${{ env.GAME }}.d*.anl  # Will match all files with this pattern
+        name: analysis-${{ matrix.boards }}-${{ matrix.depths }}
+        path: ${{ matrix.boards }}.d${{ matrix.depths }}.anl
