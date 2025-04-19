@@ -1,4 +1,4 @@
-name: Consistence Check
+name: Consistency Check
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-test:
-    name: Build and Benchmark
+    name: Test
     runs-on: ubuntu-latest
     
 #    strategy:
